@@ -1,0 +1,75 @@
+@import 'tailwindcss';
+
+/* ====== Tema personalizado (equivalente a tailwind.config del HTML original) ====== */
+@theme {
+  --font-sans: '"Plus Jakarta Sans"', sans-serif;
+  --font-mono: '"JetBrains Mono"', monospace;
+
+  --color-salsa-orange: #ff6b00;
+  --color-salsa-cyan: #00f2fe;
+  --color-salsa-lime: #10b981;
+  --color-salsa-pink: #ff007a;
+  --color-salsa-purple: #8b5cf6;
+  --color-salsa-yellow: #facc15;
+  --color-salsa-dark: #08090e;
+  --color-salsa-card: #0f131d;
+  --color-salsa-border: #1e2638;
+
+  --animate-pulse-glow: pulseGlow 3s ease-in-out infinite;
+  --animate-float: float 5s ease-in-out infinite;
+
+  @keyframes pulseGlow {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+/* ====== Estilos custom del <style> original ====== */
+.gradient-text-salsa {
+  background: linear-gradient(135deg, #ff6b00 0%, #00f2fe 50%, #10b981 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-grid-dots {
+  background-image: radial-gradient(rgba(255, 107, 0, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.sticker-shadow {
+  filter: drop-shadow(0 20px 30px rgba(255, 107, 0, 0.35));
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #08090e;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2638;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6b00;
+}

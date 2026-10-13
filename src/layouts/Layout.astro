@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'openchuspa.xyz | El Motor Caleño de S3 / MinIO' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="OpenChuspa: el motor caleño de almacenamiento de objetos compatible con AWS S3 y MinIO." />
+    <title>{title}</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-salsa-dark text-slate-100 font-sans antialiased bg-grid-dots selection:bg-salsa-orange selection:text-white"
+  >
+    <slot />
+
+    <!-- Lucide Icons (solo los usados para un bundle liviano) -->
+    <script>
+      import {
+        createIcons,
+        Sparkles,
+        ShoppingBag,
+        Terminal,
+        Play,
+        Code2,
+        FolderTree,
+        MapPin,
+        UploadCloud,
+        DownloadCloud,
+        FolderPlus,
+        List,
+        Trash2,
+        RefreshCw,
+        Copy,
+      } from 'lucide';
+
+      const icons = {
+        Sparkles,
+        ShoppingBag,
+        Terminal,
+        Play,
+        Code2,
+        FolderTree,
+        MapPin,
+        UploadCloud,
+        DownloadCloud,
+        FolderPlus,
+        List,
+        Trash2,
+        RefreshCw,
+        Copy,
+      };
+
+      createIcons({ icons });
+    </script>
+  </body>
+</html>
