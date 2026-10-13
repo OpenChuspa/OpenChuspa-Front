@@ -1,6 +1,6 @@
 # OpenChuspa — Landing (Astro)
 
-Landing de **openchuspa.xyz**, el motor caleño de almacenamiento de objetos compatible con AWS S3 / MinIO, migrada a [Astro](https://astro.build) y lista para desplegar en [Vercel](https://vercel.com).
+Landing de **openchuspa.xyz**, el motor caleño de almacenamiento de objetos compatible con AWS S3, migrada a [Astro](https://astro.build) y lista para desplegar en [Vercel](https://vercel.com).
 
 ## Stack
 

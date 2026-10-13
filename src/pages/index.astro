@@ -52,8 +52,9 @@ import Layout from '../layouts/Layout.astro';
       />
     </div>
 
-    <!-- Audio: Yo Soy Cali Salsa (stream en vivo) -->
-    <audio id="salsa-audio" preload="none" crossorigin="anonymous" class="hidden"></audio>
+    <!-- Audio: Yo Soy Cali Salsa (stream en vivo). Sin crossorigin: evita el
+         preflight CORS; para solo reproducir no se necesita. -->
+    <audio id="salsa-audio" preload="none" class="hidden"></audio>
   </div>
 
   <nav class="fixed top-10 left-0 right-0 z-40 bg-salsa-dark/90 backdrop-blur-xl border-b border-salsa-border">
@@ -69,7 +70,7 @@ import Layout from '../layouts/Layout.astro';
             >open<span class="text-salsa-orange">chuspa</span><span class="text-salsa-cyan">.xyz</span></a
           >
           <span class="block text-[10px] font-mono text-salsa-lime uppercase tracking-widest -mt-1"
-            >MinIO / S3 Caleño Engine</span
+            >S3 Caleño Engine</span
           >
         </div>
       </div>
@@ -79,7 +80,7 @@ import Layout from '../layouts/Layout.astro';
         <a href="#comandos" class="hover:text-salsa-cyan transition-colors">Comandos CLI</a>
         <a href="#glosario" class="hover:text-salsa-lime transition-colors">Glosario Caleño</a>
         <a href="#generador" class="hover:text-salsa-purple transition-colors">Generador</a>
-        <a href="#sdks" class="hover:text-salsa-orange transition-colors">SDKs & MinIO</a>
+        <a href="#sdks" class="hover:text-salsa-orange transition-colors">SDKs & S3</a>
       </div>
 
       <div class="flex items-center space-x-3">
@@ -112,7 +113,7 @@ import Layout from '../layouts/Layout.astro';
           >
             <span class="w-2.5 h-2.5 rounded-full bg-salsa-lime animate-ping"></span>
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-salsa-orange"
-              >🚧 En construcción · Próximamente 100% MinIO & AWS S3 Compatible</span
+              >🚧 En construcción · Próximamente 100% AWS S3 Compatible</span
             >
           </div>
 
@@ -121,7 +122,7 @@ import Layout from '../layouts/Layout.astro';
           </h1>
 
           <p class="text-lg sm:text-xl text-slate-300 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-            Almacenamiento de objetos ultra-rápido distribuido tipo MinIO, pensado para los developers de Cali y el
+            Almacenamiento de objetos ultra-rápido distribuido compatible con S3, pensado para los developers de Cali y el
             mundo. ¿Necesitás subir un archivo volando?
             <strong class="text-salsa-orange">`ve subi ./file.txt a chuspa://mi-parche/`</strong> y listo.
           </p>
@@ -152,7 +153,7 @@ import Layout from '../layouts/Layout.astro';
             </div>
             <div class="text-left">
               <div class="text-[11px] font-mono uppercase text-slate-400">Standard API</div>
-              <div class="text-lg sm:text-2xl font-black text-salsa-cyan font-mono">MinIO / S3</div>
+              <div class="text-lg sm:text-2xl font-black text-salsa-cyan font-mono">AWS S3</div>
             </div>
             <div class="text-left">
               <div class="text-[11px] font-mono uppercase text-slate-400">Garantía Caleña</div>
@@ -271,7 +272,7 @@ import Layout from '../layouts/Layout.astro';
             <span class="ml-4 font-mono text-xs text-slate-400">caleño-terminal@openchuspa:~ (chuspa-cli v2.6.0)</span>
           </div>
           <span class="text-[11px] font-mono text-salsa-cyan bg-salsa-cyan/10 px-2.5 py-1 rounded-md border border-salsa-cyan/20"
-            >Motor: MinIO Core Caleño</span
+            >Motor: S3 Core Caleño</span
           >
         </div>
 
@@ -306,7 +307,7 @@ import Layout from '../layouts/Layout.astro';
           <div class="lg:col-span-7 p-6 font-mono text-xs sm:text-sm flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-salsa-border">
             <div id="terminal-screen" class="space-y-3 max-h-[360px] overflow-y-auto pr-2">
               <div class="text-slate-500">
-                OpenChuspa CLI v2.6.0 (compatible con MinIO Client / mc)<br />
+                OpenChuspa CLI v2.6.0 (compatible con AWS CLI / mc)<br />
                 Escribí <span class="text-salsa-orange">'ayuda'</span> o probá comandos como
                 <span class="text-salsa-lime">'ve mira'</span>, <span class="text-salsa-cyan">'ve subi'</span>,
                 <span class="text-salsa-pink">'ve baja'</span>.
@@ -367,7 +368,7 @@ import Layout from '../layouts/Layout.astro';
         >
         <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-4">Comandos `chuspa-cli` Caleños</h2>
         <p class="text-slate-400 text-lg">
-          Los comandos que usás a diario en AWS S3 o MinIO CLI, traducidos exactamente al dialecto caleño auténtico.
+          Los comandos que usás a diario en AWS S3 CLI, traducidos exactamente al dialecto caleño auténtico.
         </p>
       </div>
 
@@ -460,45 +461,45 @@ import Layout from '../layouts/Layout.astro';
           class="text-salsa-cyan font-mono text-xs font-bold tracking-widest uppercase bg-salsa-cyan/10 px-4 py-1.5 rounded-full border border-salsa-cyan/20"
           >Glosario Arquitectónico</span
         >
-        <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-4">Diccionario Caleño MinIO / S3</h2>
+        <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-4">Diccionario Caleño S3</h2>
         <p class="text-slate-400 text-lg">
-          Entendé las equivalencias técnicas del motor MinIO traducidas al lenguaje de la sultana.
+          Entendé las equivalencias técnicas del motor S3 traducidas al lenguaje de la sultana.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="bg-salsa-card border border-salsa-border p-6 rounded-2xl">
-          <div class="text-xs font-mono text-salsa-orange font-bold mb-1">AWS / MinIO: Bucket</div>
+          <div class="text-xs font-mono text-salsa-orange font-bold mb-1">AWS S3: Bucket</div>
           <h3 class="text-2xl font-black text-white mb-2">Chuspa 🛍️</h3>
           <p class="text-slate-400 text-xs leading-relaxed">La bolsa de plástico tradicional donde guardás todo lo que no querés que se te pierda.</p>
         </div>
 
         <div class="bg-salsa-card border border-salsa-border p-6 rounded-2xl">
-          <div class="text-xs font-mono text-salsa-cyan font-bold mb-1">AWS / MinIO: Object</div>
+          <div class="text-xs font-mono text-salsa-cyan font-bold mb-1">AWS S3: Object</div>
           <h3 class="text-2xl font-black text-white mb-2">Chuchería 📦</h3>
           <p class="text-slate-400 text-xs leading-relaxed">Cualquier archivo, imagen, vídeo o dato comprimido empacado en tu chuspa.</p>
         </div>
 
         <div class="bg-salsa-card border border-salsa-border p-6 rounded-2xl">
-          <div class="text-xs font-mono text-salsa-lime font-bold mb-1">AWS / MinIO: Access Key ID</div>
+          <div class="text-xs font-mono text-salsa-lime font-bold mb-1">AWS S3: Access Key ID</div>
           <h3 class="text-2xl font-black text-white mb-2">Clave del Parchao 🔑</h3>
           <p class="text-slate-400 text-xs leading-relaxed">Tu identificador público para entrar al parche del servidor sin pedir permiso.</p>
         </div>
 
         <div class="bg-salsa-card border border-salsa-border p-6 rounded-2xl">
-          <div class="text-xs font-mono text-salsa-pink font-bold mb-1">AWS / MinIO: Secret Key</div>
+          <div class="text-xs font-mono text-salsa-pink font-bold mb-1">AWS S3: Secret Key</div>
           <h3 class="text-2xl font-black text-white mb-2">La Secreta de la Cuadra 🔒</h3>
           <p class="text-slate-400 text-xs leading-relaxed">La contraseña privada. No se la des ni a tu mejor amigo del barrio.</p>
         </div>
 
         <div class="bg-salsa-card border border-salsa-border p-6 rounded-2xl">
-          <div class="text-xs font-mono text-salsa-purple font-bold mb-1">AWS / MinIO: Endpoint</div>
+          <div class="text-xs font-mono text-salsa-purple font-bold mb-1">AWS S3: Endpoint</div>
           <h3 class="text-2xl font-black text-white mb-2">La Esquina 📍</h3>
           <p class="text-slate-400 text-xs leading-relaxed">La dirección del servidor central (<span class="text-salsa-cyan">https://s3.openchuspa.xyz</span>).</p>
         </div>
 
         <div class="bg-salsa-card border border-salsa-border p-6 rounded-2xl">
-          <div class="text-xs font-mono text-salsa-lime font-bold mb-1">AWS / MinIO: Region</div>
+          <div class="text-xs font-mono text-salsa-lime font-bold mb-1">AWS S3: Region</div>
           <h3 class="text-2xl font-black text-white mb-2">Sucursal del Cielo ☁️</h3>
           <p class="text-slate-400 text-xs leading-relaxed">
             Ubicaciones de data centers: <span class="text-salsa-lime">cali-san-antonio-1</span>,
@@ -507,15 +508,15 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="bg-salsa-card border border-salsa-border p-6 rounded-2xl">
-          <div class="text-xs font-mono text-salsa-orange font-bold mb-1">AWS / MinIO: IAM / Policy</div>
+          <div class="text-xs font-mono text-salsa-orange font-bold mb-1">AWS S3: IAM / Policy</div>
           <h3 class="text-2xl font-black text-white mb-2">Reglamento del Parche 📜</h3>
           <p class="text-slate-400 text-xs leading-relaxed">Las reglas de quién puede ver o sacar cosas de cada chuspa.</p>
         </div>
 
         <div class="bg-salsa-card border border-salsa-border p-6 rounded-2xl">
-          <div class="text-xs font-mono text-salsa-cyan font-bold mb-1">AWS / MinIO: Server</div>
+          <div class="text-xs font-mono text-salsa-cyan font-bold mb-1">AWS S3: Server</div>
           <h3 class="text-2xl font-black text-white mb-2">Motor Caleño 🏎️</h3>
-          <p class="text-slate-400 text-xs leading-relaxed">El clúster MinIO distribuido alimentado a jugo de borojó y champús.</p>
+          <p class="text-slate-400 text-xs leading-relaxed">El clúster S3 distribuido alimentado a jugo de borojó y champús.</p>
         </div>
       </div>
     </div>
@@ -586,7 +587,7 @@ import Layout from '../layouts/Layout.astro';
           class="text-salsa-purple font-mono text-xs font-bold tracking-widest uppercase bg-salsa-purple/10 px-4 py-1.5 rounded-full border border-salsa-purple/20"
           >Compatibilidad Total</span
         >
-        <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-4">Integración con SDKs S3 / MinIO</h2>
+        <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-4">Integración con SDKs S3</h2>
         <p class="text-slate-400 text-lg">Usá tus librerías de programación favoritas configurando el Endpoint de OpenChuspa.</p>
       </div>
 
@@ -595,7 +596,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="bg-salsa-dark p-3 border-b border-salsa-border flex flex-wrap gap-2">
           <button data-sdk="python" id="tab-python" class="sdk-tab bg-salsa-orange text-white px-5 py-2.5 rounded-xl font-mono text-xs font-bold transition-all">Python (boto3)</button>
           <button data-sdk="node" id="tab-node" class="sdk-tab bg-salsa-card hover:bg-salsa-border text-slate-300 px-5 py-2.5 rounded-xl font-mono text-xs font-bold transition-all">Node.js (@aws-sdk)</button>
-          <button data-sdk="go" id="tab-go" class="sdk-tab bg-salsa-card hover:bg-salsa-border text-slate-300 px-5 py-2.5 rounded-xl font-mono text-xs font-bold transition-all">Go (minio-go)</button>
+          <button data-sdk="go" id="tab-go" class="sdk-tab bg-salsa-card hover:bg-salsa-border text-slate-300 px-5 py-2.5 rounded-xl font-mono text-xs font-bold transition-all">Go (aws-sdk-go)</button>
           <button data-sdk="docker" id="tab-docker" class="sdk-tab bg-salsa-card hover:bg-salsa-border text-slate-300 px-5 py-2.5 rounded-xl font-mono text-xs font-bold transition-all">Docker Compose</button>
           <button data-sdk="curl" id="tab-curl" class="sdk-tab bg-salsa-card hover:bg-salsa-border text-slate-300 px-5 py-2.5 rounded-xl font-mono text-xs font-bold transition-all">cURL / REST</button>
         </div>
@@ -637,7 +638,7 @@ print("¡Archivo empacado con éxito en la Chuspa! Vos sabés 😉")</code></pre
           <span class="text-salsa-lime font-mono text-xs font-bold uppercase tracking-widest">Self-Hosted / Open Source</span>
           <h3 class="text-3xl font-black text-white mt-1">Desplegá tu propio Motor Caleño</h3>
           <p class="text-slate-300 text-sm mt-2 max-w-xl">
-            Ejecutá OpenChuspa localmente en Docker con soporte completo para clusterización MinIO y cifrado de datos "Sello Caleño".
+            Ejecutá OpenChuspa localmente en Docker con soporte completo para clusterización S3 y cifrado de datos "Sello Caleño".
           </p>
         </div>
         <div class="w-full md:w-auto font-mono text-xs bg-salsa-dark border border-salsa-border p-4 rounded-2xl">
@@ -660,7 +661,7 @@ print("¡Archivo empacado con éxito en la Chuspa! Vos sabés 😉")</code></pre
       </div>
 
       <div class="text-xs text-slate-400 font-mono text-center">
-        Desarrollado con salsa choke y tecnología MinIO distribuida en Cali, Colombia 🇨🇴 •
+        Desarrollado con salsa choke y tecnología S3 distribuida en Cali, Colombia 🇨🇴 •
         <strong class="text-salsa-orange">Vos Sabés</strong>
       </div>
 
@@ -890,28 +891,37 @@ await s3.send(new PutObjectCommand({
 console.log("¡Empacado en la chuspa con swing!");`,
     },
     go: {
-      title: 'Go (minio-go/v7) SDK con OpenChuspa',
-      code: `// Go MinIO Client para OpenChuspa
+      title: 'Go (aws-sdk-go-v2) SDK con OpenChuspa',
+      code: `// Go AWS SDK v2 (S3) para OpenChuspa
 package main
 
 import (
     "context"
     "fmt"
-    "github.com/minio/minio-go/v7"
-    "github.com/minio/minio-go/v7/pkg/credentials"
+
+    "github.com/aws/aws-sdk-go-v2/aws"
+    "github.com/aws/aws-sdk-go-v2/config"
+    "github.com/aws/aws-sdk-go-v2/credentials"
+    "github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
 func main() {
-    endpoint := "s3.openchuspa.xyz"
-    accessKey := "clave-del-parchao"
-    secretKey := "la-secreta-de-la-cuadra"
+    cfg, _ := config.LoadDefaultConfig(context.TODO(),
+        config.WithRegion("cali-san-antonio-1"),
+        config.WithCredentialsProvider(
+            credentials.NewStaticCredentialsProvider(
+                "clave-del-parchao", "la-secreta-de-la-cuadra", "",
+            ),
+        ),
+    )
 
-    // Inicializar Motor Caleño
-    minioClient, err := minio.New(endpoint, &minio.Options{
-        Creds:  credentials.NewStaticV4(accessKey, secretKey, ""),
-        Secure: true,
+    // Inicializar Motor Caleño apuntando al Endpoint de OpenChuspa
+    client := s3.NewFromConfig(cfg, func(o *s3.Options) {
+        o.BaseEndpoint = aws.String("https://s3.openchuspa.xyz")
+        o.UsePathStyle = true
     })
 
+    _ = client
     fmt.Println("Conectado a OpenChuspa en Cali! Vos sabés 😉")
 }`,
     },
