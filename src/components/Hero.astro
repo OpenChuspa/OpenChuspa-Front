@@ -1,39 +1,59 @@
 ---
 import Icon from './Icon.astro';
+import { Image } from 'astro:assets';
+import elParchao from '../assets/el-parchao.webp';
 import { highlights } from '../data/site';
 ---
 
-<section class="pt-[calc(var(--header-h)+4rem)] pb-20 sm:pb-28 lg:pt-[calc(var(--header-h)+7rem)]">
-  <div class="container-page max-w-4xl">
-    <h1 class="display-serif text-[clamp(2.75rem,8vw,5.5rem)] text-balance">
-      El Motor Caleño de S3 que corre con <em>pura salsa</em>.
-    </h1>
+<section class="pt-[calc(var(--header-h)+4rem)] pb-20 sm:pb-28 lg:pt-[calc(var(--header-h)+6rem)]">
+  <div class="container-page grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
+    <div class="lg:col-span-8">
+      <h1 class="display-serif text-[clamp(2.75rem,7vw,5rem)] text-balance">
+        El Motor Caleño de S3 que corre con <em>pura salsa</em>.
+      </h1>
 
-    <p class="display-serif mt-10 max-w-2xl text-[clamp(1.5rem,3.5vw,2.5rem)] leading-tight text-muted text-pretty">
-      Almacenamiento de objetos compatible con AWS S3, hecho pa' los developers de Cali y el mundo.
-    </p>
+      <p class="display-serif mt-8 max-w-2xl text-[clamp(1.5rem,3vw,2.25rem)] leading-tight text-muted text-pretty">
+        Almacenamiento de objetos compatible con AWS S3, hecho pa' los developers de Cali y el mundo.
+      </p>
 
-    <hr class="my-12 w-16 border-0 border-t border-salsa-orange" />
+      <hr class="my-10 w-16 border-0 border-t border-salsa-orange" />
 
-    <div class="max-w-2xl space-y-5 text-base leading-relaxed text-muted sm:text-lg">
-      <p>
+      <p class="max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
         ¿Necesitás subir un archivo volando? <code class="font-mono text-[0.9em] text-ink">ve subi ./file.txt a chuspa://mi-parche/</code> y listo.
         Guardás <span class="text-ink">chucherías</span> dentro de <span class="text-ink">chuspas</span>, y el motor se encarga del resto.
         Lo mismo que ya sabés de S3, pero con swing. Oíste, acá no hay enredo.
       </p>
+
+      <div class="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
+        <a href="#playground" class="inline-flex items-center gap-2 text-base text-ink underline decoration-salsa-orange decoration-2 underline-offset-4 transition-colors hover:text-salsa-orange">
+          <Icon name="Terminal" class="size-4 text-salsa-orange" />
+          Probar la consola caleña
+        </a>
+        <a href="/docs" class="inline-flex items-center gap-2 text-base text-muted transition-colors hover:text-salsa-orange">
+          Leer la documentación
+          <Icon name="ArrowRight" class="size-4" />
+        </a>
+      </div>
     </div>
 
-    <div class="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
-      <a href="#playground" class="inline-flex items-center gap-2 text-base text-ink underline decoration-salsa-orange decoration-2 underline-offset-4 transition-colors hover:text-salsa-orange">
-        <Icon name="Terminal" class="size-4 text-salsa-orange" />
-        Probar la consola caleña
-      </a>
-      <a href="/docs" class="inline-flex items-center gap-2 text-base text-muted transition-colors hover:text-salsa-orange">
-        Leer la documentación
-        <Icon name="ArrowRight" class="size-4" />
-      </a>
+    <!-- Mascota: El Parchao, discreta, sin glow ni animación -->
+    <div class="lg:col-span-4">
+      <figure class="mx-auto max-w-[260px] lg:max-w-none">
+        <Image
+          src={elParchao}
+          alt="El Parchao, la mascota de OpenChuspa: un caleño sonriente que sostiene una chuspa llena de archivos y levanta el pulgar, con la frase «Vos sabés»"
+          widths={[260, 360, elParchao.width]}
+          sizes="(min-width: 1024px) 300px, 240px"
+          quality={88}
+          loading="eager"
+          class="h-auto w-full"
+        />
+        <figcaption class="mt-3 text-center font-mono text-xs text-muted">— El Parchao, "vos sabés"</figcaption>
+      </figure>
     </div>
+  </div>
 
+  <div class="container-page">
     <dl class="mt-16 flex flex-wrap gap-x-12 gap-y-6 border-t border-line pt-8">
       {
         highlights.map((h) => (
