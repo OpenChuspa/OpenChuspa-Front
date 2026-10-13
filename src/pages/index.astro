@@ -12,7 +12,16 @@ import Layout from '../layouts/Layout.astro';
     <span id="toast-msg">Mensaje de confirmación</span>
   </div>
 
-  <nav class="fixed top-0 left-0 right-0 z-40 bg-salsa-dark/90 backdrop-blur-xl border-b border-salsa-border">
+  <!-- Banner global: sitio en construcción -->
+  <div
+    id="construction-banner"
+    class="fixed top-0 left-0 right-0 z-50 h-10 bg-salsa-orange text-black flex items-center justify-center px-4 text-center font-mono text-[11px] sm:text-xs font-bold tracking-wide"
+  >
+    <i data-lucide="construction" class="w-4 h-4 mr-2 shrink-0"></i>
+    <span>🚧 Sitio en construcción — demo visual. El motor aún no funciona de verdad, ¡pero ya vamos en proceso!</span>
+  </div>
+
+  <nav class="fixed top-10 left-0 right-0 z-40 bg-salsa-dark/90 backdrop-blur-xl border-b border-salsa-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-salsa-orange via-salsa-pink to-salsa-cyan p-0.5 shadow-lg shadow-salsa-orange/20">
@@ -50,7 +59,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </nav>
 
-  <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
+  <section class="relative pt-44 pb-20 lg:pt-52 lg:pb-28 overflow-hidden">
     <!-- Ambient Glowing Background -->
     <div
       class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-salsa-orange/15 rounded-full blur-[160px] pointer-events-none"
@@ -68,7 +77,7 @@ import Layout from '../layouts/Layout.astro';
           >
             <span class="w-2.5 h-2.5 rounded-full bg-salsa-lime animate-ping"></span>
             <span class="text-xs font-mono font-bold uppercase tracking-wider text-salsa-orange"
-              >¡Oíste mira! 100% MinIO & AWS S3 Compatible</span
+              >🚧 En construcción · Próximamente 100% MinIO & AWS S3 Compatible</span
             >
           </div>
 
@@ -112,7 +121,7 @@ import Layout from '../layouts/Layout.astro';
             </div>
             <div class="text-left">
               <div class="text-[11px] font-mono uppercase text-slate-400">Garantía Caleña</div>
-              <div class="text-lg sm:text-2xl font-black text-salsa-orange font-mono">Usted Sabe 😉</div>
+              <div class="text-lg sm:text-2xl font-black text-salsa-orange font-mono">Vos Sabés 😉</div>
             </div>
           </div>
         </div>
@@ -177,7 +186,7 @@ import Layout from '../layouts/Layout.astro';
                   <rect x="180" y="360" width="35" height="35" rx="10" fill="#090A0F" stroke="#3F3F46" stroke-width="3"></rect>
                   <circle cx="197" cy="377" r="10" fill="#FF6B00" opacity="0.9"></circle>
 
-                  <!-- Bold Text Phrase: "Usted sabe" -->
+                  <!-- Bold Text Phrase: "Vos sabés" -->
                   <text
                     x="250"
                     y="295"
@@ -186,7 +195,7 @@ import Layout from '../layouts/Layout.astro';
                     font-weight="900"
                     font-size="42"
                     fill="#FFFFFF"
-                    style="letter-spacing: -0.5px;">Usted sabe</text
+                    style="letter-spacing: -0.5px;">Vos sabés</text
                   >
                 </svg>
               </div>
@@ -194,7 +203,7 @@ import Layout from '../layouts/Layout.astro';
               <!-- Badge Quote -->
               <div class="w-full bg-salsa-dark border border-salsa-orange/40 rounded-2xl p-4 text-center">
                 <span class="text-xs font-mono uppercase tracking-widest text-salsa-orange font-bold">Respuesta del Servidor S3</span>
-                <p class="text-base font-mono font-bold text-salsa-lime mt-1">HTTP 200 OK — "Usted sabe!"</p>
+                <p class="text-base font-mono font-bold text-salsa-lime mt-1">HTTP 200 OK — "Vos sabés!"</p>
               </div>
             </div>
           </div>
@@ -580,7 +589,7 @@ s3 = boto3.client(
 
 # Empacar objeto en la Chuspa
 s3.upload_file('./archivo_caleño.png', 'prod-chuspa-name', 'test/archivo_caleño.png')
-print("¡Archivo empacado con éxito en la Chuspa! Usted sabe 😉")</code></pre>
+print("¡Archivo empacado con éxito en la Chuspa! Vos sabés 😉")</code></pre>
         </div>
       </div>
     </div>
@@ -617,7 +626,7 @@ print("¡Archivo empacado con éxito en la Chuspa! Usted sabe 😉")</code></pre
 
       <div class="text-xs text-slate-400 font-mono text-center">
         Desarrollado con salsa choke y tecnología MinIO distribuida en Cali, Colombia 🇨🇴 •
-        <strong class="text-salsa-orange">Usted Sabe</strong>
+        <strong class="text-salsa-orange">Vos Sabés</strong>
       </div>
 
       <div class="flex items-center space-x-6 text-sm text-slate-400 font-mono">
@@ -723,7 +732,7 @@ print("¡Archivo empacado con éxito en la Chuspa! Usted sabe 😉")</code></pre
       if (chuspaName) {
         if (!mockState[chuspaName]) {
           mockState[chuspaName] = [];
-          resp.innerHTML = `<span class="text-salsa-lime">¡Chuspa creada con éxito!</span><br>HTTP 200 OK — s3://${chuspaName} lista en 'cali-san-antonio-1'. ¡Usted sabe!`;
+          resp.innerHTML = `<span class="text-salsa-lime">¡Chuspa creada con éxito!</span><br>HTTP 200 OK — s3://${chuspaName} lista en 'cali-san-antonio-1'. ¡Vos sabés!`;
           renderBuckets();
         } else {
           resp.innerHTML = `<span class="text-salsa-orange">Esa chuspa '${chuspaName}' ya existe en el parqueo.</span>`;
@@ -821,7 +830,7 @@ s3 = boto3.client(
 
 # Empacar objeto en la Chuspa (ve subi)
 s3.upload_file('./archivo_caleño.png', 'prod-chuspa-name', 'test/archivo_caleño.png')
-print("¡Archivo empacado con éxito en la Chuspa! Usted sabe 😉")`,
+print("¡Archivo empacado con éxito en la Chuspa! Vos sabés 😉")`,
     },
     node: {
       title: 'Node.js (@aws-sdk/client-s3) para OpenChuspa',
@@ -868,7 +877,7 @@ func main() {
         Secure: true,
     })
 
-    fmt.Println("Conectado a OpenChuspa en Cali! Usted sabe 😉")
+    fmt.Println("Conectado a OpenChuspa en Cali! Vos sabés 😉")
 }`,
     },
     docker: {
