@@ -5,15 +5,20 @@
   --font-sans: '"Plus Jakarta Sans"', sans-serif;
   --font-mono: '"JetBrains Mono"', monospace;
 
-  --color-salsa-orange: #ff6b00;
-  --color-salsa-cyan: #00f2fe;
-  --color-salsa-lime: #10b981;
-  --color-salsa-pink: #ff007a;
-  --color-salsa-purple: #8b5cf6;
-  --color-salsa-yellow: #facc15;
-  --color-salsa-dark: #08090e;
-  --color-salsa-card: #0f131d;
-  --color-salsa-border: #1e2638;
+  /* ====== Paleta minimalista: blanco y negro + un único acento naranja ======
+     Opción B: se conserva el naranja (salsa-orange) como acento de marca para
+     logo, botón principal y detalles clave. El resto de colores vivos se
+     neutralizan a escala de grises. Se mantienen los nombres salsa-* para no
+     tocar el markup. */
+  --color-salsa-orange: #ff6b00; /* ÚNICO acento de color (marca) */
+  --color-salsa-cyan: #a1a1aa; /* gris claro */
+  --color-salsa-lime: #d4d4d8; /* gris muy claro */
+  --color-salsa-pink: #a1a1aa; /* gris claro */
+  --color-salsa-purple: #71717a; /* gris medio */
+  --color-salsa-yellow: #d4d4d8; /* gris muy claro */
+  --color-salsa-dark: #0a0a0a; /* fondo casi negro */
+  --color-salsa-card: #141414; /* superficie */
+  --color-salsa-border: #262626; /* bordes */
 
   --animate-pulse-glow: pulseGlow 3s ease-in-out infinite;
   --animate-float: float 5s ease-in-out infinite;
@@ -41,21 +46,21 @@
   }
 }
 
-/* ====== Estilos custom del <style> original ====== */
+/* ====== Estilos custom (esquema minimalista B/N + acento naranja) ====== */
 .gradient-text-salsa {
-  background: linear-gradient(135deg, #ff6b00 0%, #00f2fe 50%, #10b981 100%);
+  background: linear-gradient(135deg, #ff6b00 0%, #ffffff 60%, #a1a1aa 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .bg-grid-dots {
-  background-image: radial-gradient(rgba(255, 107, 0, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .sticker-shadow {
-  filter: drop-shadow(0 20px 30px rgba(255, 107, 0, 0.35));
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.6));
 }
 
 /* Custom scrollbar */
@@ -64,10 +69,10 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #08090e;
+  background: #0a0a0a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e2638;
+  background: #262626;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
