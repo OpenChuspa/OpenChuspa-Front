@@ -1,0 +1,30 @@
+---
+// Iconos Lucide renderizados como SVG en el build: cero JS de iconos en el navegador.
+import { icons } from 'lucide';
+
+interface Props {
+  name: keyof typeof icons;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class:list={['shrink-0', className]}
+>
+  {
+    icons[name].map(([tag, attrs]) => {
+      const Tag = tag as any;
+      return <Tag {...attrs} />;
+    })
+  }
+</svg>

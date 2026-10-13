@@ -1,0 +1,185 @@
+---
+import Icon from './Icon.astro';
+import { navLinks } from '../data/site';
+---
+
+<header class="site-header inset-x-0 top-0 z-40">
+  <!-- Aviso en construcción + reproductor de salsa -->
+  <div
+    class="flex h-(--banner-h) items-center justify-between gap-3 bg-salsa-orange px-3 font-mono text-[11px] font-bold tracking-wide text-black sm:px-4 sm:text-xs"
+  >
+    <p class="flex min-w-0 items-center gap-2">
+      <Icon name="Construction" class="size-4" />
+      <span class="truncate sm:hidden">Sitio en construcción</span>
+      <span class="hidden truncate sm:inline"
+        >Sitio en construcción — demo visual, aún no funciona de verdad. ¡Pero ya suena salsa, parce!</span
+      >
+    </p>
+
+    <div class="flex shrink-0 items-center gap-2">
+      <button
+        id="salsa-toggle"
+        type="button"
+        data-playing="false"
+        aria-label="Reproducir / pausar salsa"
+        aria-pressed="false"
+        class="group flex h-8 items-center gap-1.5 rounded-full bg-black/85 px-3 text-salsa-orange transition-colors hover:bg-black"
+      >
+        <Icon name="Play" class="size-3.5 group-data-[playing=true]:hidden" />
+        <Icon name="Pause" class="hidden size-3.5 group-data-[playing=true]:block" />
+        <span class="hidden h-3 items-end gap-[2px] sm:flex" aria-hidden="true">
+          {
+            [40, 100, 60, 85].map((h, i) => (
+              <span class="eq-bar w-[2px] bg-salsa-orange" style={`height:${h}%;--i:${i}`} />
+            ))
+          }
+        </span>
+        <span id="salsa-label" class="whitespace-nowrap">Poné salsa 🎺</span>
+      </button>
+      <input
+        id="salsa-vol"
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.6"
+        aria-label="Volumen"
+        class="hidden w-16 cursor-pointer accent-black md:block"
+      />
+    </div>
+
+    <!-- Sin crossorigin: evita el preflight CORS; para solo reproducir no se necesita. -->
+    <audio id="salsa-audio" preload="none"></audio>
+  </div>
+
+  <nav aria-label="Principal" class="border-b border-salsa-border bg-salsa-dark/90 backdrop-blur-xl">
+    <div class="container-page flex h-(--nav-h) items-center justify-between gap-3">
+      <a href="#" class="flex min-w-0 items-center gap-2.5 sm:gap-3">
+        <span
+          class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-salsa-orange/60 bg-salsa-dark lg:size-10"
+        >
+          <Icon name="ShoppingBag" class="size-5 text-salsa-orange" />
+        </span>
+        <span class="min-w-0">
+          <span class="block truncate text-xl font-black tracking-tight text-white lg:text-2xl"
+            >open<span class="text-salsa-orange">chuspa</span><span class="text-zinc-400">.xyz</span></span
+          >
+          <span class="-mt-0.5 hidden font-mono text-[10px] tracking-widest text-zinc-400 uppercase min-[360px]:block"
+            >S3 Caleño Engine</span
+          >
+        </span>
+      </a>
+
+      <div class="hidden items-center gap-6 text-sm font-semibold text-zinc-300 lg:flex xl:gap-8">
+        {navLinks.map((l) => <a href={l.href} class="transition-colors hover:text-salsa-orange">{l.label}</a>)}
+      </div>
+
+      <div class="flex shrink-0 items-center gap-2">
+        <a href="#playground" class="btn-primary hidden px-4 py-2.5 text-sm sm:inline-flex">
+          <Icon name="Terminal" class="size-4" />
+          <span>Abrir Consola Caleña</span>
+        </a>
+        <button
+          id="menu-toggle"
+          type="button"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          class="group flex size-10 items-center justify-center rounded-xl border border-salsa-border text-zinc-200 hover:bg-salsa-card lg:hidden"
+        >
+          <Icon name="Menu" class="size-5 group-aria-expanded:hidden" />
+          <Icon name="X" class="hidden size-5 group-aria-expanded:block" />
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" hidden class="border-t border-salsa-border lg:hidden">
+      <div class="container-page flex max-h-[calc(100dvh-var(--header-h))] flex-col overflow-y-auto py-3">
+        {
+          navLinks.map((l) => (
+            <a href={l.href} class="rounded-lg px-3 py-3 font-semibold text-zinc-200 hover:bg-salsa-card">
+              {l.label}
+            </a>
+          ))
+        }
+        <a href="#playground" class="btn-primary mt-2 px-4 py-3 text-sm sm:hidden">
+          <Icon name="Terminal" class="size-4" />
+          <span>Abrir Consola Caleña</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // ====== Menú móvil ======
+  const menuToggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  function setMenu(open: boolean) {
+    if (!menuToggle || !menu) return;
+    menu.hidden = !open;
+    menuToggle.setAttribute('aria-expanded', String(open));
+    menuToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  }
+
+  menuToggle?.addEventListener('click', () => setMenu(menu?.hidden ?? false));
+  menu?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setMenu(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false);
+  });
+  // Al pasar a escritorio el menú móvil no debe quedar abierto.
+  window.matchMedia('(width >= 64rem)').addEventListener('change', () => setMenu(false));
+
+  // ====== Reproductor de salsa (Yo Soy Cali Salsa, stream en vivo) ======
+  const SALSA_STREAM = 'https://stream.integracionvirtual.com/proxy/yosoycalisalsa?mp=/stream';
+
+  const audio = document.getElementById('salsa-audio') as HTMLAudioElement | null;
+  const toggle = document.getElementById('salsa-toggle');
+  const label = document.getElementById('salsa-label');
+  const vol = document.getElementById('salsa-vol') as HTMLInputElement | null;
+
+  if (audio && toggle) {
+    audio.volume = vol ? parseFloat(vol.value) : 0.6;
+
+    const setPlayingUI = (playing: boolean) => {
+      toggle.dataset.playing = String(playing);
+      toggle.setAttribute('aria-pressed', String(playing));
+      if (label) label.textContent = playing ? 'Sonando salsa' : 'Poné salsa 🎺';
+    };
+
+    const play = async () => {
+      // Cache-buster para evitar que el navegador sirva un buffer viejo del stream
+      if (!audio.src) audio.src = `${SALSA_STREAM}&_t=${Date.now()}`;
+      try {
+        await audio.play();
+      } catch {
+        // Autoplay bloqueado: quedará listo para el primer gesto del usuario
+      }
+    };
+
+    toggle.addEventListener('click', () => {
+      if (audio.paused) play();
+      else audio.pause();
+    });
+
+    audio.addEventListener('playing', () => setPlayingUI(true));
+    audio.addEventListener('pause', () => setPlayingUI(false));
+    audio.addEventListener('ended', () => setPlayingUI(false));
+    vol?.addEventListener('input', () => {
+      audio.volume = parseFloat(vol.value);
+    });
+
+    // Intento de autoplay al entrar; si el navegador lo bloquea,
+    // arranca con el primer gesto (click / tecla / touch).
+    play();
+    const kickstart = () => {
+      if (audio.paused) play();
+    };
+    for (const evt of ['pointerdown', 'keydown', 'touchstart']) {
+      window.addEventListener(evt, kickstart, { once: true });
+    }
+  }
+</script>

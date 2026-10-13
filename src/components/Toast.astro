@@ -1,0 +1,52 @@
+---
+import Icon from './Icon.astro';
+---
+
+<div
+  id="toast"
+  role="status"
+  aria-live="polite"
+  data-visible="false"
+  class="pointer-events-none fixed inset-x-4 bottom-4 z-50 flex translate-y-20 items-center gap-3 rounded-2xl border border-salsa-orange/40 bg-salsa-card px-5 py-3.5 font-mono text-xs text-white opacity-0 shadow-2xl transition-all duration-300 data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100 sm:inset-x-auto sm:right-6 sm:bottom-6"
+>
+  <Icon name="Sparkles" class="size-4 text-salsa-orange" />
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toast-msg');
+  let timer: number | undefined;
+
+  function showToast(msg: string) {
+    if (!toast || !toastMsg) return;
+    toastMsg.textContent = msg;
+    toast.dataset.visible = 'true';
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => (toast.dataset.visible = 'false'), 3000);
+  }
+
+  async function copyText(text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // Fallback para contextos sin Clipboard API (http, webviews antiguos)
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      textarea.remove();
+    }
+    showToast('¡Copiado al portapapeles, mi llave! 🚀');
+  }
+
+  // Botones de copiar de toda la página:
+  //   data-copy="texto literal"  |  data-copy-target="selector del elemento a copiar"
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-copy], [data-copy-target]');
+    if (!btn) return;
+    const text = btn.dataset.copy ?? document.querySelector(btn.dataset.copyTarget ?? '')?.textContent ?? '';
+    if (text.trim()) copyText(text.trim());
+  });
+</script>

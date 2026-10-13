@@ -6,7 +6,8 @@ Landing de **openchuspa.xyz**, el motor caleño de almacenamiento de objetos com
 
 - **Astro 5** (output estático)
 - **Tailwind CSS v4** (vía `@tailwindcss/vite`, sin CDN)
-- **lucide** (iconos, importados como módulo)
+- **lucide** (iconos renderizados como SVG en el build, sin JS en el navegador)
+- **Fontsource** (Plus Jakarta Sans y JetBrains Mono autoalojadas, sin Google Fonts)
 - **@astrojs/vercel** (adaptador de despliegue)
 
 ## Desarrollo local
@@ -47,17 +48,27 @@ vercel --prod  # deploy a producción
 ## Estructura
 
 ```
+public/favicon.svg
 src/
-  layouts/Layout.astro   # <head>, fuentes, iconos Lucide, CSS global
-  pages/index.astro      # markup de la landing + script interactivo (TS)
-  styles/global.css      # Tailwind v4 + tema "salsa" + estilos custom
-astro.config.mjs         # adaptador Vercel + plugin Tailwind
+  layouts/Layout.astro     # <head>, metadatos y CSS global
+  pages/index.astro        # compone las secciones de la landing
+  components/              # una sección por archivo; cada una trae su propio <script>
+    Header.astro           #   banner + reproductor de salsa + navegación y menú móvil
+    Hero.astro, Sticker.astro
+    Playground.astro       #   terminal simulada (estado en memoria)
+    Commands.astro, Glossary.astro, Generator.astro, Sdks.astro, SelfHosted.astro
+    Footer.astro, Toast.astro, Icon.astro, SectionHeader.astro
+  data/
+    constants.ts           # endpoint, región y valores compartidos con los scripts
+    site.ts                # contenido: navegación, comandos, glosario y snippets de SDK
+  styles/global.css        # Tailwind v4, tema "salsa" y utilidades propias
+astro.config.mjs           # site, adaptador Vercel y plugin Tailwind
 ```
 
-## Notas de la migración
+## Convenciones
 
-- El `tailwind.config` inline del HTML original se trasladó a `@theme` en `src/styles/global.css` (colores `salsa-*`, fuentes y animaciones `pulse-glow` / `float`).
-- Los `onclick="..."` inline se reemplazaron por `addEventListener` con atributos `data-*` (mejor práctica y compatible con el bundling de Astro).
-- `document.execCommand('copy')` ahora usa `navigator.clipboard` con fallback.
-- Tailwind y Lucide dejan de cargarse por CDN; se empaquetan en el build para producción.
-```
+- El contenido se edita en `src/data/site.ts`; los componentes solo lo recorren.
+- Paleta: blanco y negro (`zinc-*`) con `salsa-orange` como único acento.
+- La salida de la terminal se construye con `textContent`, nunca con `innerHTML`, para que lo que escriba el usuario no se interprete como HTML.
+- Botones de copiar: `data-copy="texto"` o `data-copy-target="selector"`; los gestiona `Toast.astro`.
+- Responsive: la cabecera fija mide `--header-h` (definida en `global.css`); los anclajes la descuentan con `scroll-padding-top`.

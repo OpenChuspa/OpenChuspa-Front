@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import { navLinks } from '../data/site';
+---
+
+<footer class="border-t border-salsa-border bg-salsa-dark py-10 sm:py-12">
+  <div class="container-page flex flex-col items-center justify-between gap-6 text-center lg:flex-row lg:text-left">
+    <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:shrink-0 lg:flex-nowrap">
+      <span class="flex size-8 items-center justify-center rounded-lg bg-salsa-orange">
+        <Icon name="ShoppingBag" class="size-4 text-white" />
+      </span>
+      <span class="text-xl font-black text-white"
+        >open<span class="text-salsa-orange">chuspa</span><span class="text-zinc-400">.xyz</span></span
+      >
+      <span class="w-full font-mono text-xs text-zinc-500 sm:w-auto">El motor caleño de S3 • 2026</span>
+    </div>
+
+    <p class="font-mono text-xs text-pretty text-zinc-400">
+      Desarrollado con salsa choke y tecnología S3 distribuida en Cali, Colombia 🇨🇴 •
+      <strong class="text-salsa-orange">Vos Sabés</strong>
+    </p>
+
+    <nav aria-label="Pie de página" class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-sm text-zinc-400 lg:shrink-0">
+      {navLinks.map((l) => <a href={l.href} class="py-1 transition-colors hover:text-salsa-orange">{l.short}</a>)}
+    </nav>
+  </div>
+</footer>

@@ -1,0 +1,26 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { glossary } from '../data/site';
+---
+
+<section id="glosario" class="border-y border-salsa-border bg-salsa-card/40 py-16 sm:py-20">
+  <div class="container-page">
+    <SectionHeader
+      eyebrow="Glosario Arquitectónico"
+      title="Diccionario Caleño S3"
+      description="Entendé las equivalencias técnicas del motor S3 traducidas al lenguaje de la sultana."
+    />
+
+    <dl class="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+      {
+        glossary.map((g) => (
+          <div class="min-w-0 rounded-2xl border border-salsa-border bg-salsa-card p-5 sm:p-6">
+            <div class="mb-1 font-mono text-xs font-bold text-salsa-orange">AWS S3: {g.aws}</div>
+            <dt class="mb-2 text-xl font-black text-balance text-white sm:text-2xl">{g.term}</dt>
+            <dd class="text-sm leading-relaxed break-words text-zinc-400">{g.description}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+---
+import Icon from './Icon.astro';
+import SectionHeader from './SectionHeader.astro';
+import { commands } from '../data/site';
+---
+
+<section id="comandos" class="py-16 sm:py-24">
+  <div class="container-page">
+    <SectionHeader
+      eyebrow="Documentación de Sintaxis CLI"
+      title="Comandos chuspa-cli Caleños"
+      description="Los comandos que usás a diario en AWS S3 CLI, traducidos exactamente al dialecto caleño auténtico."
+    />
+
+    <ul class="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        commands.map((c) => (
+          <li
+            class:list={[
+              'flex min-w-0 flex-col rounded-2xl border border-salsa-border bg-salsa-card p-5 transition-colors sm:rounded-3xl sm:p-6',
+              c.danger ? 'hover:border-red-400' : 'hover:border-salsa-orange',
+            ]}
+          >
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <span
+                class:list={[
+                  'rounded-lg px-3 py-1 font-mono text-xs font-bold',
+                  c.danger ? 'bg-red-500/10 text-red-400' : 'bg-white/5 text-zinc-300',
+                ]}
+              >
+                {c.badge}
+              </span>
+              <Icon name={c.icon} class={c.danger ? 'size-5 text-red-400' : 'size-5 text-salsa-orange'} />
+            </div>
+            <h3 class="mb-2 text-xl font-black text-white">{c.name}</h3>
+            <p class="mb-4 grow text-sm text-zinc-400">{c.description}</p>
+            <code class:list={['code-box block', c.danger ? 'text-red-400' : 'text-zinc-200']}>{c.example}</code>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
