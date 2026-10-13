@@ -1,0 +1,190 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Toast from '../components/Toast.astro';
+import BackToTop from '../components/BackToTop.astro';
+import Icon from '../components/Icon.astro';
+import { commands, glossary } from '../data/site';
+import { ENDPOINT, REGION } from '../data/constants';
+
+const sections = [
+  { id: 'empezar', label: 'Empezar' },
+  { id: 'instalacion', label: 'Instalación' },
+  { id: 'config', label: 'Configuración' },
+  { id: 'comandos', label: 'Comandos' },
+  { id: 'glosario', label: 'Glosario' },
+  { id: 'estado', label: 'Estado' },
+];
+---
+
+<Layout
+  title="Docs | openchuspa.xyz"
+  description="Documentación de OpenChuspa, el motor caleño de almacenamiento de objetos compatible con AWS S3."
+>
+  <Header />
+
+  <main id="contenido" class="container-page pt-[calc(var(--header-h)+2.5rem)] pb-24">
+    <!-- Encabezado de la página -->
+    <header class="mx-auto max-w-3xl text-center">
+      <p class="eyebrow justify-center">
+        <span class="inline-block size-1.5 rounded-full bg-salsa-orange"></span>
+        Documentación
+      </p>
+      <h1 class="display-serif mt-4 text-4xl font-semibold text-balance sm:text-5xl lg:text-6xl">
+        Todo lo que necesitás para <em>armar el parche</em>.
+      </h1>
+      <p class="mt-5 text-base text-pretty text-muted sm:text-lg">
+        Guía caleña para hablar con el motor S3 de OpenChuspa. Oíste, acá no hay enredo: lo mismo que ya sabés de AWS
+        S3, pero con swing.
+      </p>
+      <p class="mt-6 inline-flex items-center gap-2 rounded-full border border-salsa-orange/40 px-4 py-1.5 font-mono text-xs text-salsa-orange">
+        <Icon name="Construction" class="size-4" />
+        En construcción — el motor todavía no funciona de verdad, pero la doc ya va cuadrando.
+      </p>
+    </header>
+
+    <div class="mt-16 grid gap-12 lg:grid-cols-[200px_1fr] lg:gap-16">
+      <!-- Índice lateral -->
+      <aside class="lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
+        <nav aria-label="En esta página" class="flex flex-col gap-1 border-l border-line pl-4 text-sm">
+          <span class="mb-2 font-mono text-[11px] tracking-widest text-muted uppercase">En esta página</span>
+          {
+            sections.map((s) => (
+              <a href={`#${s.id}`} class="rounded py-1 text-muted transition-colors hover:text-salsa-orange">
+                {s.label}
+              </a>
+            ))
+          }
+        </nav>
+      </aside>
+
+      <!-- Contenido -->
+      <div class="min-w-0 max-w-2xl space-y-16">
+        <!-- Empezar -->
+        <section id="empezar" class="scroll-mt-[calc(var(--header-h)+1.5rem)]">
+          <h2 class="display-serif text-2xl font-semibold sm:text-3xl">Empezar</h2>
+          <p class="mt-4 text-muted">
+            OpenChuspa es un motor de almacenamiento de objetos compatible con la API de AWS S3. Si ya usás
+            <code class="font-mono text-salsa-orange">aws s3</code>, <code class="font-mono text-salsa-orange">boto3</code>
+            o cualquier SDK de S3, apuntás el endpoint a OpenChuspa y listo, parce. No hay que reaprender nada.
+          </p>
+          <p class="mt-4 text-muted">
+            El concepto es sencillo: guardás <strong class="text-ink">chucherías</strong> (objetos) dentro de
+            <strong class="text-ink">chuspas</strong> (buckets). Vos subís, bajás y mirás; el motor se encarga del resto.
+          </p>
+        </section>
+
+        <!-- Instalación -->
+        <section id="instalacion" class="scroll-mt-[calc(var(--header-h)+1.5rem)]">
+          <h2 class="display-serif text-2xl font-semibold sm:text-3xl">Instalación (self-hosted)</h2>
+          <p class="mt-4 text-muted">Levantá tu propio motor en Docker con una sola línea:</p>
+          <div class="code-box mt-4 flex items-center justify-between gap-3 text-ink">
+            <code>docker run -p 9000:9000 -v $(pwd)/chuspa_data:/data openchuspa/chuspa</code>
+            <button
+              type="button"
+              data-copy="docker run -p 9000:9000 -v $(pwd)/chuspa_data:/data openchuspa/chuspa"
+              class="btn-ghost shrink-0 px-2.5 py-1.5 text-xs"
+              aria-label="Copiar comando Docker"
+            >
+              <Icon name="Copy" class="size-3.5" />
+            </button>
+          </div>
+          <p class="mt-4 text-muted">
+            Los datos quedan en el volumen que montés (<code class="font-mono text-salsa-orange">/data</code>), así no se
+            te pierde nada aunque reiniciés el contenedor.
+          </p>
+        </section>
+
+        <!-- Configuración -->
+        <section id="config" class="scroll-mt-[calc(var(--header-h)+1.5rem)]">
+          <h2 class="display-serif text-2xl font-semibold sm:text-3xl">Configuración</h2>
+          <p class="mt-4 text-muted">Configurá cualquier cliente S3 con estos valores:</p>
+          <div class="card mt-4 divide-y divide-line font-mono text-sm">
+            <div class="flex items-center justify-between gap-4 p-3">
+              <span class="text-muted">Endpoint</span>
+              <code class="text-ink">{ENDPOINT}</code>
+            </div>
+            <div class="flex items-center justify-between gap-4 p-3">
+              <span class="text-muted">Región</span>
+              <code class="text-ink">{REGION}</code>
+            </div>
+            <div class="flex items-center justify-between gap-4 p-3">
+              <span class="text-muted">Access Key</span>
+              <code class="text-ink">clave-del-parchao</code>
+            </div>
+            <div class="flex items-center justify-between gap-4 p-3">
+              <span class="text-muted">Secret Key</span>
+              <code class="text-ink">la-secreta-de-la-cuadra</code>
+            </div>
+          </div>
+          <p class="mt-4 text-muted">
+            Mija, la Secret Key no se la des ni a tu mejor amigo del barrio. Guardala como se guarda la receta del
+            sancocho.
+          </p>
+        </section>
+
+        <!-- Comandos -->
+        <section id="comandos" class="scroll-mt-[calc(var(--header-h)+1.5rem)]">
+          <h2 class="display-serif text-2xl font-semibold sm:text-3xl">Comandos del CLI caleño</h2>
+          <p class="mt-4 text-muted">La jerga caleña y su equivalente exacto en el protocolo S3:</p>
+          <div class="mt-6 space-y-4">
+            {
+              commands.map((c) => (
+                <div class="card p-4">
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="font-mono text-base font-semibold text-ink">{c.name}</h3>
+                    <span class="font-mono text-[11px] tracking-wide text-muted uppercase">{c.badge}</span>
+                  </div>
+                  <p class="mt-2 text-sm text-muted">{c.description}</p>
+                  <code class="code-box mt-3 block text-ink">{c.example}</code>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <!-- Glosario -->
+        <section id="glosario" class="scroll-mt-[calc(var(--header-h)+1.5rem)]">
+          <h2 class="display-serif text-2xl font-semibold sm:text-3xl">Glosario</h2>
+          <p class="mt-4 text-muted">Para que no te pierdas con la traducción AWS → Cali:</p>
+          <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+            {
+              glossary.map((g) => (
+                <div class="card p-4">
+                  <dt class="font-mono text-[11px] tracking-wide text-muted uppercase">AWS S3: {g.aws}</dt>
+                  <dd class="mt-1 font-semibold text-ink">{g.term}</dd>
+                  <dd class="mt-1 text-sm text-muted">{g.description}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </section>
+
+        <!-- Estado -->
+        <section id="estado" class="scroll-mt-[calc(var(--header-h)+1.5rem)]">
+          <h2 class="display-serif text-2xl font-semibold sm:text-3xl">Estado del proyecto</h2>
+          <p class="mt-4 text-muted">
+            OpenChuspa está en pleno desarrollo. El MVP del motor cubre el núcleo del protocolo S3 (crear/listar/borrar
+            chuspas y subir/bajar/listar/borrar chucherías) con autenticación AWS Signature V4. Multipart, versionado,
+            políticas y clustering vienen después.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="/" class="btn-ghost px-5 py-2.5 text-sm">
+              <Icon name="ArrowLeft" class="size-4" />
+              Volver al inicio
+            </a>
+            <a href="/#playground" class="btn-primary px-5 py-2.5 text-sm text-white">
+              <Icon name="Terminal" class="size-4" />
+              Probar la consola
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+  <BackToTop />
+  <Toast />
+</Layout>
