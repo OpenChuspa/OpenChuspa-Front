@@ -5,61 +5,47 @@ import elParchao from '../assets/el-parchao.webp';
 import { highlights } from '../data/site';
 ---
 
-<section class="relative overflow-hidden pt-[calc(var(--header-h)+2.5rem)] pb-16 sm:pb-20 lg:pt-[calc(var(--header-h)+5rem)] lg:pb-28">
-  <!-- Resplandor de fondo (gradiente, sin filtros de blur costosos) -->
-  <div
-    class="pointer-events-none absolute top-1/4 left-1/2 aspect-square w-[min(900px,160vw)] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,rgb(255_107_0/0.16),transparent)]"
-  >
-  </div>
-
-  <div class="container-page relative grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+<section class="relative pt-[calc(var(--header-h)+3.5rem)] pb-20 sm:pb-24 lg:pt-[calc(var(--header-h)+6rem)] lg:pb-32">
+  <div class="container-page grid items-center gap-14 lg:grid-cols-12 lg:gap-12">
     <div class="text-center lg:col-span-7 lg:text-left">
-      <p
-        class="mb-6 inline-flex max-w-full items-center gap-2 rounded-xl border border-salsa-orange/40 bg-salsa-card px-4 py-2 text-left sm:rounded-full"
-      >
-        <span class="size-2.5 shrink-0 animate-ping rounded-full bg-zinc-300"></span>
-        <span class="font-mono text-[11px] font-bold tracking-wider text-salsa-orange uppercase sm:text-xs"
-          >En construcción · Próximamente 100% AWS S3 Compatible</span
-        >
+      <p class="eyebrow justify-center lg:justify-start">
+        <span class="inline-block size-1.5 rounded-full bg-salsa-orange"></span>
+        En construcción · Próximamente 100% AWS S3 Compatible
       </p>
 
-      <h1 class="display-serif mb-6 text-[clamp(2rem,7vw+0.5rem,4.5rem)] leading-[1.1] font-extrabold tracking-tight text-balance">
+      <h1 class="display-serif mt-6 text-[clamp(2.25rem,6vw+0.5rem,4.5rem)] text-balance">
         El Motor Caleño de S3 que corre con <em>Pura Salsa</em>.
       </h1>
 
-      <p class="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-pretty text-muted sm:text-xl lg:mx-0">
+      <p class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-pretty text-muted sm:text-lg lg:mx-0">
         Almacenamiento de objetos ultra-rápido distribuido compatible con S3, pensado para los developers de Cali y el
         mundo. ¿Necesitás subir un archivo volando?{' '}
-        <code class="font-mono text-[0.9em] font-bold break-words text-salsa-orange"
-          >ve subi ./file.txt a chuspa://mi-parche/</code
-        >{' '}y listo.
+        <code class="font-mono text-[0.9em] break-words text-ink">ve subi ./file.txt a chuspa://mi-parche/</code>{' '}y
+        listo.
       </p>
 
-      <div class="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4 lg:justify-start">
-        <a href="#playground" class="btn-primary rounded-xl px-6 py-4 text-base sm:px-8">
-          <Icon name="Play" class="size-5" />
+      <div class="mt-9 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center lg:justify-start">
+        <a href="#playground" class="btn-primary px-6 py-3 text-sm text-white sm:text-base">
+          <Icon name="Play" class="size-4" />
           <span>Probar Comandos Caleños</span>
         </a>
-        <a
-          href="#sdks"
-          class="inline-flex items-center justify-center gap-2 rounded-xl border border-salsa-border bg-salsa-card px-6 py-4 text-base font-semibold text-muted transition-colors hover:border-zinc-600 hover:bg-salsa-border sm:px-8"
-        >
-          <Icon name="Code2" class="size-5 text-muted" />
+        <a href="#sdks" class="btn-ghost px-6 py-3 text-sm sm:text-base">
+          <Icon name="Code2" class="size-4" />
           <span>SDKs (Python, JS, Go)</span>
         </a>
       </div>
 
       <dl
-        class="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-5 border-t border-salsa-border pt-8 text-left sm:gap-x-12 lg:justify-start"
+        class="mt-14 flex flex-wrap justify-center gap-x-10 gap-y-6 border-t border-line pt-8 text-left sm:gap-x-14 lg:justify-start"
       >
         {
           highlights.map((h) => (
             <div>
-              <dt class="font-mono text-[11px] text-muted uppercase">{h.label}</dt>
+              <dt class="font-mono text-[11px] tracking-wide text-muted uppercase">{h.label}</dt>
               <dd
                 class:list={[
-                  'font-mono text-lg font-black whitespace-nowrap sm:text-2xl',
-                  h.accent ? 'text-salsa-orange' : 'text-muted',
+                  'mt-1 font-mono text-xl whitespace-nowrap sm:text-2xl',
+                  h.accent ? 'text-salsa-orange' : 'text-ink',
                 ]}
               >
                 {h.value}
@@ -71,28 +57,24 @@ import { highlights } from '../data/site';
     </div>
 
     <div class="flex justify-center lg:col-span-5">
-      <div class="relative w-full max-w-sm lg:max-w-md">
-        <div class="absolute inset-0 animate-pulse-glow rounded-xl bg-linear-to-tr from-salsa-orange to-zinc-400 opacity-40 blur-2xl">
-        </div>
-        <div class="relative flex flex-col items-center rounded-xl border border-salsa-border bg-salsa-card p-5 shadow-sm sm:p-8">
-          <Image
-            src={elParchao}
-            alt="El Parchao, la mascota de OpenChuspa: un caleño sonriente que sostiene una chuspa llena de archivos y levanta el pulgar, con la frase «Vos sabés»"
-            widths={[320, 480, elParchao.width]}
-            sizes="(min-width: 400px) 320px, 80vw"
-            quality={88}
-            loading="eager"
-            fetchpriority="high"
-            class="sticker-shadow mb-6 h-auto w-full max-w-[320px] animate-float"
-          />
-          <div class="w-full rounded-xl border border-salsa-orange/40 bg-salsa-dark p-4 text-center">
-            <span class="font-mono text-[11px] font-bold tracking-widest text-salsa-orange uppercase sm:text-xs"
-              >Respuesta del Servidor S3</span
-            >
-            <p class="mt-1 font-mono text-sm font-bold text-muted sm:text-base">HTTP 200 OK — "Vos sabés!"</p>
-          </div>
-        </div>
-      </div>
+      <figure class="w-full max-w-sm">
+        <Image
+          src={elParchao}
+          alt="El Parchao, la mascota de OpenChuspa: un caleño sonriente que sostiene una chuspa llena de archivos y levanta el pulgar, con la frase «Vos sabés»"
+          widths={[320, 480, elParchao.width]}
+          sizes="(min-width: 400px) 360px, 80vw"
+          quality={88}
+          loading="eager"
+          fetchpriority="high"
+          class="mx-auto h-auto w-full max-w-[340px]"
+        />
+        <figcaption
+          class="mt-4 flex items-center justify-center gap-2 font-mono text-xs text-muted"
+        >
+          <span class="inline-block size-1.5 rounded-full bg-salsa-orange"></span>
+          HTTP 200 OK — "Vos sabés!"
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>

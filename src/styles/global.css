@@ -80,18 +80,19 @@ body {
   overflow-x: clip;
   color: var(--color-ink);
   background-color: var(--color-bg);
-  background-image: radial-gradient(var(--dots) 1px, transparent 1px);
-  background-size: 22px 22px;
   transition: background-color 0.3s, color 0.3s;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Titulares con la serif editorial */
+/* Titulares con la serif editorial, peso medio (aire opentaco, nada de font-black) */
 h1,
 h2,
 h3,
 .font-display {
   font-family: var(--font-serif);
-  letter-spacing: -0.01em;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 :focus-visible {

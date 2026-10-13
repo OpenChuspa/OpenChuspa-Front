@@ -14,13 +14,13 @@ const links = navLinks.map((l) => ({
 <header class="site-header inset-x-0 top-0 z-40">
   <!-- Aviso en construcción + reproductor de salsa -->
   <div
-    class="flex h-(--banner-h) items-center justify-between gap-3 bg-salsa-orange px-3 font-mono text-[11px] font-bold tracking-wide text-black sm:px-4 sm:text-xs"
+    class="flex h-(--banner-h) items-center justify-between gap-3 border-b border-line bg-surface px-3 font-mono text-[11px] tracking-wide text-muted sm:px-4 sm:text-xs"
   >
     <p class="flex min-w-0 items-center gap-2">
-      <Icon name="Construction" class="size-4" />
-      <span class="truncate sm:hidden">Sitio en construcción</span>
+      <Icon name="Construction" class="size-3.5 text-salsa-orange" />
+      <span class="truncate sm:hidden">En construcción</span>
       <span class="hidden truncate sm:inline"
-        >Sitio en construcción — demo visual, aún no funciona de verdad. ¡Pero ya suena salsa, parce!</span
+        >En construcción — demo visual, aún no funciona de verdad. Pero ya suena salsa, parce.</span
       >
     </p>
 
@@ -32,7 +32,7 @@ const links = navLinks.map((l) => ({
         aria-label="Reproducir salsa en vivo"
         title="Reproducir salsa en vivo"
         aria-pressed="false"
-        class="group flex h-8 items-center gap-1.5 rounded-full bg-black/85 px-3 text-salsa-orange ring-black/25 transition hover:bg-black hover:ring-4 data-[state=loading]:cursor-progress"
+        class="group flex h-7 items-center gap-1.5 rounded-full border border-line px-3 text-ink transition-colors hover:border-salsa-orange hover:text-salsa-orange data-[state=loading]:cursor-progress data-[state=playing]:border-salsa-orange data-[state=playing]:text-salsa-orange"
       >
         <Icon name="Play" class="size-3.5 group-data-[state=loading]:hidden group-data-[state=playing]:hidden" />
         <Icon name="LoaderCircle" class="hidden size-3.5 animate-spin group-data-[state=loading]:block" />
@@ -54,7 +54,7 @@ const links = navLinks.map((l) => ({
         step="0.01"
         value="0.6"
         aria-label="Volumen"
-        class="hidden w-16 cursor-pointer accent-black md:block"
+        class="hidden w-16 cursor-pointer accent-salsa-orange md:block"
       />
     </div>
 
@@ -66,12 +66,12 @@ const links = navLinks.map((l) => ({
     <div class="container-page flex h-(--nav-h) items-center justify-between gap-3">
       <a href="/" aria-label="openchuspa.xyz, ir al inicio" class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
         <span
-          class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-salsa-orange/60 bg-salsa-dark lg:size-10"
+          class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-line bg-surface lg:size-10"
         >
           <Icon name="ShoppingBag" class="size-5 text-salsa-orange" />
         </span>
         <span class="min-w-0">
-          <span class="block truncate text-xl font-black tracking-tight text-ink lg:text-2xl"
+          <span class="block truncate text-lg font-semibold tracking-tight text-ink lg:text-xl"
             >open<span class="text-salsa-orange">chuspa</span><span class="text-muted">.xyz</span></span
           >
           <span class="-mt-0.5 hidden font-mono text-[10px] tracking-widest text-muted uppercase min-[360px]:block"
