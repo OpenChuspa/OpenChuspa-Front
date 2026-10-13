@@ -20,7 +20,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#faf9f6" />
+    <meta name="theme-color" content="#0a0a0a" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
@@ -28,20 +28,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <title>{title}</title>
-    {/* Fija el tema antes de pintar para evitar el parpadeo (FOUC) */}
-    <script is:inline>
-      (function () {
-        try {
-          var t = localStorage.getItem('chuspa-theme');
-          if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-          document.documentElement.dataset.theme = t;
-        } catch (e) {
-          document.documentElement.dataset.theme = 'light';
-        }
-      })();
-    </script>
   </head>
-  <body class="min-h-dvh font-sans text-ink antialiased selection:bg-salsa-orange selection:text-white">
+  <body class="min-h-dvh font-sans text-zinc-100 antialiased selection:bg-salsa-orange selection:text-white">
     <a
       href="#contenido"
       class="sr-only z-50 rounded-lg bg-salsa-orange px-4 py-2 font-bold text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"

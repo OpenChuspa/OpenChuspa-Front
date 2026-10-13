@@ -12,22 +12,34 @@ import { commands } from '../data/site';
       description="Los comandos que usás a diario en AWS S3 CLI, traducidos exactamente al dialecto caleño auténtico."
     />
 
-    <ul class="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
       {
         commands.map((c) => (
-          <li class="flex min-w-0 flex-col bg-bg p-6 transition-colors hover:bg-surface">
+          <li
+            class:list={[
+              'flex min-w-0 flex-col rounded-2xl border border-salsa-border bg-salsa-card p-5 transition duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40 sm:rounded-3xl sm:p-6',
+              c.danger ? 'hover:border-red-400' : 'hover:border-salsa-orange',
+            ]}
+          >
             <div class="mb-4 flex items-center justify-between gap-3">
+              <span
+                class:list={[
+                  'rounded-lg px-3 py-1 font-mono text-xs font-bold',
+                  c.danger ? 'bg-red-500/10 text-red-400' : 'bg-white/5 text-zinc-300',
+                ]}
+              >
+                {c.badge}
+              </span>
               <Icon name={c.icon} class={c.danger ? 'size-5 text-red-400' : 'size-5 text-salsa-orange'} />
-              <span class="font-mono text-[11px] tracking-wide text-muted uppercase">{c.badge}</span>
             </div>
-            <h3 class="font-mono text-lg text-ink">{c.name}</h3>
-            <p class="mt-2 mb-4 grow text-sm text-muted">{c.description}</p>
-            <code class="code-box block text-muted">{c.example}</code>
-            <div class="mt-3 flex gap-2 font-mono text-xs">
+            <h3 class="mb-2 text-xl font-black text-white">{c.name}</h3>
+            <p class="mb-4 grow text-sm text-zinc-400">{c.description}</p>
+            <code class:list={['code-box block', c.danger ? 'text-red-400' : 'text-zinc-200']}>{c.example}</code>
+            <div class="mt-3 flex gap-2 font-mono text-xs font-bold">
               <button
                 type="button"
                 data-cmd={c.example}
-                class="js-run-cmd flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-line px-3 py-2.5 text-muted transition-colors hover:border-salsa-orange hover:text-salsa-orange"
+                class="js-run-cmd flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-salsa-border px-3 py-2.5 text-zinc-200 transition-colors hover:border-salsa-orange hover:bg-salsa-orange hover:text-white"
               >
                 <Icon name="Terminal" class="size-3.5" />
                 <span>Probar en la terminal</span>
@@ -37,7 +49,7 @@ import { commands } from '../data/site';
                 data-copy={c.example}
                 aria-label={`Copiar el comando ${c.name}`}
                 title="Copiar comando"
-                class="flex items-center justify-center rounded-lg border border-line px-3 py-2.5 text-muted transition-colors hover:border-salsa-orange hover:text-salsa-orange"
+                class="flex items-center justify-center rounded-lg border border-salsa-border px-3 py-2.5 text-zinc-300 transition-colors hover:border-salsa-orange hover:text-salsa-orange"
               >
                 <Icon name="Copy" class="size-3.5" />
               </button>
