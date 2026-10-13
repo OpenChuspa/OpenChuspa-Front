@@ -47,6 +47,7 @@ const { title = 'openchuspa.xyz | El Motor Caleño de S3 / MinIO' } = Astro.prop
         RefreshCw,
         Copy,
         Construction,
+        Pause,
       } from 'lucide';
 
       const icons = {
@@ -65,9 +66,13 @@ const { title = 'openchuspa.xyz | El Motor Caleño de S3 / MinIO' } = Astro.prop
         RefreshCw,
         Copy,
         Construction,
+        Pause,
       };
 
       createIcons({ icons });
+      // Exponer para re-render de iconos creados dinámicamente (ej. play/pause del reproductor)
+      // @ts-ignore
+      window.lucide = { createIcons: () => createIcons({ icons }) };
     </script>
   </body>
 </html>

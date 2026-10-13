@@ -12,13 +12,48 @@ import Layout from '../layouts/Layout.astro';
     <span id="toast-msg">Mensaje de confirmación</span>
   </div>
 
-  <!-- Banner global: sitio en construcción -->
+  <!-- Banner global: aviso en construcción + reproductor de salsa -->
   <div
     id="construction-banner"
-    class="fixed top-0 left-0 right-0 z-50 h-10 bg-salsa-orange text-black flex items-center justify-center px-4 text-center font-mono text-[11px] sm:text-xs font-bold tracking-wide"
+    class="fixed top-0 left-0 right-0 z-50 h-10 bg-salsa-orange text-black flex items-center justify-between gap-3 px-3 sm:px-4 font-mono text-[10px] sm:text-xs font-bold tracking-wide"
   >
-    <i data-lucide="construction" class="w-4 h-4 mr-2 shrink-0"></i>
-    <span>🚧 Sitio en construcción — demo visual. El motor aún no funciona de verdad, ¡pero ya vamos en proceso!</span>
+    <!-- Aviso -->
+    <div class="flex items-center min-w-0">
+      <i data-lucide="construction" class="w-4 h-4 mr-2 shrink-0"></i>
+      <span class="truncate">🚧 Sitio en construcción — demo visual, aún no funciona de verdad. ¡Pero ya suena salsa, parce!</span>
+    </div>
+
+    <!-- Mini reproductor de salsa -->
+    <div class="flex items-center gap-2 shrink-0">
+      <button
+        id="salsa-toggle"
+        type="button"
+        aria-label="Reproducir / pausar salsa"
+        class="flex items-center gap-1.5 bg-black/85 text-salsa-orange hover:bg-black px-2.5 py-1 rounded-full transition-colors"
+      >
+        <i data-lucide="play" id="salsa-icon" class="w-3.5 h-3.5"></i>
+        <span class="hidden sm:flex items-end gap-[2px] h-3" id="salsa-eq" aria-hidden="true">
+          <span class="w-[2px] bg-salsa-orange" style="height:40%"></span>
+          <span class="w-[2px] bg-salsa-orange" style="height:100%"></span>
+          <span class="w-[2px] bg-salsa-orange" style="height:60%"></span>
+          <span class="w-[2px] bg-salsa-orange" style="height:85%"></span>
+        </span>
+        <span class="whitespace-nowrap" id="salsa-label">Poné salsa 🎺</span>
+      </button>
+      <input
+        id="salsa-vol"
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.6"
+        aria-label="Volumen"
+        class="hidden md:block w-16 accent-black cursor-pointer"
+      />
+    </div>
+
+    <!-- Audio: Yo Soy Cali Salsa (stream en vivo) -->
+    <audio id="salsa-audio" preload="none" crossorigin="anonymous" class="hidden"></audio>
   </div>
 
   <nav class="fixed top-10 left-0 right-0 z-40 bg-salsa-dark/90 backdrop-blur-xl border-b border-salsa-border">
@@ -1011,6 +1046,68 @@ curl -O https://s3.openchuspa.xyz/prod-chuspa-name/test/archivo.pdf`,
         if (text) copyText(text);
       });
     });
+
+    // Reproductor de salsa
+    setupSalsaPlayer();
+  }
+
+  // ====== Reproductor de salsa (Yo Soy Cali Salsa, stream en vivo) ======
+  const SALSA_STREAM = 'https://stream.integracionvirtual.com/proxy/yosoycalisalsa?mp=/stream';
+
+  function setupSalsaPlayer() {
+    const audio = $('salsa-audio') as HTMLAudioElement | null;
+    const toggle = $('salsa-toggle');
+    const icon = $('salsa-icon');
+    const label = $('salsa-label');
+    const eq = $('salsa-eq');
+    const vol = $('salsa-vol') as HTMLInputElement | null;
+    if (!audio || !toggle) return;
+
+    audio.volume = vol ? parseFloat(vol.value) : 0.6;
+
+    const setPlayingUI = (playing: boolean) => {
+      if (label) label.textContent = playing ? 'Sonando salsa' : 'Poné salsa 🎺';
+      if (eq) eq.classList.toggle('is-playing', playing);
+      if (icon) {
+        icon.setAttribute('data-lucide', playing ? 'pause' : 'play');
+        // @ts-ignore - re-render de iconos lucide
+        window.lucide?.createIcons?.();
+      }
+    };
+
+    const play = async () => {
+      // Cache-buster para evitar que el navegador sirva un buffer viejo del stream
+      if (!audio.src) audio.src = `${SALSA_STREAM}&_t=${Date.now()}`;
+      try {
+        await audio.play();
+      } catch {
+        // Autoplay bloqueado: quedará listo para el primer gesto del usuario
+      }
+    };
+
+    toggle.addEventListener('click', () => {
+      if (audio.paused) play();
+      else audio.pause();
+    });
+
+    audio.addEventListener('playing', () => setPlayingUI(true));
+    audio.addEventListener('pause', () => setPlayingUI(false));
+    audio.addEventListener('ended', () => setPlayingUI(false));
+
+    vol?.addEventListener('input', () => {
+      audio.volume = parseFloat(vol.value);
+    });
+
+    // Intento de autoplay al entrar; si el navegador lo bloquea,
+    // arranca con el primer gesto (click / tecla / scroll / touch).
+    play();
+    const kickstart = () => {
+      if (audio.paused) play();
+    };
+    const once = { once: true } as AddEventListenerOptions;
+    window.addEventListener('pointerdown', kickstart, once);
+    window.addEventListener('keydown', kickstart, once);
+    window.addEventListener('touchstart', kickstart, once);
   }
 
   if (document.readyState === 'loading') {
