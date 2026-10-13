@@ -7,7 +7,7 @@ import Icon from './Icon.astro';
   role="status"
   aria-live="polite"
   data-visible="false"
-  class="pointer-events-none fixed inset-x-4 bottom-20 z-50 flex translate-y-20 items-center gap-3 rounded-xl border border-salsa-orange/40 bg-salsa-card px-5 py-3.5 font-mono text-xs text-ink opacity-0 shadow-sm transition-all duration-300 data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100 sm:inset-x-auto sm:right-6 sm:bottom-24"
+  class="pointer-events-none fixed inset-x-4 bottom-20 z-50 flex translate-y-20 items-center gap-3 rounded-2xl border border-salsa-orange/40 bg-salsa-card px-5 py-3.5 font-mono text-xs text-white opacity-0 shadow-2xl transition-all duration-300 data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100 sm:inset-x-auto sm:right-6 sm:bottom-24"
 >
   <Icon name="Sparkles" class="size-4 text-salsa-orange" />
   <span id="toast-msg"></span>
@@ -38,7 +38,7 @@ import Icon from './Icon.astro';
       document.execCommand('copy');
       textarea.remove();
     }
-    showToast('¡Copiado al portapapeles, mi llave!');
+    showToast('¡Copiado al portapapeles, mi llave! 🚀');
   }
 
   // Cualquier script de la página puede avisar algo: document.dispatchEvent(new CustomEvent('toast', { detail }))

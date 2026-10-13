@@ -1,26 +1,18 @@
 ---
 import Icon from './Icon.astro';
 import { navLinks } from '../data/site';
-
-// En la home los anchors (#...) funcionan directo; en otras páginas (ej. /docs)
-// deben apuntar a /#ancla para volver a la portada y hacer scroll.
-const isHome = Astro.url.pathname === '/';
-const links = navLinks.map((l) => ({
-  ...l,
-  href: l.href.startsWith('#') && !isHome ? `/${l.href}` : l.href,
-}));
 ---
 
 <header class="site-header inset-x-0 top-0 z-40">
   <!-- Aviso en construcción + reproductor de salsa -->
   <div
-    class="flex h-(--banner-h) items-center justify-between gap-3 border-b border-line bg-surface px-3 font-mono text-[11px] tracking-wide text-muted sm:px-4 sm:text-xs"
+    class="flex h-(--banner-h) items-center justify-between gap-3 bg-salsa-orange px-3 font-mono text-[11px] font-bold tracking-wide text-black sm:px-4 sm:text-xs"
   >
     <p class="flex min-w-0 items-center gap-2">
-      <Icon name="Construction" class="size-3.5 text-salsa-orange" />
-      <span class="truncate sm:hidden">En construcción</span>
+      <Icon name="Construction" class="size-4" />
+      <span class="truncate sm:hidden">Sitio en construcción</span>
       <span class="hidden truncate sm:inline"
-        >En construcción — demo visual, aún no funciona de verdad. Pero ya suena salsa, parce.</span
+        >Sitio en construcción — demo visual, aún no funciona de verdad. ¡Pero ya suena salsa, parce!</span
       >
     </p>
 
@@ -32,7 +24,7 @@ const links = navLinks.map((l) => ({
         aria-label="Reproducir salsa en vivo"
         title="Reproducir salsa en vivo"
         aria-pressed="false"
-        class="group flex h-7 items-center gap-1.5 rounded-full border border-line px-3 text-ink transition-colors hover:border-salsa-orange hover:text-salsa-orange data-[state=loading]:cursor-progress data-[state=playing]:border-salsa-orange data-[state=playing]:text-salsa-orange"
+        class="group flex h-8 items-center gap-1.5 rounded-full bg-black/85 px-3 text-salsa-orange ring-black/25 transition hover:bg-black hover:ring-4 data-[state=loading]:cursor-progress"
       >
         <Icon name="Play" class="size-3.5 group-data-[state=loading]:hidden group-data-[state=playing]:hidden" />
         <Icon name="LoaderCircle" class="hidden size-3.5 animate-spin group-data-[state=loading]:block" />
@@ -44,7 +36,7 @@ const links = navLinks.map((l) => ({
             ))
           }
         </span>
-        <span id="salsa-label" class="whitespace-nowrap">Poné salsa</span>
+        <span id="salsa-label" class="whitespace-nowrap">Poné salsa 🎺</span>
       </button>
       <input
         id="salsa-vol"
@@ -54,7 +46,7 @@ const links = navLinks.map((l) => ({
         step="0.01"
         value="0.6"
         aria-label="Volumen"
-        class="hidden w-16 cursor-pointer accent-salsa-orange md:block"
+        class="hidden w-16 cursor-pointer accent-black md:block"
       />
     </div>
 
@@ -62,35 +54,40 @@ const links = navLinks.map((l) => ({
     <audio id="salsa-audio" preload="none"></audio>
   </div>
 
-  <nav aria-label="Principal" class="border-b border-line bg-bg/85 backdrop-blur-xl">
+  <nav aria-label="Principal" class="border-b border-salsa-border bg-salsa-dark/90 backdrop-blur-xl">
     <div class="container-page flex h-(--nav-h) items-center justify-between gap-3">
-      <a href="/" aria-label="openchuspa.xyz, ir al inicio" class="min-w-0 font-serif text-lg tracking-tight text-ink transition-opacity hover:opacity-70">
-        openchuspa<span class="text-muted"> / </span><span class="text-muted">xyz</span>
+      <a href="#" aria-label="openchuspa.xyz, ir al inicio" class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
+        <span
+          class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-salsa-orange/60 bg-salsa-dark lg:size-10"
+        >
+          <Icon name="ShoppingBag" class="size-5 text-salsa-orange" />
+        </span>
+        <span class="min-w-0">
+          <span class="block truncate text-xl font-black tracking-tight text-white lg:text-2xl"
+            >open<span class="text-salsa-orange">chuspa</span><span class="text-zinc-400">.xyz</span></span
+          >
+          <span class="-mt-0.5 hidden font-mono text-[10px] tracking-widest text-zinc-400 uppercase min-[360px]:block"
+            >S3 Caleño Engine</span
+          >
+        </span>
       </a>
 
-      <div class="hidden items-center gap-7 text-sm text-muted lg:flex">
-        {links.map((l) => <a href={l.href} class="nav-link">{l.label}</a>)}
-        <a href="https://github.com/OpenChuspa" class="nav-link">github</a>
+      <div class="hidden items-center gap-6 text-sm font-semibold text-zinc-300 lg:flex xl:gap-8">
+        {navLinks.map((l) => <a href={l.href} class="nav-link">{l.label}</a>)}
       </div>
 
-      <div class="flex shrink-0 items-center gap-1">
-        <button
-          id="theme-toggle"
-          type="button"
-          aria-label="Cambiar entre modo noche y día"
-          title="Cambiar tema"
-          class="flex size-9 items-center justify-center rounded-lg text-muted transition-colors hover:text-salsa-orange"
-        >
-          <Icon name="Moon" class="size-[18px] theme-icon-dark" />
-          <Icon name="Sun" class="size-[18px] theme-icon-light" />
-        </button>
+      <div class="flex shrink-0 items-center gap-2">
+        <a href="#playground" class="btn-primary hidden px-4 py-2.5 text-sm sm:inline-flex">
+          <Icon name="Terminal" class="size-4" />
+          <span>Abrir Consola Caleña</span>
+        </a>
         <button
           id="menu-toggle"
           type="button"
           aria-label="Abrir menú"
           aria-expanded="false"
           aria-controls="mobile-menu"
-          class="group flex size-9 items-center justify-center rounded-lg text-muted transition-colors hover:text-salsa-orange lg:hidden"
+          class="group flex size-10 items-center justify-center rounded-xl border border-salsa-border text-zinc-200 transition-colors hover:border-salsa-orange hover:bg-salsa-card hover:text-salsa-orange lg:hidden"
         >
           <Icon name="Menu" class="size-5 group-aria-expanded:hidden" />
           <Icon name="X" class="hidden size-5 group-aria-expanded:block" />
@@ -98,19 +95,22 @@ const links = navLinks.map((l) => ({
       </div>
     </div>
 
-    <div id="mobile-menu" hidden class="border-t border-line lg:hidden">
+    <div id="mobile-menu" hidden class="border-t border-salsa-border lg:hidden">
       <div class="container-page flex max-h-[calc(100dvh-var(--header-h))] flex-col overflow-y-auto py-3">
         {
-          links.map((l) => (
+          navLinks.map((l) => (
             <a
               href={l.href}
-              class="rounded-lg px-3 py-3 text-muted transition-colors hover:bg-surface aria-[current=true]:text-salsa-orange"
+              class="rounded-lg px-3 py-3 font-semibold text-zinc-200 transition-colors hover:bg-salsa-card active:bg-salsa-border aria-[current=true]:bg-salsa-card aria-[current=true]:text-salsa-orange"
             >
               {l.label}
             </a>
           ))
         }
-        <a href="https://github.com/OpenChuspa" class="rounded-lg px-3 py-3 text-muted transition-colors hover:bg-surface">github</a>
+        <a href="#playground" class="btn-primary mt-2 px-4 py-3 text-sm sm:hidden">
+          <Icon name="Terminal" class="size-4" />
+          <span>Abrir Consola Caleña</span>
+        </a>
       </div>
     </div>
   </nav>
@@ -138,23 +138,6 @@ const links = navLinks.map((l) => ({
   // Al pasar a escritorio el menú móvil no debe quedar abierto.
   window.matchMedia('(width >= 64rem)').addEventListener('change', () => setMenu(false));
 
-  // ====== Modo noche / día ======
-  const themeToggle = document.getElementById('theme-toggle');
-  const THEME_META = document.querySelector('meta[name="theme-color"]');
-  function applyTheme(theme: 'dark' | 'light') {
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem('chuspa-theme', theme);
-    } catch {
-      /* almacenamiento no disponible: el tema vale solo para esta sesión */
-    }
-    THEME_META?.setAttribute('content', theme === 'light' ? '#faf9f6' : '#0a0a0a');
-  }
-  themeToggle?.addEventListener('click', () => {
-    const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
-    applyTheme(current === 'light' ? 'dark' : 'light');
-  });
-
   // ====== Sección activa en la navegación ======
   const spyLinks = [...document.querySelectorAll<HTMLAnchorElement>('.site-header a[href^="#"]:not([href="#"])')];
   const spy = new IntersectionObserver(
@@ -179,7 +162,7 @@ const links = navLinks.map((l) => ({
 
   type PlayerState = 'idle' | 'loading' | 'playing' | 'error';
   const PLAYER_UI: Record<PlayerState, { label: string; hint: string }> = {
-    idle: { label: 'Poné salsa', hint: 'Reproducir salsa en vivo' },
+    idle: { label: 'Poné salsa 🎺', hint: 'Reproducir salsa en vivo' },
     loading: { label: 'Cargando…', hint: 'Conectando con la emisora (clic para cancelar)' },
     playing: { label: 'Sonando salsa', hint: 'Pausar la salsa' },
     error: { label: 'Reintentar', hint: 'No se pudo conectar con la emisora. Clic para reintentar' },
@@ -219,7 +202,7 @@ const links = navLinks.map((l) => ({
       setState(byUser ? 'error' : 'idle');
       release();
       if (byUser) {
-        document.dispatchEvent(new CustomEvent('toast', { detail: 'No se pudo conectar con la emisora. Probá de nuevo' }));
+        document.dispatchEvent(new CustomEvent('toast', { detail: 'No se pudo conectar con la emisora. Probá de nuevo 📻' }));
       }
     };
 

@@ -4,7 +4,7 @@ import SectionHeader from './SectionHeader.astro';
 import { sdkSnippets } from '../data/site';
 ---
 
-<section id="sdks" class="py-16 sm:py-24">
+<section id="sdks" class="border-t border-salsa-border bg-salsa-card/60 py-16 sm:py-20">
   <div class="container-page">
     <SectionHeader
       eyebrow="Compatibilidad Total"
@@ -12,12 +12,12 @@ import { sdkSnippets } from '../data/site';
       description="Usá tus librerías de programación favoritas configurando el Endpoint de OpenChuspa."
     />
 
-    <div>
-      <!-- Pestañas de texto, sin caja; la activa se subraya en naranja -->
+    <div class="overflow-hidden rounded-2xl border-2 border-salsa-border bg-salsa-card shadow-2xl sm:rounded-3xl">
+      <!-- En móvil las pestañas se desplazan en horizontal en lugar de apilarse -->
       <div
         role="tablist"
         aria-label="Lenguaje o herramienta"
-        class="flex gap-6 overflow-x-auto border-b border-line pb-px"
+        class="flex gap-2 overflow-x-auto border-b border-salsa-border bg-salsa-dark p-3 sm:flex-wrap"
       >
         {
           sdkSnippets.map((s, i) => (
@@ -29,7 +29,7 @@ import { sdkSnippets } from '../data/site';
               aria-selected={i === 0 ? 'true' : 'false'}
               tabindex={i === 0 ? 0 : -1}
               data-title={s.title}
-              class="sdk-tab shrink-0 border-b-2 border-transparent pb-3 font-mono text-xs whitespace-nowrap text-muted transition-colors hover:text-ink aria-selected:border-salsa-orange aria-selected:text-ink"
+              class="sdk-tab shrink-0 rounded-xl bg-salsa-card px-4 py-2.5 font-mono text-xs font-bold whitespace-nowrap text-zinc-300 transition-colors hover:bg-salsa-border aria-selected:bg-salsa-orange aria-selected:text-white sm:px-5"
             >
               {s.tab}
             </button>
@@ -37,16 +37,16 @@ import { sdkSnippets } from '../data/site';
         }
       </div>
 
-      <div class="mt-6 font-mono text-xs sm:text-sm">
-        <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
-          <span id="sdk-title" class="min-w-0 text-muted">{sdkSnippets[0].title}</span>
+      <div class="bg-salsa-dark p-4 font-mono text-xs sm:p-6 sm:text-sm">
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <span id="sdk-title" class="min-w-0 font-bold text-zinc-300">{sdkSnippets[0].title}</span>
           <button
             type="button"
             data-copy-target="#sdks [role=tabpanel]:not([hidden]) code"
-            class="flex shrink-0 items-center gap-1.5 text-xs text-muted transition-colors hover:text-salsa-orange"
+            class="flex shrink-0 items-center gap-1.5 rounded-lg bg-salsa-border px-3 py-2 text-xs font-bold text-zinc-300 transition-colors hover:bg-salsa-orange hover:text-white"
           >
             <Icon name="Copy" class="size-3.5" />
-            <span>Copiar</span>
+            <span>Copiar Código</span>
           </button>
         </div>
 
@@ -58,7 +58,7 @@ import { sdkSnippets } from '../data/site';
               aria-labelledby={`tab-${s.key}`}
               tabindex="0"
               hidden={i !== 0}
-              class="overflow-x-auto rounded-xl border border-line bg-surface p-4 leading-relaxed text-ink sm:p-5"
+              class="overflow-x-auto rounded-xl border border-salsa-border bg-black/50 p-4 leading-relaxed text-zinc-200 sm:rounded-2xl sm:p-5"
             ><code>{s.code}</code></pre>
           ))
         }
