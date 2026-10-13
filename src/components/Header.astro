@@ -20,13 +20,15 @@ import { navLinks } from '../data/site';
       <button
         id="salsa-toggle"
         type="button"
-        data-playing="false"
-        aria-label="Reproducir / pausar salsa"
+        data-state="idle"
+        aria-label="Reproducir salsa en vivo"
+        title="Reproducir salsa en vivo"
         aria-pressed="false"
-        class="group flex h-8 items-center gap-1.5 rounded-full bg-black/85 px-3 text-salsa-orange transition-colors hover:bg-black"
+        class="group flex h-8 items-center gap-1.5 rounded-full bg-black/85 px-3 text-salsa-orange ring-black/25 transition hover:bg-black hover:ring-4 data-[state=loading]:cursor-progress"
       >
-        <Icon name="Play" class="size-3.5 group-data-[playing=true]:hidden" />
-        <Icon name="Pause" class="hidden size-3.5 group-data-[playing=true]:block" />
+        <Icon name="Play" class="size-3.5 group-data-[state=loading]:hidden group-data-[state=playing]:hidden" />
+        <Icon name="LoaderCircle" class="hidden size-3.5 animate-spin group-data-[state=loading]:block" />
+        <Icon name="Pause" class="hidden size-3.5 group-data-[state=playing]:block" />
         <span class="hidden h-3 items-end gap-[2px] sm:flex" aria-hidden="true">
           {
             [40, 100, 60, 85].map((h, i) => (
@@ -54,7 +56,7 @@ import { navLinks } from '../data/site';
 
   <nav aria-label="Principal" class="border-b border-salsa-border bg-salsa-dark/90 backdrop-blur-xl">
     <div class="container-page flex h-(--nav-h) items-center justify-between gap-3">
-      <a href="#" class="flex min-w-0 items-center gap-2.5 sm:gap-3">
+      <a href="#" aria-label="openchuspa.xyz, ir al inicio" class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
         <span
           class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-salsa-orange/60 bg-salsa-dark lg:size-10"
         >
@@ -71,7 +73,7 @@ import { navLinks } from '../data/site';
       </a>
 
       <div class="hidden items-center gap-6 text-sm font-semibold text-zinc-300 lg:flex xl:gap-8">
-        {navLinks.map((l) => <a href={l.href} class="transition-colors hover:text-salsa-orange">{l.label}</a>)}
+        {navLinks.map((l) => <a href={l.href} class="nav-link">{l.label}</a>)}
       </div>
 
       <div class="flex shrink-0 items-center gap-2">
@@ -85,7 +87,7 @@ import { navLinks } from '../data/site';
           aria-label="Abrir menú"
           aria-expanded="false"
           aria-controls="mobile-menu"
-          class="group flex size-10 items-center justify-center rounded-xl border border-salsa-border text-zinc-200 hover:bg-salsa-card lg:hidden"
+          class="group flex size-10 items-center justify-center rounded-xl border border-salsa-border text-zinc-200 transition-colors hover:border-salsa-orange hover:bg-salsa-card hover:text-salsa-orange lg:hidden"
         >
           <Icon name="Menu" class="size-5 group-aria-expanded:hidden" />
           <Icon name="X" class="hidden size-5 group-aria-expanded:block" />
@@ -97,7 +99,10 @@ import { navLinks } from '../data/site';
       <div class="container-page flex max-h-[calc(100dvh-var(--header-h))] flex-col overflow-y-auto py-3">
         {
           navLinks.map((l) => (
-            <a href={l.href} class="rounded-lg px-3 py-3 font-semibold text-zinc-200 hover:bg-salsa-card">
+            <a
+              href={l.href}
+              class="rounded-lg px-3 py-3 font-semibold text-zinc-200 transition-colors hover:bg-salsa-card active:bg-salsa-border aria-[current=true]:bg-salsa-card aria-[current=true]:text-salsa-orange"
+            >
               {l.label}
             </a>
           ))
@@ -133,8 +138,35 @@ import { navLinks } from '../data/site';
   // Al pasar a escritorio el menú móvil no debe quedar abierto.
   window.matchMedia('(width >= 64rem)').addEventListener('change', () => setMenu(false));
 
+  // ====== Sección activa en la navegación ======
+  const spyLinks = [...document.querySelectorAll<HTMLAnchorElement>('.site-header a[href^="#"]:not([href="#"])')];
+  const spy = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        for (const link of spyLinks) {
+          if (link.classList.contains('btn-primary')) continue;
+          if (link.hash === `#${entry.target.id}`) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        }
+      }
+    },
+    // Una sección está "activa" cuando cruza la franja central de la pantalla
+    { rootMargin: '-45% 0px -50% 0px' }
+  );
+  document.querySelectorAll('main section[id]').forEach((section) => spy.observe(section));
+
   // ====== Reproductor de salsa (Yo Soy Cali Salsa, stream en vivo) ======
   const SALSA_STREAM = 'https://stream.integracionvirtual.com/proxy/yosoycalisalsa?mp=/stream';
+  const LOAD_TIMEOUT_MS = 15_000;
+
+  type PlayerState = 'idle' | 'loading' | 'playing' | 'error';
+  const PLAYER_UI: Record<PlayerState, { label: string; hint: string }> = {
+    idle: { label: 'Poné salsa 🎺', hint: 'Reproducir salsa en vivo' },
+    loading: { label: 'Cargando…', hint: 'Conectando con la emisora (clic para cancelar)' },
+    playing: { label: 'Sonando salsa', hint: 'Pausar la salsa' },
+    error: { label: 'Reintentar', hint: 'No se pudo conectar con la emisora. Clic para reintentar' },
+  };
 
   const audio = document.getElementById('salsa-audio') as HTMLAudioElement | null;
   const toggle = document.getElementById('salsa-toggle');
@@ -142,44 +174,81 @@ import { navLinks } from '../data/site';
   const vol = document.getElementById('salsa-vol') as HTMLInputElement | null;
 
   if (audio && toggle) {
+    let state: PlayerState = 'idle';
+    let loadTimer: number | undefined;
+    let byUser = false; // un intento automático que falla no molesta: vuelve a reposo sin avisar
     audio.volume = vol ? parseFloat(vol.value) : 0.6;
 
-    const setPlayingUI = (playing: boolean) => {
-      toggle.dataset.playing = String(playing);
-      toggle.setAttribute('aria-pressed', String(playing));
-      if (label) label.textContent = playing ? 'Sonando salsa' : 'Poné salsa 🎺';
+    const setState = (next: PlayerState) => {
+      state = next;
+      toggle.dataset.state = next;
+      toggle.setAttribute('aria-pressed', String(next === 'playing'));
+      toggle.setAttribute('aria-busy', String(next === 'loading'));
+      toggle.setAttribute('aria-label', PLAYER_UI[next].hint);
+      toggle.title = PLAYER_UI[next].hint;
+      if (label) label.textContent = PLAYER_UI[next].label;
+      window.clearTimeout(loadTimer);
+      if (next === 'loading') loadTimer = window.setTimeout(fail, LOAD_TIMEOUT_MS);
     };
 
-    const play = async () => {
-      // Cache-buster para evitar que el navegador sirva un buffer viejo del stream
-      if (!audio.src) audio.src = `${SALSA_STREAM}&_t=${Date.now()}`;
+    // Suelta la conexión: al volver a darle play se engancha al directo, no a un buffer viejo.
+    const release = () => {
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.load();
+    };
+
+    const fail = () => {
+      setState(byUser ? 'error' : 'idle');
+      release();
+      if (byUser) {
+        document.dispatchEvent(new CustomEvent('toast', { detail: 'No se pudo conectar con la emisora. Probá de nuevo 📻' }));
+      }
+    };
+
+    const start = async (fromUser: boolean) => {
+      byUser = fromUser;
+      setState('loading');
+      audio.src = `${SALSA_STREAM}&_t=${Date.now()}`;
       try {
         await audio.play();
-      } catch {
-        // Autoplay bloqueado: quedará listo para el primer gesto del usuario
+      } catch (err) {
+        if (state !== 'loading') return; // el usuario canceló o ya se reportó el fallo
+        // Incluye el autoplay bloqueado por el navegador: queda listo para el primer gesto
+        fail();
       }
     };
 
     toggle.addEventListener('click', () => {
-      if (audio.paused) play();
-      else audio.pause();
+      if (state === 'idle' || state === 'error') start(true);
+      else {
+        setState('idle');
+        release();
+      }
     });
 
-    audio.addEventListener('playing', () => setPlayingUI(true));
-    audio.addEventListener('pause', () => setPlayingUI(false));
-    audio.addEventListener('ended', () => setPlayingUI(false));
+    audio.addEventListener('playing', () => {
+      if (state !== 'idle') setState('playing');
+    });
+    audio.addEventListener('waiting', () => {
+      if (state === 'playing') setState('loading');
+    });
+    audio.addEventListener('error', () => {
+      if (state === 'loading' || state === 'playing') fail();
+    });
     vol?.addEventListener('input', () => {
       audio.volume = parseFloat(vol.value);
     });
 
-    // Intento de autoplay al entrar; si el navegador lo bloquea,
-    // arranca con el primer gesto (click / tecla / touch).
-    play();
-    const kickstart = () => {
-      if (audio.paused) play();
+    // Intento de autoplay al entrar; si el navegador lo bloquea, arranca con el
+    // primer gesto en la página. Solo una vez, y nunca si ese gesto es sobre el
+    // propio botón (ahí manda el clic) para no encender y apagar en el mismo toque.
+    start(false);
+    const GESTURES = ['pointerdown', 'keydown'];
+    const kickstart = (e: Event) => {
+      GESTURES.forEach((g) => window.removeEventListener(g, kickstart));
+      if (state === 'idle' && !toggle.contains(e.target as Node) && !vol?.contains(e.target as Node)) start(false);
     };
-    for (const evt of ['pointerdown', 'keydown', 'touchstart']) {
-      window.addEventListener(evt, kickstart, { once: true });
-    }
+    GESTURES.forEach((g) => window.addEventListener(g, kickstart));
   }
 </script>

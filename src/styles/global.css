@@ -70,6 +70,64 @@ body {
   outline-offset: 2px;
 }
 
+/* ====== Señales de interacción ======
+   Tailwind v4 no pone cursor de mano en los botones: se declara aquí una sola vez. */
+@layer base {
+  button,
+  select,
+  summary,
+  [role='tab'],
+  label[for],
+  input[type='range'] {
+    cursor: pointer;
+  }
+
+  :disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Respuesta táctil: todo lo pulsable se hunde un poco al presionarlo */
+  button:active:not(:disabled),
+  a.btn-primary:active {
+    scale: 0.97;
+  }
+}
+
+.nav-link {
+  position: relative;
+  padding-block: 0.5rem;
+  transition: color 0.15s;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-salsa-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s;
+}
+
+.nav-link:hover,
+.nav-link[aria-current='true'] {
+  color: var(--color-salsa-orange);
+}
+
+.nav-link:hover::after,
+.nav-link[aria-current='true']::after {
+  transform: scaleX(1);
+}
+
 /* En pantallas muy bajas (móvil apaisado) la cabecera deja de ser fija
    para no comerse un tercio del alto útil. */
 .site-header {
@@ -96,7 +154,7 @@ body {
 }
 
 @utility btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl bg-salsa-orange font-bold text-white transition-colors hover:bg-salsa-orange/90;
+  @apply inline-flex items-center justify-center gap-2 rounded-xl bg-salsa-orange font-bold text-white transition hover:bg-[#ff7d1f] hover:shadow-lg hover:shadow-salsa-orange/30;
 }
 
 @utility code-box {
@@ -125,7 +183,7 @@ body {
   }
 }
 
-[data-playing='true'] .eq-bar {
+[data-state='playing'] .eq-bar {
   transform-origin: bottom;
   animation: eqBounce 0.6s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.15s);

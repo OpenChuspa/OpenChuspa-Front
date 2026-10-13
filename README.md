@@ -57,7 +57,7 @@ src/
     Hero.astro             #   incluye a El Parchao, la mascota (src/assets/el-parchao.webp)
     Playground.astro       #   terminal simulada (estado en memoria)
     Commands.astro, Glossary.astro, Generator.astro, Sdks.astro, SelfHosted.astro
-    Footer.astro, Toast.astro, Icon.astro, SectionHeader.astro
+    Footer.astro, Toast.astro, BackToTop.astro, Icon.astro, SectionHeader.astro
   data/
     constants.ts           # endpoint, región y valores compartidos con los scripts
     site.ts                # contenido: navegación, comandos, glosario y snippets de SDK
@@ -71,4 +71,7 @@ astro.config.mjs           # site, adaptador Vercel y plugin Tailwind
 - Paleta: blanco y negro (`zinc-*`) con `salsa-orange` como único acento.
 - La salida de la terminal se construye con `textContent`, nunca con `innerHTML`, para que lo que escriba el usuario no se interprete como HTML.
 - Botones de copiar: `data-copy="texto"` o `data-copy-target="selector"`; los gestiona `Toast.astro`.
+- Avisos: cualquier script puede mostrar un toast con `document.dispatchEvent(new CustomEvent('toast', { detail: 'mensaje' }))`.
+- Botones que ejecutan un comando en la terminal simulada: clase `js-run-cmd` y `data-cmd="comando"`, desde cualquier sección.
+- Interacción: el cursor de mano, el efecto al presionar y el subrayado de la navegación se definen una sola vez en `global.css`.
 - Responsive: la cabecera fija mide `--header-h` (definida en `global.css`); los anclajes la descuentan con `scroll-padding-top`.

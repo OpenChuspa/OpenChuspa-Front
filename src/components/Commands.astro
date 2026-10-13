@@ -17,7 +17,7 @@ import { commands } from '../data/site';
         commands.map((c) => (
           <li
             class:list={[
-              'flex min-w-0 flex-col rounded-2xl border border-salsa-border bg-salsa-card p-5 transition-colors sm:rounded-3xl sm:p-6',
+              'flex min-w-0 flex-col rounded-2xl border border-salsa-border bg-salsa-card p-5 transition duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40 sm:rounded-3xl sm:p-6',
               c.danger ? 'hover:border-red-400' : 'hover:border-salsa-orange',
             ]}
           >
@@ -35,6 +35,25 @@ import { commands } from '../data/site';
             <h3 class="mb-2 text-xl font-black text-white">{c.name}</h3>
             <p class="mb-4 grow text-sm text-zinc-400">{c.description}</p>
             <code class:list={['code-box block', c.danger ? 'text-red-400' : 'text-zinc-200']}>{c.example}</code>
+            <div class="mt-3 flex gap-2 font-mono text-xs font-bold">
+              <button
+                type="button"
+                data-cmd={c.example}
+                class="js-run-cmd flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-salsa-border px-3 py-2.5 text-zinc-200 transition-colors hover:border-salsa-orange hover:bg-salsa-orange hover:text-white"
+              >
+                <Icon name="Terminal" class="size-3.5" />
+                <span>Probar en la terminal</span>
+              </button>
+              <button
+                type="button"
+                data-copy={c.example}
+                aria-label={`Copiar el comando ${c.name}`}
+                title="Copiar comando"
+                class="flex items-center justify-center rounded-lg border border-salsa-border px-3 py-2.5 text-zinc-300 transition-colors hover:border-salsa-orange hover:text-salsa-orange"
+              >
+                <Icon name="Copy" class="size-3.5" />
+              </button>
+            </div>
           </li>
         ))
       }

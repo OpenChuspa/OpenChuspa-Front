@@ -30,6 +30,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
   </head>
   <body class="min-h-dvh font-sans text-zinc-100 antialiased selection:bg-salsa-orange selection:text-white">
+    <a
+      href="#contenido"
+      class="sr-only z-50 rounded-lg bg-salsa-orange px-4 py-2 font-bold text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+      >Saltar al contenido</a
+    >
     <slot />
   </body>
 </html>

@@ -38,7 +38,7 @@ import { quickCommands } from '../data/site';
             <button
               type="button"
               data-cmd={q.cmd}
-              class="js-run-cmd max-w-full truncate rounded-lg border border-salsa-border bg-salsa-dark px-3 py-2 text-zinc-300 hover:border-salsa-orange hover:text-salsa-orange"
+              class="js-run-cmd max-w-full truncate rounded-lg border border-salsa-border bg-salsa-dark px-3 py-2 text-zinc-300 transition-colors hover:border-salsa-orange hover:bg-salsa-orange/10 hover:text-salsa-orange"
             >
               {i + 1}. {q.label}
             </button>
@@ -57,13 +57,13 @@ import { quickCommands } from '../data/site';
             aria-live="polite"
             aria-label="Salida de la terminal"
             tabindex="0"
-            class="h-64 space-y-3 overflow-y-auto pr-2 break-words sm:h-80 lg:h-[360px]"
+            class="h-64 cursor-text space-y-3 overflow-y-auto pr-2 break-words sm:h-80 lg:h-[360px]"
           >
             <p class="text-zinc-500">
               OpenChuspa CLI {CLI_VERSION} (compatible con AWS CLI)<br />
               Escribí <span class="text-salsa-orange">'ayuda'</span> o probá comandos como
               <span class="text-zinc-300">'ve mira'</span>, <span class="text-zinc-300">'ve subi'</span>,
-              <span class="text-zinc-300">'ve baja'</span>.
+              <span class="text-zinc-300">'ve baja'</span>. Con ↑ y ↓ recorrés el historial.
             </p>
           </div>
 
@@ -194,6 +194,8 @@ import { quickCommands } from '../data/site';
     ['ve subi ./file a chuspa://nombre/path/', 'Subir archivo'],
     ['ve baja chuspa://nombre/path/file .', 'Descargar archivo'],
     ['ve borra chuspa://nombre/path/file', 'Eliminar archivo'],
+    ['ve sincroniza ./carpeta chuspa://nombre/', 'Sincronizar carpeta'],
+    ['limpiar', 'Limpiar la pantalla'],
   ];
 
   function respond(cmd: string): HTMLElement[] {
@@ -255,6 +257,13 @@ import { quickCommands } from '../data/site';
       ];
     }
 
+    if (cmd.startsWith('ve sincroniza')) {
+      return [
+        line(['Sincronizando con la chuspa... 🔄', 'muted', true]),
+        line('Carpeta al día: local y remoto quedaron igualitos. ¡Qué chimba!'),
+      ];
+    }
+
     if (cmd.startsWith('ve borra')) {
       return [line(['Objeto borrado de la chuspa. ¡Limpieza caleña efectuada!', 'error'])];
     }
@@ -264,6 +273,10 @@ import { quickCommands } from '../data/site';
 
   function runCommand(cmd: string) {
     if (!screen) return;
+    if (cmd === 'limpiar') {
+      screen.replaceChildren();
+      return;
+    }
     screen.append(
       el('div', 'mt-3 font-bold text-white', el('span', 'text-zinc-400', `${PROMPT} `), cmd),
       el('div', 'my-1 space-y-0.5 border-l-2 border-salsa-orange pl-4 whitespace-pre-wrap text-zinc-300', ...respond(cmd))
@@ -274,17 +287,39 @@ import { quickCommands } from '../data/site';
   renderChuspas();
 
   const input = document.getElementById('terminal-input') as HTMLInputElement | null;
+  const history: string[] = [];
+  let cursor = 0;
+
   document.getElementById('terminal-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const cmd = input?.value.trim();
     if (!cmd || !input) return;
     runCommand(cmd);
+    history.push(cmd);
+    cursor = history.length;
     input.value = '';
   });
 
+  // Flechas arriba/abajo recorren el historial, como en una terminal de verdad
+  input?.addEventListener('keydown', (e) => {
+    const step = e.key === 'ArrowUp' ? -1 : e.key === 'ArrowDown' ? 1 : 0;
+    if (!step || !history.length) return;
+    e.preventDefault();
+    cursor = Math.min(Math.max(cursor + step, 0), history.length);
+    input.value = history[cursor] ?? '';
+  });
+
+  // Clic en la pantalla = escribir (salvo que se esté seleccionando texto)
+  screen?.addEventListener('click', () => {
+    if (!window.getSelection()?.toString()) input?.focus({ preventScroll: true });
+  });
+
+  // Atajos de la terminal y botones "Probar" del resto de la página
   document.querySelectorAll<HTMLElement>('.js-run-cmd').forEach((btn) => {
     btn.addEventListener('click', () => {
-      if (btn.dataset.cmd) runCommand(btn.dataset.cmd);
+      if (!btn.dataset.cmd) return;
+      runCommand(btn.dataset.cmd);
+      if (!btn.closest('#playground')) screen?.scrollIntoView({ block: 'center' });
     });
   });
 </script>

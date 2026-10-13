@@ -7,7 +7,7 @@ import Icon from './Icon.astro';
   role="status"
   aria-live="polite"
   data-visible="false"
-  class="pointer-events-none fixed inset-x-4 bottom-4 z-50 flex translate-y-20 items-center gap-3 rounded-2xl border border-salsa-orange/40 bg-salsa-card px-5 py-3.5 font-mono text-xs text-white opacity-0 shadow-2xl transition-all duration-300 data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100 sm:inset-x-auto sm:right-6 sm:bottom-6"
+  class="pointer-events-none fixed inset-x-4 bottom-20 z-50 flex translate-y-20 items-center gap-3 rounded-2xl border border-salsa-orange/40 bg-salsa-card px-5 py-3.5 font-mono text-xs text-white opacity-0 shadow-2xl transition-all duration-300 data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100 sm:inset-x-auto sm:right-6 sm:bottom-24"
 >
   <Icon name="Sparkles" class="size-4 text-salsa-orange" />
   <span id="toast-msg"></span>
@@ -41,12 +41,30 @@ import Icon from './Icon.astro';
     showToast('¡Copiado al portapapeles, mi llave! 🚀');
   }
 
+  // Cualquier script de la página puede avisar algo: document.dispatchEvent(new CustomEvent('toast', { detail }))
+  document.addEventListener('toast', (e) => showToast((e as CustomEvent<string>).detail));
+
+  // Confirmación en el propio botón, además del toast
+  function flashCopied(btn: HTMLElement) {
+    const text = btn.querySelector('span') ?? btn;
+    if (btn.dataset.copied) return;
+    const original = text.textContent;
+    btn.dataset.copied = 'true';
+    text.textContent = '¡Copiado!';
+    window.setTimeout(() => {
+      text.textContent = original;
+      delete btn.dataset.copied;
+    }, 1800);
+  }
+
   // Botones de copiar de toda la página:
   //   data-copy="texto literal"  |  data-copy-target="selector del elemento a copiar"
   document.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-copy], [data-copy-target]');
     if (!btn) return;
     const text = btn.dataset.copy ?? document.querySelector(btn.dataset.copyTarget ?? '')?.textContent ?? '';
-    if (text.trim()) copyText(text.trim());
+    if (!text.trim()) return;
+    copyText(text.trim());
+    flashCopied(btn);
   });
 </script>
