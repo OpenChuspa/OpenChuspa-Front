@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
-import Sticker from './Sticker.astro';
+import { Image } from 'astro:assets';
+import elParchao from '../assets/el-parchao.webp';
 import { highlights } from '../data/site';
 ---
 
@@ -74,9 +75,16 @@ import { highlights } from '../data/site';
         <div class="absolute inset-0 animate-pulse-glow rounded-3xl bg-linear-to-tr from-salsa-orange to-zinc-400 opacity-40 blur-2xl">
         </div>
         <div class="relative flex flex-col items-center rounded-3xl border-2 border-salsa-border bg-salsa-card p-5 shadow-2xl sm:p-8">
-          <div class="mb-6 aspect-square w-full max-w-[320px] animate-float p-2">
-            <Sticker />
-          </div>
+          <Image
+            src={elParchao}
+            alt="El Parchao, la mascota de OpenChuspa: un caleño sonriente que sostiene una chuspa llena de archivos y levanta el pulgar, con la frase «Vos sabés»"
+            widths={[320, 480, elParchao.width]}
+            sizes="(min-width: 400px) 320px, 80vw"
+            quality={88}
+            loading="eager"
+            fetchpriority="high"
+            class="sticker-shadow mb-6 h-auto w-full max-w-[320px] animate-float"
+          />
           <div class="w-full rounded-2xl border border-salsa-orange/40 bg-salsa-dark p-4 text-center">
             <span class="font-mono text-[11px] font-bold tracking-widest text-salsa-orange uppercase sm:text-xs"
               >Respuesta del Servidor S3</span

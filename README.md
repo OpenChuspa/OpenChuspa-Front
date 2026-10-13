@@ -54,7 +54,7 @@ src/
   pages/index.astro        # compone las secciones de la landing
   components/              # una sección por archivo; cada una trae su propio <script>
     Header.astro           #   banner + reproductor de salsa + navegación y menú móvil
-    Hero.astro, Sticker.astro
+    Hero.astro             #   incluye a El Parchao, la mascota (src/assets/el-parchao.webp)
     Playground.astro       #   terminal simulada (estado en memoria)
     Commands.astro, Glossary.astro, Generator.astro, Sdks.astro, SelfHosted.astro
     Footer.astro, Toast.astro, Icon.astro, SectionHeader.astro
