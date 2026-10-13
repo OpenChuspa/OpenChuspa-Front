@@ -62,42 +62,27 @@ const links = navLinks.map((l) => ({
     <audio id="salsa-audio" preload="none"></audio>
   </div>
 
-  <nav aria-label="Principal" class="border-b border-salsa-border bg-salsa-dark/90 backdrop-blur-xl">
+  <nav aria-label="Principal" class="border-b border-line bg-bg/85 backdrop-blur-xl">
     <div class="container-page flex h-(--nav-h) items-center justify-between gap-3">
-      <a href="/" aria-label="openchuspa.xyz, ir al inicio" class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
-        <span
-          class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-line bg-surface lg:size-10"
-        >
-          <Icon name="ShoppingBag" class="size-5 text-salsa-orange" />
-        </span>
-        <span class="min-w-0">
-          <span class="block truncate text-lg font-semibold tracking-tight text-ink lg:text-xl"
-            >open<span class="text-salsa-orange">chuspa</span><span class="text-muted">.xyz</span></span
-          >
-          <span class="-mt-0.5 hidden font-mono text-[10px] tracking-widest text-muted uppercase min-[360px]:block"
-            >S3 Caleño Engine</span
-          >
-        </span>
+      <a href="/" aria-label="openchuspa.xyz, ir al inicio" class="min-w-0 font-serif text-lg tracking-tight text-ink transition-opacity hover:opacity-70">
+        openchuspa<span class="text-muted"> / </span><span class="text-muted">xyz</span>
       </a>
 
-      <div class="hidden items-center gap-6 text-sm font-semibold text-muted lg:flex xl:gap-8">
+      <div class="hidden items-center gap-7 text-sm text-muted lg:flex">
         {links.map((l) => <a href={l.href} class="nav-link">{l.label}</a>)}
+        <a href="https://github.com/OpenChuspa" class="nav-link">github</a>
       </div>
 
-      <div class="flex shrink-0 items-center gap-2">
-        <a href="#playground" class="btn-primary hidden px-4 py-2.5 text-sm sm:inline-flex">
-          <Icon name="Terminal" class="size-4" />
-          <span>Abrir Consola Caleña</span>
-        </a>
+      <div class="flex shrink-0 items-center gap-1">
         <button
           id="theme-toggle"
           type="button"
           aria-label="Cambiar entre modo noche y día"
           title="Cambiar tema"
-          class="flex size-10 items-center justify-center rounded-xl border border-salsa-border text-muted transition-colors hover:border-salsa-orange hover:bg-salsa-card hover:text-salsa-orange"
+          class="flex size-9 items-center justify-center rounded-lg text-muted transition-colors hover:text-salsa-orange"
         >
-          <Icon name="Moon" class="size-5 theme-icon-dark" />
-          <Icon name="Sun" class="size-5 theme-icon-light" />
+          <Icon name="Moon" class="size-[18px] theme-icon-dark" />
+          <Icon name="Sun" class="size-[18px] theme-icon-light" />
         </button>
         <button
           id="menu-toggle"
@@ -105,7 +90,7 @@ const links = navLinks.map((l) => ({
           aria-label="Abrir menú"
           aria-expanded="false"
           aria-controls="mobile-menu"
-          class="group flex size-10 items-center justify-center rounded-xl border border-salsa-border text-muted transition-colors hover:border-salsa-orange hover:bg-salsa-card hover:text-salsa-orange lg:hidden"
+          class="group flex size-9 items-center justify-center rounded-lg text-muted transition-colors hover:text-salsa-orange lg:hidden"
         >
           <Icon name="Menu" class="size-5 group-aria-expanded:hidden" />
           <Icon name="X" class="hidden size-5 group-aria-expanded:block" />
@@ -113,22 +98,19 @@ const links = navLinks.map((l) => ({
       </div>
     </div>
 
-    <div id="mobile-menu" hidden class="border-t border-salsa-border lg:hidden">
+    <div id="mobile-menu" hidden class="border-t border-line lg:hidden">
       <div class="container-page flex max-h-[calc(100dvh-var(--header-h))] flex-col overflow-y-auto py-3">
         {
           links.map((l) => (
             <a
               href={l.href}
-              class="rounded-lg px-3 py-3 font-semibold text-muted transition-colors hover:bg-salsa-card active:bg-salsa-border aria-[current=true]:bg-salsa-card aria-[current=true]:text-salsa-orange"
+              class="rounded-lg px-3 py-3 text-muted transition-colors hover:bg-surface aria-[current=true]:text-salsa-orange"
             >
               {l.label}
             </a>
           ))
         }
-        <a href="#playground" class="btn-primary mt-2 px-4 py-3 text-sm sm:hidden">
-          <Icon name="Terminal" class="size-4" />
-          <span>Abrir Consola Caleña</span>
-        </a>
+        <a href="https://github.com/OpenChuspa" class="rounded-lg px-3 py-3 text-muted transition-colors hover:bg-surface">github</a>
       </div>
     </div>
   </nav>
@@ -166,7 +148,7 @@ const links = navLinks.map((l) => ({
     } catch {
       /* almacenamiento no disponible: el tema vale solo para esta sesión */
     }
-    THEME_META?.setAttribute('content', theme === 'light' ? '#fcfcfc' : '#0a0a0a');
+    THEME_META?.setAttribute('content', theme === 'light' ? '#faf9f6' : '#0a0a0a');
   }
   themeToggle?.addEventListener('click', () => {
     const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';

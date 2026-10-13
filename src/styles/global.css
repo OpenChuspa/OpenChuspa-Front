@@ -34,27 +34,27 @@
   --radius: 0.75rem;
 }
 
-/* Modo noche (por defecto) */
+/* Modo día (por defecto) — blanco crema editorial estilo opentaco */
 :root,
+[data-theme='light'] {
+  --bg: #faf9f6;
+  --surface: #ffffff;
+  --ink: #0a0a0a;
+  --muted: #6b6b6b;
+  --line: #e6e4de;
+  --dots: rgb(0 0 0 / 0.04);
+  color-scheme: light;
+}
+
+/* Modo noche */
 [data-theme='dark'] {
   --bg: #0a0a0a;
-  --surface: #121212;
+  --surface: #141414;
   --ink: #f5f5f5;
   --muted: #a1a1aa;
   --line: #262626;
   --dots: rgb(255 255 255 / 0.05);
   color-scheme: dark;
-}
-
-/* Modo día */
-[data-theme='light'] {
-  --bg: #fcfcfc;
-  --surface: #ffffff;
-  --ink: #0a0a0a;
-  --muted: #52525b;
-  --line: #e4e4e7;
-  --dots: rgb(0 0 0 / 0.05);
-  color-scheme: light;
 }
 
 /* ====== Base ====== */
