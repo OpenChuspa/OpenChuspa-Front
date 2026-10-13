@@ -12,7 +12,7 @@ export const navLinks = [
 ];
 
 export const highlights = [
-  { label: 'Latencia en Cali', value: '0.4 ms' },
+  { label: 'Licencia', value: 'Apache-2.0' },
   { label: 'Standard API', value: 'AWS S3' },
   { label: 'Garantía Caleña', value: 'Vos Sabés 😉', accent: true },
 ];
@@ -101,22 +101,22 @@ export const glossary = [
   {
     aws: 'Endpoint',
     term: 'La Esquina 📍',
-    description: `La dirección del servidor central (${ENDPOINT}).`,
+    description: `La dirección de tu motor. En local: ${ENDPOINT}.`,
   },
   {
     aws: 'Region',
     term: 'Sucursal del Cielo ☁️',
-    description: `Ubicaciones de data centers: ${REGION}, cali-granada-2, cali-terron-3.`,
+    description: `La región que reporta el motor y exige en la firma: ${REGION}.`,
   },
   {
     aws: 'IAM / Policy',
     term: 'Reglamento del Parche 📜',
-    description: 'Las reglas de quién puede ver o sacar cosas de cada chuspa.',
+    description: 'Las reglas de quién puede ver o sacar cosas de cada chuspa. Está en el roadmap.',
   },
   {
     aws: 'Server',
     term: 'Motor Caleño 🏎️',
-    description: 'El clúster S3 distribuido alimentado a jugo de borojó y champús.',
+    description: 'El servidor S3 de un solo nodo, alimentado a jugo de borojó y champús.',
   },
 ];
 
@@ -140,8 +140,8 @@ import boto3
 s3 = boto3.client(
     's3',
     endpoint_url='${ENDPOINT}',
-    aws_access_key_id='clave-del-parchao',
-    aws_secret_access_key='la-secreta-de-la-cuadra',
+    aws_access_key_id='TU_CLAVE_DEL_PARCHAO',
+    aws_secret_access_key='TU_SECRETA_DE_LA_CUADRA',
     region_name='${REGION}'
 )
 
@@ -159,9 +159,10 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 const s3 = new S3Client({
   endpoint: "${ENDPOINT}",
   region: "${REGION}",
+  forcePathStyle: true, // el motor direcciona por ruta: /chuspa/key
   credentials: {
-    accessKeyId: "clave-del-parchao",
-    secretAccessKey: "la-secreta-de-la-cuadra",
+    accessKeyId: "TU_CLAVE_DEL_PARCHAO",
+    secretAccessKey: "TU_SECRETA_DE_LA_CUADRA",
   },
 });
 
@@ -195,7 +196,7 @@ func main() {
         config.WithRegion("${REGION}"),
         config.WithCredentialsProvider(
             credentials.NewStaticCredentialsProvider(
-                "clave-del-parchao", "la-secreta-de-la-cuadra", "",
+                "TU_CLAVE_DEL_PARCHAO", "TU_SECRETA_DE_LA_CUADRA", "",
             ),
         ),
     )
@@ -213,36 +214,52 @@ func main() {
   {
     key: 'docker',
     tab: 'Docker Compose',
-    title: 'Docker Compose Self-Hosted Cluster',
-    code: `version: '3.8'
-
+    title: 'Docker Compose de un nodo, endurecido',
+    code: `# Próximamente: la imagen se publica con el primer release.
+# El secreto vive en un archivo, no en este YAML:
+#   mkdir -p secrets && openssl rand -hex 24 > secrets/chuspa_root_password
 services:
-  openchuspa-engine:
-    image: openchuspa/chuspa:latest
-    container_name: motor_caleño_s3
+  chuspa:
+    image: ghcr.io/openchuspa/chuspa:0.1.0
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "127.0.0.1:9000:9000"
     environment:
-      CHUSPA_ROOT_USER: "clave-del-parchao"
-      CHUSPA_ROOT_PASSWORD: "la-secreta-de-la-cuadra"
+      CHUSPA_ROOT_USER: "TU_CLAVE_DEL_PARCHAO"
+      CHUSPA_ROOT_PASSWORD_FILE: /run/secrets/chuspa_root_password
       CHUSPA_REGION: "${REGION}"
+    secrets:
+      - chuspa_root_password
     volumes:
-      - ./chuspa_data:/data`,
+      - chuspa_data:/data
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+
+secrets:
+  chuspa_root_password:
+    file: ./secrets/chuspa_root_password
+
+volumes:
+  chuspa_data:`,
   },
   {
     key: 'curl',
     tab: 'cURL / REST',
-    title: 'Petición REST cURL directa al Endpoint',
-    code: `# Petición cURL PutObject (ve subi directo)
+    title: 'Petición REST con cURL, firmada con SigV4',
+    code: `# Toda petición va firmada: el motor rechaza las anónimas.
+# Empacar en la Chuspa (ve subi)
 curl -X PUT -T "./archivo.pdf" \\
-  -H "Host: ${new URL(ENDPOINT).host}" \\
-  -H "x-amz-acl: public-read" \\
+  --aws-sigv4 "aws:amz:${REGION}:s3" \\
+  --user "$TU_CLAVE_DEL_PARCHAO:$TU_SECRETA_DE_LA_CUADRA" \\
   "${ENDPOINT}/${DEFAULT_CHUSPA}/test/archivo.pdf"
 
 # Sacar de la Chuspa (ve baja)
-curl -O ${ENDPOINT}/${DEFAULT_CHUSPA}/test/archivo.pdf`,
+curl -O --aws-sigv4 "aws:amz:${REGION}:s3" \\
+  --user "$TU_CLAVE_DEL_PARCHAO:$TU_SECRETA_DE_LA_CUADRA" \\
+  "${ENDPOINT}/${DEFAULT_CHUSPA}/test/archivo.pdf"`,
   },
 ];
 
-export const DOCKER_RUN = 'docker run -p 9000:9000 openchuspa/chuspa';
+// La imagen se publica con el primer release; el secreto debe tener 32 caracteres o más.
+export const DOCKER_RUN =
+  'docker run -p 127.0.0.1:9000:9000 -e CHUSPA_ROOT_USER=mi-llave -e CHUSPA_ROOT_PASSWORD="$SECRETO" ghcr.io/openchuspa/chuspa:0.1.0';
