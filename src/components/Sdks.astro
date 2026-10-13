@@ -12,7 +12,7 @@ import { sdkSnippets } from '../data/site';
       description="Usá tus librerías de programación favoritas configurando el Endpoint de OpenChuspa."
     />
 
-    <div class="overflow-hidden rounded-2xl border-2 border-salsa-border bg-salsa-card shadow-2xl sm:rounded-3xl">
+    <div class="overflow-hidden rounded-xl border border-salsa-border bg-salsa-card">
       <!-- En móvil las pestañas se desplazan en horizontal en lugar de apilarse -->
       <div
         role="tablist"
@@ -29,7 +29,7 @@ import { sdkSnippets } from '../data/site';
               aria-selected={i === 0 ? 'true' : 'false'}
               tabindex={i === 0 ? 0 : -1}
               data-title={s.title}
-              class="sdk-tab shrink-0 rounded-xl bg-salsa-card px-4 py-2.5 font-mono text-xs font-bold whitespace-nowrap text-zinc-300 transition-colors hover:bg-salsa-border aria-selected:bg-salsa-orange aria-selected:text-white sm:px-5"
+              class="sdk-tab shrink-0 rounded-lg bg-salsa-card px-4 py-2.5 font-mono text-xs font-bold whitespace-nowrap text-muted transition-colors hover:bg-salsa-border aria-selected:bg-salsa-orange aria-selected:text-white sm:px-5"
             >
               {s.tab}
             </button>
@@ -39,11 +39,11 @@ import { sdkSnippets } from '../data/site';
 
       <div class="bg-salsa-dark p-4 font-mono text-xs sm:p-6 sm:text-sm">
         <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <span id="sdk-title" class="min-w-0 font-bold text-zinc-300">{sdkSnippets[0].title}</span>
+          <span id="sdk-title" class="min-w-0 font-bold text-muted">{sdkSnippets[0].title}</span>
           <button
             type="button"
             data-copy-target="#sdks [role=tabpanel]:not([hidden]) code"
-            class="flex shrink-0 items-center gap-1.5 rounded-lg bg-salsa-border px-3 py-2 text-xs font-bold text-zinc-300 transition-colors hover:bg-salsa-orange hover:text-white"
+            class="flex shrink-0 items-center gap-1.5 rounded-lg bg-salsa-border px-3 py-2 text-xs font-bold text-muted transition-colors hover:bg-salsa-orange hover:text-white"
           >
             <Icon name="Copy" class="size-3.5" />
             <span>Copiar Código</span>
@@ -58,7 +58,7 @@ import { sdkSnippets } from '../data/site';
               aria-labelledby={`tab-${s.key}`}
               tabindex="0"
               hidden={i !== 0}
-              class="overflow-x-auto rounded-xl border border-salsa-border bg-black/50 p-4 leading-relaxed text-zinc-200 sm:rounded-2xl sm:p-5"
+              class="overflow-x-auto rounded-lg border border-salsa-border bg-black/50 p-4 leading-relaxed text-muted sm:p-5"
             ><code>{s.code}</code></pre>
           ))
         }

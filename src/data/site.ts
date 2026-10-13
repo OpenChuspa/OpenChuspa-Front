@@ -9,12 +9,13 @@ export const navLinks = [
   { href: '#glosario', label: 'Glosario Caleño', short: 'Glosario' },
   { href: '#generador', label: 'Generador', short: 'Generador' },
   { href: '#sdks', label: 'SDKs & S3', short: 'SDKs' },
+  { href: '/docs', label: 'Docs', short: 'Docs' },
 ];
 
 export const highlights = [
   { label: 'Latencia en Cali', value: '0.4 ms' },
   { label: 'Standard API', value: 'AWS S3' },
-  { label: 'Garantía Caleña', value: 'Vos Sabés 😉', accent: true },
+  { label: 'Garantía Caleña', value: 'Vos Sabés', accent: true },
 ];
 
 export const quickCommands = [
@@ -80,42 +81,42 @@ export const commands: {
 export const glossary = [
   {
     aws: 'Bucket',
-    term: 'Chuspa 🛍️',
+    term: 'Chuspa',
     description: 'La bolsa de plástico tradicional donde guardás todo lo que no querés que se te pierda.',
   },
   {
     aws: 'Object',
-    term: 'Chuchería 📦',
+    term: 'Chuchería',
     description: 'Cualquier archivo, imagen, vídeo o dato comprimido empacado en tu chuspa.',
   },
   {
     aws: 'Access Key ID',
-    term: 'Clave del Parchao 🔑',
+    term: 'Clave del Parchao',
     description: 'Tu identificador público para entrar al parche del servidor sin pedir permiso.',
   },
   {
     aws: 'Secret Key',
-    term: 'La Secreta de la Cuadra 🔒',
+    term: 'La Secreta de la Cuadra',
     description: 'La contraseña privada. No se la des ni a tu mejor amigo del barrio.',
   },
   {
     aws: 'Endpoint',
-    term: 'La Esquina 📍',
+    term: 'La Esquina',
     description: `La dirección del servidor central (${ENDPOINT}).`,
   },
   {
     aws: 'Region',
-    term: 'Sucursal del Cielo ☁️',
+    term: 'Sucursal del Cielo',
     description: `Ubicaciones de data centers: ${REGION}, cali-granada-2, cali-terron-3.`,
   },
   {
     aws: 'IAM / Policy',
-    term: 'Reglamento del Parche 📜',
+    term: 'Reglamento del Parche',
     description: 'Las reglas de quién puede ver o sacar cosas de cada chuspa.',
   },
   {
     aws: 'Server',
-    term: 'Motor Caleño 🏎️',
+    term: 'Motor Caleño',
     description: 'El clúster S3 distribuido alimentado a jugo de borojó y champús.',
   },
 ];
@@ -147,7 +148,7 @@ s3 = boto3.client(
 
 # Empacar objeto en la Chuspa (ve subi)
 s3.upload_file('./archivo_caleño.png', '${DEFAULT_CHUSPA}', 'test/archivo_caleño.png')
-print("¡Archivo empacado con éxito en la Chuspa! Vos sabés 😉")`,
+print("¡Archivo empacado con éxito en la Chuspa! Vos sabés")`,
   },
   {
     key: 'node',
@@ -207,7 +208,7 @@ func main() {
     })
 
     _ = client
-    fmt.Println("Conectado a OpenChuspa en Cali! Vos sabés 😉")
+    fmt.Println("Conectado a OpenChuspa en Cali! Vos sabés")
 }`,
   },
   {

@@ -1,6 +1,14 @@
 ---
 import Icon from './Icon.astro';
 import { navLinks } from '../data/site';
+
+// En la home los anchors (#...) funcionan directo; en otras páginas (ej. /docs)
+// deben apuntar a /#ancla para volver a la portada y hacer scroll.
+const isHome = Astro.url.pathname === '/';
+const links = navLinks.map((l) => ({
+  ...l,
+  href: l.href.startsWith('#') && !isHome ? `/${l.href}` : l.href,
+}));
 ---
 
 <header class="site-header inset-x-0 top-0 z-40">
@@ -36,7 +44,7 @@ import { navLinks } from '../data/site';
             ))
           }
         </span>
-        <span id="salsa-label" class="whitespace-nowrap">Poné salsa 🎺</span>
+        <span id="salsa-label" class="whitespace-nowrap">Poné salsa</span>
       </button>
       <input
         id="salsa-vol"
@@ -56,24 +64,24 @@ import { navLinks } from '../data/site';
 
   <nav aria-label="Principal" class="border-b border-salsa-border bg-salsa-dark/90 backdrop-blur-xl">
     <div class="container-page flex h-(--nav-h) items-center justify-between gap-3">
-      <a href="#" aria-label="openchuspa.xyz, ir al inicio" class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
+      <a href="/" aria-label="openchuspa.xyz, ir al inicio" class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
         <span
           class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-salsa-orange/60 bg-salsa-dark lg:size-10"
         >
           <Icon name="ShoppingBag" class="size-5 text-salsa-orange" />
         </span>
         <span class="min-w-0">
-          <span class="block truncate text-xl font-black tracking-tight text-white lg:text-2xl"
-            >open<span class="text-salsa-orange">chuspa</span><span class="text-zinc-400">.xyz</span></span
+          <span class="block truncate text-xl font-black tracking-tight text-ink lg:text-2xl"
+            >open<span class="text-salsa-orange">chuspa</span><span class="text-muted">.xyz</span></span
           >
-          <span class="-mt-0.5 hidden font-mono text-[10px] tracking-widest text-zinc-400 uppercase min-[360px]:block"
+          <span class="-mt-0.5 hidden font-mono text-[10px] tracking-widest text-muted uppercase min-[360px]:block"
             >S3 Caleño Engine</span
           >
         </span>
       </a>
 
-      <div class="hidden items-center gap-6 text-sm font-semibold text-zinc-300 lg:flex xl:gap-8">
-        {navLinks.map((l) => <a href={l.href} class="nav-link">{l.label}</a>)}
+      <div class="hidden items-center gap-6 text-sm font-semibold text-muted lg:flex xl:gap-8">
+        {links.map((l) => <a href={l.href} class="nav-link">{l.label}</a>)}
       </div>
 
       <div class="flex shrink-0 items-center gap-2">
@@ -82,12 +90,22 @@ import { navLinks } from '../data/site';
           <span>Abrir Consola Caleña</span>
         </a>
         <button
+          id="theme-toggle"
+          type="button"
+          aria-label="Cambiar entre modo noche y día"
+          title="Cambiar tema"
+          class="flex size-10 items-center justify-center rounded-xl border border-salsa-border text-muted transition-colors hover:border-salsa-orange hover:bg-salsa-card hover:text-salsa-orange"
+        >
+          <Icon name="Moon" class="size-5 theme-icon-dark" />
+          <Icon name="Sun" class="size-5 theme-icon-light" />
+        </button>
+        <button
           id="menu-toggle"
           type="button"
           aria-label="Abrir menú"
           aria-expanded="false"
           aria-controls="mobile-menu"
-          class="group flex size-10 items-center justify-center rounded-xl border border-salsa-border text-zinc-200 transition-colors hover:border-salsa-orange hover:bg-salsa-card hover:text-salsa-orange lg:hidden"
+          class="group flex size-10 items-center justify-center rounded-xl border border-salsa-border text-muted transition-colors hover:border-salsa-orange hover:bg-salsa-card hover:text-salsa-orange lg:hidden"
         >
           <Icon name="Menu" class="size-5 group-aria-expanded:hidden" />
           <Icon name="X" class="hidden size-5 group-aria-expanded:block" />
@@ -98,10 +116,10 @@ import { navLinks } from '../data/site';
     <div id="mobile-menu" hidden class="border-t border-salsa-border lg:hidden">
       <div class="container-page flex max-h-[calc(100dvh-var(--header-h))] flex-col overflow-y-auto py-3">
         {
-          navLinks.map((l) => (
+          links.map((l) => (
             <a
               href={l.href}
-              class="rounded-lg px-3 py-3 font-semibold text-zinc-200 transition-colors hover:bg-salsa-card active:bg-salsa-border aria-[current=true]:bg-salsa-card aria-[current=true]:text-salsa-orange"
+              class="rounded-lg px-3 py-3 font-semibold text-muted transition-colors hover:bg-salsa-card active:bg-salsa-border aria-[current=true]:bg-salsa-card aria-[current=true]:text-salsa-orange"
             >
               {l.label}
             </a>
@@ -138,6 +156,23 @@ import { navLinks } from '../data/site';
   // Al pasar a escritorio el menú móvil no debe quedar abierto.
   window.matchMedia('(width >= 64rem)').addEventListener('change', () => setMenu(false));
 
+  // ====== Modo noche / día ======
+  const themeToggle = document.getElementById('theme-toggle');
+  const THEME_META = document.querySelector('meta[name="theme-color"]');
+  function applyTheme(theme: 'dark' | 'light') {
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem('chuspa-theme', theme);
+    } catch {
+      /* almacenamiento no disponible: el tema vale solo para esta sesión */
+    }
+    THEME_META?.setAttribute('content', theme === 'light' ? '#fcfcfc' : '#0a0a0a');
+  }
+  themeToggle?.addEventListener('click', () => {
+    const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    applyTheme(current === 'light' ? 'dark' : 'light');
+  });
+
   // ====== Sección activa en la navegación ======
   const spyLinks = [...document.querySelectorAll<HTMLAnchorElement>('.site-header a[href^="#"]:not([href="#"])')];
   const spy = new IntersectionObserver(
@@ -162,7 +197,7 @@ import { navLinks } from '../data/site';
 
   type PlayerState = 'idle' | 'loading' | 'playing' | 'error';
   const PLAYER_UI: Record<PlayerState, { label: string; hint: string }> = {
-    idle: { label: 'Poné salsa 🎺', hint: 'Reproducir salsa en vivo' },
+    idle: { label: 'Poné salsa', hint: 'Reproducir salsa en vivo' },
     loading: { label: 'Cargando…', hint: 'Conectando con la emisora (clic para cancelar)' },
     playing: { label: 'Sonando salsa', hint: 'Pausar la salsa' },
     error: { label: 'Reintentar', hint: 'No se pudo conectar con la emisora. Clic para reintentar' },
@@ -202,7 +237,7 @@ import { navLinks } from '../data/site';
       setState(byUser ? 'error' : 'idle');
       release();
       if (byUser) {
-        document.dispatchEvent(new CustomEvent('toast', { detail: 'No se pudo conectar con la emisora. Probá de nuevo 📻' }));
+        document.dispatchEvent(new CustomEvent('toast', { detail: 'No se pudo conectar con la emisora. Probá de nuevo' }));
       }
     };
 

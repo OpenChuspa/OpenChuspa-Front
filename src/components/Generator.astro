@@ -4,27 +4,27 @@ import { DEFAULT_CHUSPA } from '../data/constants';
 import { generatorActions } from '../data/site';
 
 const field =
-  'w-full rounded-xl border border-salsa-border bg-salsa-dark p-3 text-base text-white transition-colors hover:border-zinc-600 focus:border-salsa-orange focus:outline-none sm:text-sm';
+  'w-full rounded-xl border border-salsa-border bg-salsa-dark p-3 text-base text-ink transition-colors hover:border-zinc-600 focus:border-salsa-orange focus:outline-none sm:text-sm';
 ---
 
 <section id="generador" class="py-16 sm:py-24">
   <div class="container-page">
-    <div class="rounded-2xl border-2 border-salsa-border bg-salsa-card p-5 shadow-2xl sm:rounded-3xl sm:p-8 lg:p-12">
+    <div class="rounded-xl border border-salsa-border bg-salsa-card p-5 sm:p-8 lg:p-12">
       <div class="grid items-center gap-8 lg:grid-cols-2">
         <div class="min-w-0 space-y-6">
           <div>
             <span class="font-mono text-xs font-bold tracking-wider text-salsa-orange uppercase"
               >Generador de Comandos Caleños</span
             >
-            <h2 class="mt-1 text-2xl font-black text-balance text-white sm:text-3xl">Armá tu Comando CLI al Instante</h2>
-            <p class="mt-2 text-sm text-zinc-400">
+            <h2 class="mt-1 text-2xl font-black text-balance text-ink sm:text-3xl">Armá tu Comando CLI al Instante</h2>
+            <p class="mt-2 text-sm text-muted">
               Ingresá tus datos locales y mirá cómo se forma el comando caleño equivalente.
             </p>
           </div>
 
           <div class="space-y-4 font-mono text-xs">
             <div>
-              <label for="gen-action" class="mb-1 block text-zinc-300">Acción deseada:</label>
+              <label for="gen-action" class="mb-1 block text-muted">Acción deseada:</label>
               <select id="gen-action" class={field}>
                 {generatorActions.map((a) => <option value={a.value}>{a.label}</option>)}
               </select>
@@ -32,20 +32,20 @@ const field =
 
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
-                <label for="gen-file" class="mb-1 block text-zinc-300">Archivo Local / Subcarpeta:</label>
+                <label for="gen-file" class="mb-1 block text-muted">Archivo Local / Subcarpeta:</label>
                 <input type="text" id="gen-file" value="./documento_impreso.pdf" autocomplete="off" spellcheck="false" class={field} />
               </div>
               <div>
-                <label for="gen-chuspa" class="mb-1 block text-zinc-300">Nombre de la Chuspa Target:</label>
+                <label for="gen-chuspa" class="mb-1 block text-muted">Nombre de la Chuspa Target:</label>
                 <input type="text" id="gen-chuspa" value={DEFAULT_CHUSPA} autocomplete="off" spellcheck="false" class={field} />
               </div>
             </div>
           </div>
         </div>
 
-        <div class="min-w-0 rounded-2xl border border-salsa-border bg-salsa-dark p-4 font-mono sm:p-6">
+        <div class="min-w-0 rounded-xl border border-salsa-border bg-salsa-dark p-4 font-mono sm:p-6">
           <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
-            <span class="text-xs font-bold text-zinc-300">Comando Resultante chuspa-cli:</span>
+            <span class="text-xs font-bold text-muted">Comando Resultante chuspa-cli:</span>
             <button type="button" data-copy-target="#gen-output" class="btn-primary rounded-lg px-3 py-2 text-xs">
               <Icon name="Copy" class="size-3.5" />
               <span>Copiar</span>
@@ -56,8 +56,8 @@ const field =
             for="gen-action gen-file gen-chuspa"
             class="block rounded-xl border border-salsa-border bg-salsa-card p-4 text-sm leading-relaxed font-bold break-all text-salsa-orange"
           ></output>
-          <p class="mt-4 text-[11px] break-all text-zinc-500">
-            Equivalente AWS S3: <span id="gen-aws-equiv" class="text-zinc-400"></span>
+          <p class="mt-4 text-[11px] break-all text-muted">
+            Equivalente AWS S3: <span id="gen-aws-equiv" class="text-muted"></span>
           </p>
         </div>
       </div>

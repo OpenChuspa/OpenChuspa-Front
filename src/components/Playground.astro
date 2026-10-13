@@ -13,32 +13,32 @@ import { quickCommands } from '../data/site';
       description="Escribí tus comandos con la jerga caleña real y mirá cómo responde el motor de almacenamiento."
     />
 
-    <div class="overflow-hidden rounded-2xl border-2 border-salsa-border bg-salsa-dark shadow-2xl sm:rounded-3xl">
+    <div class="overflow-hidden rounded-xl border border-salsa-border bg-salsa-dark">
       <!-- Barra de título -->
       <div class="flex items-center justify-between gap-3 border-b border-salsa-border bg-black/40 px-4 py-3 sm:px-6 sm:py-4">
         <div class="flex min-w-0 items-center gap-2">
           <span class="size-3 shrink-0 rounded-full bg-red-500/80"></span>
           <span class="size-3 shrink-0 rounded-full bg-yellow-500/80"></span>
           <span class="size-3 shrink-0 rounded-full bg-green-500/80"></span>
-          <span class="ml-2 truncate font-mono text-xs text-zinc-400 sm:ml-4"
+          <span class="ml-2 truncate font-mono text-xs text-muted sm:ml-4"
             >caleño-terminal@openchuspa:~ (chuspa-cli {CLI_VERSION})</span
           >
         </div>
         <span
-          class="hidden shrink-0 rounded-md border border-salsa-border bg-white/5 px-2.5 py-1 font-mono text-[11px] text-zinc-400 md:block"
+          class="hidden shrink-0 rounded-md border border-salsa-border bg-white/5 px-2.5 py-1 font-mono text-[11px] text-muted md:block"
           >Motor: S3 Core Caleño</span
         >
       </div>
 
       <!-- Atajos -->
       <div class="flex flex-wrap items-center gap-2 border-b border-salsa-border bg-salsa-card px-4 py-3 font-mono text-xs sm:px-6">
-        <span class="w-full text-zinc-400 sm:w-auto">Atajos de comando:</span>
+        <span class="w-full text-muted sm:w-auto">Atajos de comando:</span>
         {
           quickCommands.map((q, i) => (
             <button
               type="button"
               data-cmd={q.cmd}
-              class="js-run-cmd max-w-full truncate rounded-lg border border-salsa-border bg-salsa-dark px-3 py-2 text-zinc-300 transition-colors hover:border-salsa-orange hover:bg-salsa-orange/10 hover:text-salsa-orange"
+              class="js-run-cmd max-w-full truncate rounded-lg border border-salsa-border bg-salsa-dark px-3 py-2 text-muted transition-colors hover:border-salsa-orange hover:bg-salsa-orange/10 hover:text-salsa-orange"
             >
               {i + 1}. {q.label}
             </button>
@@ -59,11 +59,11 @@ import { quickCommands } from '../data/site';
             tabindex="0"
             class="h-64 cursor-text space-y-3 overflow-y-auto pr-2 break-words sm:h-80 lg:h-[360px]"
           >
-            <p class="text-zinc-500">
+            <p class="text-muted">
               OpenChuspa CLI {CLI_VERSION} (compatible con AWS CLI)<br />
               Escribí <span class="text-salsa-orange">'ayuda'</span> o probá comandos como
-              <span class="text-zinc-300">'ve mira'</span>, <span class="text-zinc-300">'ve subi'</span>,
-              <span class="text-zinc-300">'ve baja'</span>. Con ↑ y ↓ recorrés el historial.
+              <span class="text-ink">'ve mira'</span>, <span class="text-ink">'ve subi'</span>,
+              <span class="text-ink">'ve baja'</span>. Con ↑ y ↓ recorrés el historial.
             </p>
           </div>
 
@@ -71,7 +71,7 @@ import { quickCommands } from '../data/site';
             id="terminal-form"
             class="mt-4 flex items-center gap-2 rounded-xl border border-salsa-border bg-salsa-card/80 p-2 focus-within:border-salsa-orange"
           >
-            <label for="terminal-input" class="shrink-0 font-bold text-zinc-300">
+            <label for="terminal-input" class="shrink-0 font-bold text-muted">
               <span class="hidden md:inline">{PROMPT}</span>
               <span class="pl-1 md:hidden" aria-hidden="true">$</span>
               <span class="sr-only md:hidden">Comando</span>
@@ -86,7 +86,7 @@ import { quickCommands } from '../data/site';
               spellcheck="false"
               enterkeyhint="send"
               placeholder="ve mira chuspa://"
-              class="min-w-0 flex-1 bg-transparent font-mono text-base text-white placeholder:text-zinc-600 focus:outline-none sm:text-sm"
+              class="min-w-0 flex-1 bg-transparent font-mono text-base text-ink placeholder:text-muted focus:outline-none sm:text-sm"
             />
             <button type="submit" class="btn-primary shrink-0 rounded-lg px-3 py-2 text-xs sm:px-4">Ejecutar</button>
           </form>
@@ -96,7 +96,7 @@ import { quickCommands } from '../data/site';
         <div class="flex min-w-0 flex-col justify-between bg-salsa-dark/50 p-4 sm:p-6 lg:col-span-5">
           <div>
             <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
-              <span class="flex items-center gap-2 font-mono text-xs font-bold tracking-wider text-zinc-300 uppercase">
+              <span class="flex items-center gap-2 font-mono text-xs font-bold tracking-wider text-muted uppercase">
                 <Icon name="FolderTree" class="size-4" />
                 <span>Estado en Vivo de tus Chuspas</span>
               </span>
@@ -106,8 +106,8 @@ import { quickCommands } from '../data/site';
           </div>
 
           <div class="mt-6 border-t border-salsa-border pt-4">
-            <span class="mb-1 block font-mono text-[11px] text-zinc-500">Sucursal del Cielo (Región actual):</span>
-            <div class="flex items-center gap-2 font-mono text-xs text-zinc-300">
+            <span class="mb-1 block font-mono text-[11px] text-muted">Sucursal del Cielo (Región actual):</span>
+            <div class="flex items-center gap-2 font-mono text-xs text-muted">
               <Icon name="MapPin" class="size-4" />
               <span>{REGION} (Latencia: 0.3ms)</span>
             </div>
@@ -170,7 +170,7 @@ import { quickCommands } from '../data/site';
           el(
             'div',
             'mb-1 flex items-center justify-between gap-2 font-bold text-salsa-orange',
-            el('span', 'min-w-0 truncate', `🛍️ chuspa://${name}`),
+            el('span', 'min-w-0 truncate', `chuspa://${name}`),
             el('span', 'shrink-0 text-[10px] font-normal text-zinc-500', `(${files.length} chucherías)`)
           ),
           ...(files.length
@@ -178,7 +178,7 @@ import { quickCommands } from '../data/site';
                 el(
                   'div',
                   'flex items-center justify-between gap-2 py-0.5 pl-4 text-[11px] text-zinc-400',
-                  el('span', 'min-w-0 truncate', `📄 ${f}`),
+                  el('span', 'min-w-0 truncate', f),
                   el('span', 'shrink-0 text-[10px] text-zinc-300', 'OK')
                 )
               )
@@ -209,7 +209,7 @@ import { quickCommands } from '../data/site';
     if (cmd.startsWith('ve mira')) {
       const target = cmd.split(/\s+/)[2] || 'chuspa://';
       if (target === 'chuspa://') {
-        return [line(['Listando Chuspas Caleñas:', 'muted']), ...[...chuspas.keys()].map((k) => line(`🛍️ chuspa://${k}/`))];
+        return [line(['Listando Chuspas Caleñas:', 'muted']), ...[...chuspas.keys()].map((k) => line(`chuspa://${k}/`))];
       }
       const name = target.replace('chuspa://', '').split('/')[0];
       const files = chuspas.get(name);
@@ -218,7 +218,7 @@ import { quickCommands } from '../data/site';
       }
       return [
         line([`Contenido de chuspa://${name}:`, 'muted']),
-        ...(files.length ? files.map((f) => line(`  📄 ${f}`)) : [line('  (Chuspa vacía)')]),
+        ...(files.length ? files.map((f) => line(`  ${f}`)) : [line('  (Chuspa vacía)')]),
       ];
     }
 
@@ -244,22 +244,22 @@ import { quickCommands } from '../data/site';
       chuspas.set(name, [key, ...(chuspas.get(name) ?? []).filter((k) => k !== key)]);
       renderChuspas();
       return [
-        line(['¡Empacado en Chuspa exitoso! 📦', 'bright', true]),
-        line('Local: ', [localFile, 'bright'], ' ➔ Remote: ', [`chuspa://${name}/${key}`, 'muted']),
+        line(['¡Empacado en Chuspa exitoso!', 'bright', true]),
+        line('Local: ', [localFile, 'bright'], ' -> Remote: ', [`chuspa://${name}/${key}`, 'muted']),
         line('Velocidad: 820 MB/s • Sello Caleño S3: VÁLIDO'),
       ];
     }
 
     if (cmd.startsWith('ve baja')) {
       return [
-        line(['Sacando de la chuspa... 👐', 'muted', true]),
+        line(['Sacando de la chuspa...', 'muted', true]),
         line('Descargado en tu directorio local. ¡Todo bien, todo bonito!'),
       ];
     }
 
     if (cmd.startsWith('ve sincroniza')) {
       return [
-        line(['Sincronizando con la chuspa... 🔄', 'muted', true]),
+        line(['Sincronizando con la chuspa...', 'muted', true]),
         line('Carpeta al día: local y remoto quedaron igualitos. ¡Qué chimba!'),
       ];
     }
