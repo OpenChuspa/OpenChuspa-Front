@@ -8,9 +8,9 @@ import { quickCommands } from '../data/site';
 <section id="playground" class="border-y border-salsa-border bg-salsa-card/80 py-16 sm:py-20">
   <div class="container-page">
     <SectionHeader
-      eyebrow="Simulación en el navegador · CLI ve v0.2.0"
-      title="Probá el CLI Caleño en Vivo"
-      description="Escribí tus comandos con la jerga caleña y mirá cómo va a responder. Es una simulación en tu navegador; la CLI ve hace lo mismo contra tu motor."
+      eyebrow={`Simulación en el navegador · CLI ve ${CLI_VERSION}`}
+      title="Probá la CLI en el navegador"
+      description="Escribí comandos y mirá cómo responde. Es una simulación local; la CLI ve hace lo mismo contra tu motor."
     />
 
     <div class="overflow-hidden rounded-2xl border-2 border-salsa-border bg-salsa-dark shadow-2xl sm:rounded-3xl">
@@ -21,7 +21,7 @@ import { quickCommands } from '../data/site';
           <span class="size-3 shrink-0 rounded-full bg-yellow-500/80"></span>
           <span class="size-3 shrink-0 rounded-full bg-green-500/80"></span>
           <span class="ml-2 truncate font-mono text-xs text-zinc-400 sm:ml-4"
-            >caleño-terminal@openchuspa:~ (chuspa-cli {CLI_VERSION})</span
+            >caleño-terminal@openchuspa:~ (ve {CLI_VERSION})</span
           >
         </div>
         <span
@@ -109,7 +109,7 @@ import { quickCommands } from '../data/site';
             <span class="mb-1 block font-mono text-[11px] text-zinc-500">Sucursal del Cielo (Región actual):</span>
             <div class="flex items-center gap-2 font-mono text-xs text-zinc-300">
               <Icon name="MapPin" class="size-4" />
-              <span>{REGION} (Latencia: 0.3ms)</span>
+              <span>{REGION}</span>
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@ import { quickCommands } from '../data/site';
           el(
             'div',
             'mb-1 flex items-center justify-between gap-2 font-bold text-salsa-orange',
-            el('span', 'min-w-0 truncate', `🛍️ chuspa://${name}`),
+            el('span', 'min-w-0 truncate', `chuspa://${name}`),
             el('span', 'shrink-0 text-[10px] font-normal text-zinc-500', `(${files.length} chucherías)`)
           ),
           ...(files.length
@@ -178,7 +178,7 @@ import { quickCommands } from '../data/site';
                 el(
                   'div',
                   'flex items-center justify-between gap-2 py-0.5 pl-4 text-[11px] text-zinc-400',
-                  el('span', 'min-w-0 truncate', `📄 ${f}`),
+                  el('span', 'min-w-0 truncate', f),
                   el('span', 'shrink-0 text-[10px] text-zinc-300', 'OK')
                 )
               )
@@ -209,16 +209,16 @@ import { quickCommands } from '../data/site';
     if (cmd.startsWith('ve mira')) {
       const target = cmd.split(/\s+/)[2] || 'chuspa://';
       if (target === 'chuspa://') {
-        return [line(['Listando Chuspas Caleñas:', 'muted']), ...[...chuspas.keys()].map((k) => line(`🛍️ chuspa://${k}/`))];
+        return [line(['Chuspas:', 'muted']), ...[...chuspas.keys()].map((k) => line(`chuspa://${k}/`))];
       }
       const name = target.replace('chuspa://', '').split('/')[0];
       const files = chuspas.get(name);
       if (!files) {
-        return [line([`¡Oíste! La chuspa '${name}' no existe aún. Creala con 've crea chuspa://${name}'`, 'error'])];
+        return [line([`La chuspa '${name}' no existe. Creala con 've crea chuspa://${name}'`, 'error'])];
       }
       return [
         line([`Contenido de chuspa://${name}:`, 'muted']),
-        ...(files.length ? files.map((f) => line(`  📄 ${f}`)) : [line('  (Chuspa vacía)')]),
+        ...(files.length ? files.map((f) => line(`  ${f}`)) : [line('  (Chuspa vacía)')]),
       ];
     }
 
@@ -229,8 +229,8 @@ import { quickCommands } from '../data/site';
       chuspas.set(name, []);
       renderChuspas();
       return [
-        line(['¡Chuspa creada con éxito!', 'bright']),
-        line(`HTTP 200 OK — s3://${name} lista en '${REGION}'. ¡Vos sabés!`),
+        line(['Chuspa creada.', 'bright']),
+        line(`HTTP 200 OK — chuspa://${name} creada en '${REGION}'.`),
       ];
     }
 
@@ -244,28 +244,28 @@ import { quickCommands } from '../data/site';
       chuspas.set(name, [key, ...(chuspas.get(name) ?? []).filter((k) => k !== key)]);
       renderChuspas();
       return [
-        line(['¡Empacado en Chuspa exitoso! 📦', 'bright', true]),
-        line('Local: ', [localFile, 'bright'], ' ➔ Remote: ', [`chuspa://${name}/${key}`, 'muted']),
+        line(['Subido.', 'bright', true]),
+        line('Local: ', [localFile, 'bright'], ' → Remoto: ', [`chuspa://${name}/${key}`, 'muted']),
         line('Checksum CRC64NVME: VÁLIDO'),
       ];
     }
 
     if (cmd.startsWith('ve baja')) {
       return [
-        line(['Sacando de la chuspa... 👐', 'muted', true]),
-        line('Descargado en tu directorio local. ¡Todo bien, todo bonito!'),
+        line(['Descargando...', 'muted', true]),
+        line('Descargado en el directorio local.'),
       ];
     }
 
     if (cmd.startsWith('ve sincroniza')) {
       return [
-        line(['Sincronizando con la chuspa... 🔄', 'muted', true]),
-        line('Carpeta al día: local y remoto quedaron igualitos. ¡Qué chimba!'),
+        line(['Sincronizando...', 'muted', true]),
+        line('Carpeta sincronizada: se copió lo nuevo o cambiado.'),
       ];
     }
 
     if (cmd.startsWith('ve borra')) {
-      return [line(['Objeto borrado de la chuspa. ¡Limpieza caleña efectuada!', 'error'])];
+      return [line(['Objeto borrado.', 'error'])];
     }
 
     return [line(['Comando no reconocido. Escribí ', 'muted'], ["'ayuda'", 'brand', true], [' para ver la guía de la chuspa.', 'muted'])];

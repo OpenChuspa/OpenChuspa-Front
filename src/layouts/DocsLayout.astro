@@ -1,0 +1,54 @@
+---
+import Layout from './Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Toast from '../components/Toast.astro';
+import { docsNav } from '../data/docs';
+
+interface Props {
+  frontmatter: { title: string; description: string };
+}
+
+const { frontmatter } = Astro.props;
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const current = docsNav.findIndex((d) => d.href === path);
+const prev = current > 0 ? docsNav[current - 1] : undefined;
+const next = current >= 0 && current < docsNav.length - 1 ? docsNav[current + 1] : undefined;
+---
+
+<Layout title={`${frontmatter.title} | Documentación de OpenChuspa`} description={frontmatter.description}>
+  <Header />
+  <main id="contenido" class="pt-[calc(var(--header-h)+2rem)] pb-16 sm:pb-24">
+    <div class="container-page grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+      <nav aria-label="Documentación" class="min-w-0 lg:col-span-3">
+        <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
+          <p class="mb-3 font-mono text-[11px] font-bold tracking-widest text-zinc-400 uppercase">Documentación</p>
+          <ul class="flex gap-1 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
+            {
+              docsNav.map((d) => (
+                <li class="shrink-0">
+                  <a
+                    href={d.href}
+                    aria-current={d.href === path ? 'page' : undefined}
+                    class="block rounded-lg px-3 py-2 text-sm font-semibold whitespace-nowrap text-zinc-300 transition-colors hover:bg-salsa-card hover:text-white aria-[current=page]:bg-salsa-card aria-[current=page]:text-salsa-orange"
+                  >
+                    {d.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </nav>
+      <article class="docs min-w-0 lg:col-span-9">
+        <slot />
+        <div class="mt-12 flex flex-col gap-3 border-t border-salsa-border pt-6 sm:flex-row sm:justify-between">
+          {prev ? <a href={prev.href} class="text-sm font-semibold text-zinc-300 hover:text-salsa-orange">← {prev.label}</a> : <span />}
+          {next && <a href={next.href} class="text-sm font-semibold text-zinc-300 hover:text-salsa-orange">{next.label} →</a>}
+        </div>
+      </article>
+    </div>
+  </main>
+  <Footer />
+  <Toast />
+</Layout>

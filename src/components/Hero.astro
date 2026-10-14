@@ -3,6 +3,7 @@ import Icon from './Icon.astro';
 import { Image } from 'astro:assets';
 import elParchao from '../assets/el-parchao.webp';
 import { highlights } from '../data/site';
+import { CLI_VERSION } from '../data/constants';
 ---
 
 <section class="relative overflow-hidden pt-[calc(var(--header-h)+2.5rem)] pb-16 sm:pb-20 lg:pt-[calc(var(--header-h)+5rem)] lg:pb-28">
@@ -19,33 +20,33 @@ import { highlights } from '../data/site';
       >
         <span class="size-2.5 shrink-0 animate-ping rounded-full bg-zinc-300"></span>
         <span class="font-mono text-[11px] font-bold tracking-wider text-salsa-orange uppercase sm:text-xs"
-          >En construcción · Motor S3 de código abierto</span
+          >{CLI_VERSION} · Al aire · Código abierto</span
         >
       </p>
 
       <h1 class="mb-6 text-[clamp(2rem,7vw+0.5rem,4.5rem)] leading-[1.1] font-extrabold tracking-tight text-balance">
-        El Motor Caleño de S3 que corre con <span class="gradient-text-salsa">Pura Salsa</span>.
+        El motor caleño de almacenamiento <span class="gradient-text-salsa">compatible con S3</span>.
       </h1>
 
       <p class="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-pretty text-zinc-300 sm:text-xl lg:mx-0">
-        Almacenamiento de objetos compatible con S3, abierto y seguro por defecto, pensado para los developers de Cali
-        y el mundo. ¿Necesitás subir un archivo volando?{' '}
+        Almacenamiento de objetos de un nodo, abierto y seguro por defecto: datos que sobreviven a caídas, verificados
+        con SHA-256 y probados en cada cambio contra los SDK de AWS. Subir un archivo es{' '}
         <code class="font-mono text-[0.9em] font-bold break-words text-salsa-orange"
           >ve subi ./file.txt a chuspa://mi-parche/</code
         >{' '}y listo.
       </p>
 
       <div class="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4 lg:justify-start">
-        <a href="#playground" class="btn-primary rounded-2xl px-6 py-4 text-base sm:px-8">
-          <Icon name="Play" class="size-5" />
-          <span>Probar Comandos Caleños</span>
+        <a href="/docs/instalacion/" class="btn-primary rounded-2xl px-6 py-4 text-base sm:px-8">
+          <Icon name="Download" class="size-5" />
+          <span>Instalar en 5 minutos</span>
         </a>
         <a
-          href="#sdks"
+          href="/docs/"
           class="inline-flex items-center justify-center gap-2 rounded-2xl border border-salsa-border bg-salsa-card px-6 py-4 text-base font-semibold text-zinc-200 transition-colors hover:border-zinc-600 hover:bg-salsa-border sm:px-8"
         >
-          <Icon name="Code2" class="size-5 text-zinc-400" />
-          <span>SDKs (Python, JS, Go)</span>
+          <Icon name="BookOpen" class="size-5 text-zinc-400" />
+          <span>Documentación</span>
         </a>
       </div>
 
@@ -89,7 +90,7 @@ import { highlights } from '../data/site';
             <span class="font-mono text-[11px] font-bold tracking-widest text-salsa-orange uppercase sm:text-xs"
               >Respuesta del Servidor S3</span
             >
-            <p class="mt-1 font-mono text-sm font-bold text-zinc-200 sm:text-base">HTTP 200 OK — "Vos sabés!"</p>
+            <p class="mt-1 font-mono text-sm font-bold text-zinc-200 sm:text-base">HTTP 200 OK</p>
           </div>
         </div>
       </div>
