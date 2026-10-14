@@ -83,6 +83,41 @@
   display: block;
 }
 
+/* ====== Barra superior (versión y reproductor) ======
+   Oscuro: barra negra con texto naranja. Claro: barra naranja con texto negro. */
+.top-banner {
+  background: #000;
+  color: var(--color-salsa-orange);
+  border-bottom: 1px solid var(--color-salsa-border);
+}
+.player-pill {
+  background: rgb(255 107 0 / 0.12);
+  color: var(--color-salsa-orange);
+  --tw-ring-color: rgb(255 107 0 / 0.25);
+}
+.player-pill:hover {
+  background: rgb(255 107 0 / 0.2);
+}
+.player-vol {
+  accent-color: var(--color-salsa-orange);
+}
+:root[data-theme='light'] .top-banner {
+  background: var(--color-salsa-orange);
+  color: #000;
+  border-bottom-color: transparent;
+}
+:root[data-theme='light'] .player-pill {
+  background: rgb(0 0 0 / 0.85);
+  color: var(--color-salsa-orange);
+  --tw-ring-color: rgb(0 0 0 / 0.25);
+}
+:root[data-theme='light'] .player-pill:hover {
+  background: #000;
+}
+:root[data-theme='light'] .player-vol {
+  accent-color: #000;
+}
+
 /* ====== Base ====== */
 :root {
   --banner-h: 2.5rem;
