@@ -3,5 +3,5 @@
 export const ENDPOINT = 'http://localhost:9000';
 export const REGION = 'cali-san-antonio-1';
 export const DEFAULT_CHUSPA = 'prod-chuspa-name';
-export const CLI_VERSION = 'v2.6.0';
+export const CLI_VERSION = 'v0.1.0';
 export const PROMPT = 'caleño@openchuspa:~$';
