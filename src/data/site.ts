@@ -1,5 +1,5 @@
 import type { icons } from 'lucide';
-import { DEFAULT_CHUSPA, ENDPOINT, REGION } from './constants';
+import { DEFAULT_CHUSPA, ENDPOINT, IMAGE, REGION } from './constants';
 
 type IconName = keyof typeof icons;
 
@@ -215,12 +215,11 @@ func main() {
     key: 'docker',
     tab: 'Docker Compose',
     title: 'Docker Compose de un nodo, endurecido',
-    code: `# Próximamente: la imagen se publica con el primer release.
-# El secreto vive en un archivo, no en este YAML:
+    code: `# El secreto vive en un archivo, no en este YAML:
 #   mkdir -p secrets && openssl rand -hex 24 > secrets/chuspa_root_password
 services:
   chuspa:
-    image: ghcr.io/openchuspa/chuspa:0.1.0
+    image: ${IMAGE}
     ports:
       - "127.0.0.1:9000:9000"
     environment:
@@ -260,6 +259,5 @@ curl -O --aws-sigv4 "aws:amz:${REGION}:s3" \\
   },
 ];
 
-// La imagen se publica con el primer release; el secreto debe tener 32 caracteres o más.
-export const DOCKER_RUN =
-  'docker run -p 127.0.0.1:9000:9000 -e CHUSPA_ROOT_USER=mi-llave -e CHUSPA_ROOT_PASSWORD="$SECRETO" ghcr.io/openchuspa/chuspa:0.1.0';
+// El secreto debe tener 32 caracteres o más.
+export const DOCKER_RUN = `docker run -p 127.0.0.1:9000:9000 -e CHUSPA_ROOT_USER=mi-llave -e CHUSPA_ROOT_PASSWORD="$SECRETO" ${IMAGE}`;

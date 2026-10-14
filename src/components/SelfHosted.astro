@@ -12,12 +12,12 @@ import { DOCKER_RUN } from '../data/site';
         <h2 class="mt-1 text-2xl font-black text-balance text-white sm:text-3xl">Desplegá tu propio Motor Caleño</h2>
         <p class="mt-2 max-w-xl text-sm text-zinc-300">
           Un solo nodo, seguro por defecto: no arranca sin credenciales, corre sin root y verifica cada firma y cada
-          checksum. La imagen sale con el primer release; la clusterización y el cifrado "Sello Caleño" están en el
+          checksum. La imagen está en Docker Hub, firmada con cosign; la clusterización y el cifrado "Sello Caleño" están en el
           roadmap.
         </p>
       </div>
       <div class="min-w-0 shrink-0 rounded-2xl border border-salsa-border bg-salsa-dark p-4 font-mono text-xs lg:max-w-md">
-        <div class="mb-1 text-zinc-400">Así se va a correr (secreto de 32 caracteres o más):</div>
+        <div class="mb-1 text-zinc-400">Así se corre (secreto de 32 caracteres o más):</div>
         <code class="code-box mb-3 block bg-salsa-card font-bold text-zinc-200">{DOCKER_RUN}</code>
         <button type="button" data-copy={DOCKER_RUN} class="btn-primary w-full py-2.5">Copiar Docker Run</button>
       </div>
