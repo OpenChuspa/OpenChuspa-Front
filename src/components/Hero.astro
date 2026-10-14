@@ -2,8 +2,12 @@
 import Icon from './Icon.astro';
 import { Image } from 'astro:assets';
 import elParchao from '../assets/el-parchao.webp';
-import { highlights } from '../data/site';
+import { siteData } from '../data/site';
 import { CLI_VERSION } from '../data/constants';
+import { getLang, localizePath, useT } from '../i18n/ui';
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const { highlights } = siteData(lang);
 ---
 
 <section class="relative overflow-hidden pt-[calc(var(--header-h)+2.5rem)] pb-16 sm:pb-20 lg:pt-[calc(var(--header-h)+5rem)] lg:pb-28">
@@ -20,33 +24,32 @@ import { CLI_VERSION } from '../data/constants';
       >
         <span class="size-2.5 shrink-0 animate-ping rounded-full bg-zinc-300"></span>
         <span class="font-mono text-[11px] font-bold tracking-wider text-salsa-orange uppercase sm:text-xs"
-          >{CLI_VERSION} · Al aire · Código abierto</span
+          >{t('hero.badge', { v: CLI_VERSION })}</span
         >
       </p>
 
       <h1 class="mb-6 text-[clamp(2rem,7vw+0.5rem,4.5rem)] leading-[1.1] font-extrabold tracking-tight text-balance">
-        El motor caleño de almacenamiento <span class="gradient-text-salsa">compatible con S3</span>.
+        {t('hero.title1')} <span class="gradient-text-salsa">{t('hero.title2')}</span>.
       </h1>
 
       <p class="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-pretty text-zinc-300 sm:text-xl lg:mx-0">
-        Almacenamiento de objetos de un nodo, abierto y seguro por defecto: datos que sobreviven a caídas, verificados
-        con SHA-256 y probados en cada cambio contra los SDK de AWS. Subir un archivo es{' '}
+        {t('hero.lead')}{' '}
         <code class="font-mono text-[0.9em] font-bold break-words text-salsa-orange"
           >ve subi ./file.txt a chuspa://mi-parche/</code
-        >{' '}y listo.
+        >{' '}{t('hero.leadEnd')}
       </p>
 
       <div class="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4 lg:justify-start">
-        <a href="/docs/instalacion/" class="btn-primary rounded-2xl px-6 py-4 text-base sm:px-8">
+        <a href={localizePath('/docs/instalacion/', lang)} class="btn-primary rounded-2xl px-6 py-4 text-base sm:px-8">
           <Icon name="Download" class="size-5" />
-          <span>Instalar en 5 minutos</span>
+          <span>{t('hero.install')}</span>
         </a>
         <a
-          href="/docs/"
+          href={localizePath('/docs/', lang)}
           class="inline-flex items-center justify-center gap-2 rounded-2xl border border-salsa-border bg-salsa-card px-6 py-4 text-base font-semibold text-zinc-200 transition-colors hover:border-zinc-600 hover:bg-salsa-border sm:px-8"
         >
           <Icon name="BookOpen" class="size-5 text-zinc-400" />
-          <span>Documentación</span>
+          <span>{t('hero.docs')}</span>
         </a>
       </div>
 
@@ -56,7 +59,7 @@ import { CLI_VERSION } from '../data/constants';
         {
           highlights.map((h) => (
             <div>
-              <dt class="font-mono text-[11px] text-zinc-400 uppercase">{h.label}</dt>
+              <dt class="font-mono text-[11px] text-zinc-400 uppercase">{t(h.label)}</dt>
               <dd
                 class:list={[
                   'font-mono text-lg font-black whitespace-nowrap sm:text-2xl',
@@ -78,7 +81,7 @@ import { CLI_VERSION } from '../data/constants';
         <div class="relative flex flex-col items-center rounded-3xl border-2 border-salsa-border bg-salsa-card p-5 shadow-2xl sm:p-8">
           <Image
             src={elParchao}
-            alt="El Parchao, la mascota de OpenChuspa: un caleño sonriente que sostiene una chuspa llena de archivos y levanta el pulgar, con la frase «Vos sabés»"
+            alt={t('hero.mascot')}
             widths={[320, 480, elParchao.width]}
             sizes="(min-width: 400px) 320px, 80vw"
             quality={88}
@@ -88,7 +91,7 @@ import { CLI_VERSION } from '../data/constants';
           />
           <div class="w-full rounded-2xl border border-salsa-orange/40 bg-salsa-dark p-4 text-center">
             <span class="font-mono text-[11px] font-bold tracking-widest text-salsa-orange uppercase sm:text-xs"
-              >Respuesta del Servidor S3</span
+              >{t('hero.response')}</span
             >
             <p class="mt-1 font-mono text-sm font-bold text-zinc-200 sm:text-base">HTTP 200 OK</p>
           </div>

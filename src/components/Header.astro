@@ -1,7 +1,27 @@
 ---
 import Icon from './Icon.astro';
-import { navLinks } from '../data/site';
+import { siteData } from '../data/site';
 import { CLI_VERSION } from '../data/constants';
+import { getLang, languages, localizePath, useT } from '../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const { navLinks } = siteData(lang);
+const other = lang === 'es' ? 'en' : 'es';
+const otherHref = localizePath(Astro.url.pathname, other);
+const docsHref = localizePath('/docs/', lang);
+const installHref = localizePath('/docs/instalacion/', lang);
+const playerText = {
+  idle: t('player.idle'),
+  idleHint: t('player.idleHint'),
+  loading: t('player.loading'),
+  loadingHint: t('player.loadingHint'),
+  playing: t('player.playing'),
+  playingHint: t('player.playingHint'),
+  error: t('player.error'),
+  errorHint: t('player.errorHint'),
+  errorToast: t('player.errorToast'),
+};
 ---
 
 <header class="site-header inset-x-0 top-0 z-40">
@@ -11,10 +31,8 @@ import { CLI_VERSION } from '../data/constants';
   >
     <p class="flex min-w-0 items-center gap-2">
       <Icon name="Radio" class="size-4" />
-      <a href="/docs/" class="truncate underline-offset-2 hover:underline sm:hidden">Al aire: {CLI_VERSION}</a>
-      <a href="/docs/" class="hidden truncate underline-offset-2 hover:underline sm:inline"
-        >Al aire: OpenChuspa {CLI_VERSION}, motor S3 de un nodo listo para usar. Leé la documentación</a
-      >
+      <a href={docsHref} class="truncate underline-offset-2 hover:underline sm:hidden">{t('banner.short')}: {CLI_VERSION}</a>
+      <a href={docsHref} class="hidden truncate underline-offset-2 hover:underline sm:inline">{t('banner.long', { v: CLI_VERSION })}</a>
     </p>
 
     <div class="flex shrink-0 items-center gap-2">
@@ -22,8 +40,9 @@ import { CLI_VERSION } from '../data/constants';
         id="salsa-toggle"
         type="button"
         data-state="idle"
-        aria-label="Reproducir salsa en vivo"
-        title="Reproducir salsa en vivo"
+        data-text={JSON.stringify(playerText)}
+        aria-label={t('player.idleHint')}
+        title={t('player.idleHint')}
         aria-pressed="false"
         class="group flex h-8 items-center gap-1.5 rounded-full bg-black/85 px-3 text-salsa-orange ring-black/25 transition hover:bg-black hover:ring-4 data-[state=loading]:cursor-progress"
       >
@@ -31,13 +50,9 @@ import { CLI_VERSION } from '../data/constants';
         <Icon name="LoaderCircle" class="hidden size-3.5 animate-spin group-data-[state=loading]:block" />
         <Icon name="Pause" class="hidden size-3.5 group-data-[state=playing]:block" />
         <span class="hidden h-3 items-end gap-[2px] sm:flex" aria-hidden="true">
-          {
-            [40, 100, 60, 85].map((h, i) => (
-              <span class="eq-bar w-[2px] bg-salsa-orange" style={`height:${h}%;--i:${i}`} />
-            ))
-          }
+          {[40, 100, 60, 85].map((h, i) => <span class="eq-bar w-[2px] bg-salsa-orange" style={`height:${h}%;--i:${i}`} />)}
         </span>
-        <span id="salsa-label" class="whitespace-nowrap">Poné salsa</span>
+        <span id="salsa-label" class="whitespace-nowrap">{t('player.idle')}</span>
       </button>
       <input
         id="salsa-vol"
@@ -46,7 +61,7 @@ import { CLI_VERSION } from '../data/constants';
         max="1"
         step="0.01"
         value="0.6"
-        aria-label="Volumen"
+        aria-label={t('player.volume')}
         class="hidden w-16 cursor-pointer accent-black md:block"
       />
     </div>
@@ -55,17 +70,15 @@ import { CLI_VERSION } from '../data/constants';
     <audio id="salsa-audio" preload="none"></audio>
   </div>
 
-  <nav aria-label="Principal" class="border-b border-salsa-border bg-salsa-dark/90 backdrop-blur-xl">
+  <nav aria-label={t('nav.main')} class="border-b border-salsa-border bg-salsa-dark/90 backdrop-blur-xl">
     <div class="container-page flex h-(--nav-h) items-center justify-between gap-3">
-      <a href="/" aria-label="openchuspa.xyz, ir al inicio" class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
-        <span
-          class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-salsa-orange/60 bg-salsa-dark lg:size-10"
-        >
+      <a href={localizePath('/', lang)} aria-label={t('nav.home')} class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
+        <span class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-salsa-orange/60 bg-salsa-dark lg:size-10">
           <Icon name="ShoppingBag" class="size-5 text-salsa-orange" />
         </span>
         <span class="min-w-0">
           <span class="block truncate text-xl font-black tracking-tight text-white lg:text-2xl"
-            >open<span class="text-salsa-orange">chuspa</span><span class="text-zinc-400">.xyz</span></span
+            >open<span class="text-salsa-orange">chuspa</span></span
           >
           <span class="-mt-0.5 hidden font-mono text-[10px] tracking-widest text-zinc-400 uppercase min-[360px]:block"
             >S3 Caleño Engine</span
@@ -78,14 +91,37 @@ import { CLI_VERSION } from '../data/constants';
       </div>
 
       <div class="flex shrink-0 items-center gap-2">
-        <a href="/docs/instalacion/" class="btn-primary hidden px-4 py-2.5 text-sm sm:inline-flex">
+        <a
+          href={otherHref}
+          hreflang={other}
+          lang={other}
+          aria-label={`${t('nav.lang')}: ${languages[other]}`}
+          title={languages[other]}
+          class="flex h-10 items-center gap-1.5 rounded-xl border border-salsa-border px-2.5 font-mono text-xs font-bold text-zinc-200 transition-colors hover:border-salsa-orange hover:text-salsa-orange"
+        >
+          <Icon name="Languages" class="size-4" />
+          <span>{other.toUpperCase()}</span>
+        </a>
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label={t('nav.theme')}
+          title={t('nav.theme')}
+          class="flex size-10 items-center justify-center rounded-xl border border-salsa-border text-zinc-200 transition-colors hover:border-salsa-orange hover:text-salsa-orange"
+        >
+          <Icon name="Sun" class="theme-icon-sun size-4" />
+          <Icon name="Moon" class="theme-icon-moon size-4" />
+        </button>
+        <a href={installHref} class="btn-primary hidden px-4 py-2.5 text-sm sm:inline-flex">
           <Icon name="Download" class="size-4" />
-          <span>Instalar</span>
+          <span>{t('nav.install')}</span>
         </a>
         <button
           id="menu-toggle"
           type="button"
-          aria-label="Abrir menú"
+          aria-label={t('nav.menuOpen')}
+          data-label-open={t('nav.menuOpen')}
+          data-label-close={t('nav.menuClose')}
           aria-expanded="false"
           aria-controls="mobile-menu"
           class="group flex size-10 items-center justify-center rounded-xl border border-salsa-border text-zinc-200 transition-colors hover:border-salsa-orange hover:bg-salsa-card hover:text-salsa-orange lg:hidden"
@@ -108,9 +144,9 @@ import { CLI_VERSION } from '../data/constants';
             </a>
           ))
         }
-        <a href="/docs/instalacion/" class="btn-primary mt-2 px-4 py-3 text-sm sm:hidden">
+        <a href={installHref} class="btn-primary mt-2 px-4 py-3 text-sm sm:hidden">
           <Icon name="Download" class="size-4" />
-          <span>Instalar</span>
+          <span>{t('nav.install')}</span>
         </a>
       </div>
     </div>
@@ -126,7 +162,7 @@ import { CLI_VERSION } from '../data/constants';
     if (!menuToggle || !menu) return;
     menu.hidden = !open;
     menuToggle.setAttribute('aria-expanded', String(open));
-    menuToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    menuToggle.setAttribute('aria-label', (open ? menuToggle.dataset.labelClose : menuToggle.dataset.labelOpen) ?? '');
   }
 
   menuToggle?.addEventListener('click', () => setMenu(menu?.hidden ?? false));
@@ -139,8 +175,18 @@ import { CLI_VERSION } from '../data/constants';
   // Al pasar a escritorio el menú móvil no debe quedar abierto.
   window.matchMedia('(width >= 64rem)').addEventListener('change', () => setMenu(false));
 
+  // ====== Tema claro / oscuro ======
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', next === 'light' ? '#fafafa' : '#0a0a0a');
+    try {
+      localStorage.setItem('chuspa-theme', next);
+    } catch {}
+  });
+
   // ====== Sección activa en la navegación ======
-  const spyLinks = [...document.querySelectorAll<HTMLAnchorElement>('.site-header a[href^="/#"]')];
+  const spyLinks = [...document.querySelectorAll<HTMLAnchorElement>('.site-header a[href*="/#"]')];
   const spy = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -158,26 +204,50 @@ import { CLI_VERSION } from '../data/constants';
   document.querySelectorAll('main section[id]').forEach((section) => spy.observe(section));
 
   // ====== Reproductor de salsa (Yo Soy Cali Salsa, stream en vivo) ======
+  // La elección del usuario se recuerda entre páginas y visitas: si la pausó,
+  // sigue en pausa; si estaba sonando, vuelve a sonar al cambiar de página.
   const SALSA_STREAM = 'https://stream.integracionvirtual.com/proxy/yosoycalisalsa?mp=/stream';
   const LOAD_TIMEOUT_MS = 15_000;
+  const PREF_KEY = 'chuspa-salsa'; // 'on' | 'off'
+  const VOL_KEY = 'chuspa-salsa-vol';
 
   type PlayerState = 'idle' | 'loading' | 'playing' | 'error';
-  const PLAYER_UI: Record<PlayerState, { label: string; hint: string }> = {
-    idle: { label: 'Poné salsa', hint: 'Reproducir salsa en vivo' },
-    loading: { label: 'Cargando…', hint: 'Conectando con la emisora (clic para cancelar)' },
-    playing: { label: 'Sonando salsa', hint: 'Pausar la salsa' },
-    error: { label: 'Reintentar', hint: 'No se pudo conectar con la emisora. Clic para reintentar' },
-  };
 
   const audio = document.getElementById('salsa-audio') as HTMLAudioElement | null;
   const toggle = document.getElementById('salsa-toggle');
   const label = document.getElementById('salsa-label');
   const vol = document.getElementById('salsa-vol') as HTMLInputElement | null;
 
+  const store = {
+    get: (k: string) => {
+      try {
+        return localStorage.getItem(k);
+      } catch {
+        return null;
+      }
+    },
+    set: (k: string, v: string) => {
+      try {
+        localStorage.setItem(k, v);
+      } catch {}
+    },
+  };
+
   if (audio && toggle) {
+    const text = JSON.parse(toggle.dataset.text ?? '{}') as Record<string, string>;
+    const UI: Record<PlayerState, { label: string; hint: string }> = {
+      idle: { label: text.idle, hint: text.idleHint },
+      loading: { label: text.loading, hint: text.loadingHint },
+      playing: { label: text.playing, hint: text.playingHint },
+      error: { label: text.error, hint: text.errorHint },
+    };
+
     let state: PlayerState = 'idle';
     let loadTimer: number | undefined;
     let byUser = false; // un intento automático que falla no molesta: vuelve a reposo sin avisar
+
+    const savedVol = parseFloat(store.get(VOL_KEY) ?? '');
+    if (vol && !Number.isNaN(savedVol)) vol.value = String(savedVol);
     audio.volume = vol ? parseFloat(vol.value) : 0.6;
 
     const setState = (next: PlayerState) => {
@@ -185,9 +255,9 @@ import { CLI_VERSION } from '../data/constants';
       toggle.dataset.state = next;
       toggle.setAttribute('aria-pressed', String(next === 'playing'));
       toggle.setAttribute('aria-busy', String(next === 'loading'));
-      toggle.setAttribute('aria-label', PLAYER_UI[next].hint);
-      toggle.title = PLAYER_UI[next].hint;
-      if (label) label.textContent = PLAYER_UI[next].label;
+      toggle.setAttribute('aria-label', UI[next].hint);
+      toggle.title = UI[next].hint;
+      if (label) label.textContent = UI[next].label;
       window.clearTimeout(loadTimer);
       if (next === 'loading') loadTimer = window.setTimeout(fail, LOAD_TIMEOUT_MS);
     };
@@ -199,13 +269,11 @@ import { CLI_VERSION } from '../data/constants';
       audio.load();
     };
 
-    const fail = () => {
+    function fail() {
       setState(byUser ? 'error' : 'idle');
       release();
-      if (byUser) {
-        document.dispatchEvent(new CustomEvent('toast', { detail: 'No se pudo conectar con la emisora. Probá de nuevo.' }));
-      }
-    };
+      if (byUser) document.dispatchEvent(new CustomEvent('toast', { detail: text.errorToast }));
+    }
 
     const start = async (fromUser: boolean) => {
       byUser = fromUser;
@@ -213,7 +281,7 @@ import { CLI_VERSION } from '../data/constants';
       audio.src = `${SALSA_STREAM}&_t=${Date.now()}`;
       try {
         await audio.play();
-      } catch (err) {
+      } catch {
         if (state !== 'loading') return; // el usuario canceló o ya se reportó el fallo
         // Incluye el autoplay bloqueado por el navegador: queda listo para el primer gesto
         fail();
@@ -221,8 +289,11 @@ import { CLI_VERSION } from '../data/constants';
     };
 
     toggle.addEventListener('click', () => {
-      if (state === 'idle' || state === 'error') start(true);
-      else {
+      if (state === 'idle' || state === 'error') {
+        store.set(PREF_KEY, 'on');
+        start(true);
+      } else {
+        store.set(PREF_KEY, 'off');
         setState('idle');
         release();
       }
@@ -239,17 +310,21 @@ import { CLI_VERSION } from '../data/constants';
     });
     vol?.addEventListener('input', () => {
       audio.volume = parseFloat(vol.value);
+      store.set(VOL_KEY, vol.value);
     });
 
-    // Intento de autoplay al entrar; si el navegador lo bloquea, arranca con el
-    // primer gesto en la página. Solo una vez, y nunca si ese gesto es sobre el
-    // propio botón (ahí manda el clic) para no encender y apagar en el mismo toque.
-    start(false);
-    const GESTURES = ['pointerdown', 'keydown'];
-    const kickstart = (e: Event) => {
-      GESTURES.forEach((g) => window.removeEventListener(g, kickstart));
-      if (state === 'idle' && !toggle.contains(e.target as Node) && !vol?.contains(e.target as Node)) start(false);
-    };
-    GESTURES.forEach((g) => window.addEventListener(g, kickstart));
+    // Solo suena sola si el usuario no la apagó. Si el navegador bloquea el
+    // autoplay, arranca con el primer gesto en la página, nunca si ese gesto es
+    // sobre el propio botón (ahí manda el clic).
+    if (store.get(PREF_KEY) !== 'off') {
+      start(false);
+      const GESTURES = ['pointerdown', 'keydown'];
+      const kickstart = (e: Event) => {
+        GESTURES.forEach((g) => window.removeEventListener(g, kickstart));
+        if (store.get(PREF_KEY) === 'off') return;
+        if (state === 'idle' && !toggle.contains(e.target as Node) && !vol?.contains(e.target as Node)) start(false);
+      };
+      GESTURES.forEach((g) => window.addEventListener(g, kickstart));
+    }
   }
 </script>

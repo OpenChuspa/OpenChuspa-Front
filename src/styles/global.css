@@ -38,6 +38,51 @@
   }
 }
 
+/* ====== Tema claro ======
+   El oscuro es el de @theme. El claro invierte superficies y grises; la
+   terminal y los bloques de código (.keep-dark) siguen oscuros en los dos. */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --color-salsa-dark: #fafafa;
+  --color-salsa-card: #ffffff;
+  --color-salsa-border: #e4e4e7;
+  --color-white: #0a0a0a;
+  --color-zinc-100: #18181b;
+  --color-zinc-200: #27272a;
+  --color-zinc-300: #3f3f46;
+  --color-zinc-400: #52525b;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #a1a1aa;
+  --dot-color: rgb(0 0 0 / 0.07);
+  --gradient-mid: #0a0a0a;
+}
+
+:root[data-theme='light'] .keep-dark {
+  color-scheme: dark;
+  --color-salsa-dark: #0a0a0a;
+  --color-salsa-card: #141414;
+  --color-salsa-border: #262626;
+  --color-white: #fff;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #9f9fa9;
+  --color-zinc-500: #71717b;
+  --color-zinc-600: #52525c;
+  color: var(--color-zinc-100);
+}
+
+/* Botón de tema: muestra el sol en oscuro (pasar a claro) y la luna en claro. */
+.theme-icon-moon {
+  display: none;
+}
+:root[data-theme='light'] .theme-icon-sun {
+  display: none;
+}
+:root[data-theme='light'] .theme-icon-moon {
+  display: block;
+}
+
 /* ====== Base ====== */
 :root {
   --banner-h: 2.5rem;
@@ -61,7 +106,7 @@ html {
 body {
   overflow-x: clip;
   background-color: var(--color-salsa-dark);
-  background-image: radial-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px);
+  background-image: radial-gradient(var(--dot-color, rgb(255 255 255 / 0.06)) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -154,7 +199,7 @@ body {
 }
 
 @utility btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl bg-salsa-orange font-bold text-white transition hover:bg-[#ff7d1f] hover:shadow-lg hover:shadow-salsa-orange/30;
+  @apply inline-flex items-center justify-center gap-2 rounded-xl bg-salsa-orange font-bold text-[#fff] transition hover:bg-[#ff7d1f] hover:shadow-lg hover:shadow-salsa-orange/30;
 }
 
 @utility code-box {
@@ -162,7 +207,7 @@ body {
 }
 
 .gradient-text-salsa {
-  background: linear-gradient(135deg, #ff6b00 0%, #fff 60%, #a1a1aa 100%);
+  background: linear-gradient(135deg, #ff6b00 0%, var(--gradient-mid, #fff) 60%, #a1a1aa 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -218,7 +263,7 @@ body {
   margin-top: 1rem;
 }
 .docs h1 {
-  color: white;
+  color: var(--color-white);
   font-size: clamp(1.875rem, 3vw + 1rem, 2.5rem);
   font-weight: 800;
   line-height: 1.15;
@@ -226,14 +271,14 @@ body {
 }
 .docs h2 {
   margin-top: 2.5rem;
-  color: white;
+  color: var(--color-white);
   font-size: 1.5rem;
   font-weight: 800;
   scroll-margin-top: calc(var(--header-h) + 1rem);
 }
 .docs h3 {
   margin-top: 1.75rem;
-  color: white;
+  color: var(--color-white);
   font-size: 1.125rem;
   font-weight: 700;
   scroll-margin-top: calc(var(--header-h) + 1rem);
@@ -246,7 +291,7 @@ body {
   text-decoration: underline;
 }
 .docs strong {
-  color: white;
+  color: var(--color-white);
 }
 .docs ul,
 .docs ol {
@@ -276,6 +321,7 @@ body {
   border-radius: 0.75rem;
   border: 1px solid var(--color-salsa-border);
   background: #050505 !important;
+  color-scheme: dark;
   padding: 1rem 1.25rem;
   font-size: 0.8125rem;
   line-height: 1.6;
@@ -295,7 +341,7 @@ body {
 }
 .docs th {
   background: var(--color-salsa-card);
-  color: white;
+  color: var(--color-white);
 }
 .docs blockquote {
   border-left: 3px solid var(--color-salsa-orange);

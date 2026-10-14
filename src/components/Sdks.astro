@@ -1,22 +1,26 @@
 ---
 import Icon from './Icon.astro';
 import SectionHeader from './SectionHeader.astro';
-import { sdkSnippets } from '../data/site';
+import { siteData } from '../data/site';
+import { getLang, useT } from '../i18n/ui';
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const { sdkSnippets } = siteData(lang);
 ---
 
 <section id="sdks" class="border-t border-salsa-border bg-salsa-card/60 py-16 sm:py-20">
   <div class="container-page">
     <SectionHeader
-      eyebrow="Probado con clientes reales"
-      title="Integración con SDKs S3"
-      description="Probado en CI con AWS CLI, boto3, @aws-sdk/client-s3 y aws-sdk-go-v2. Apuntá el endpoint a tu motor y usá tus propias llaves."
+      eyebrow={t('sdk.eyebrow')}
+      title={t('sdk.title')}
+      description={t('sdk.description')}
     />
 
-    <div class="overflow-hidden rounded-2xl border-2 border-salsa-border bg-salsa-card shadow-2xl sm:rounded-3xl">
+    <div class="keep-dark overflow-hidden rounded-2xl border-2 border-salsa-border bg-salsa-card shadow-2xl sm:rounded-3xl">
       <!-- En móvil las pestañas se desplazan en horizontal en lugar de apilarse -->
       <div
         role="tablist"
-        aria-label="Lenguaje o herramienta"
+        aria-label={t('sdk.tablist')}
         class="flex gap-2 overflow-x-auto border-b border-salsa-border bg-salsa-dark p-3 sm:flex-wrap"
       >
         {
@@ -46,7 +50,7 @@ import { sdkSnippets } from '../data/site';
             class="flex shrink-0 items-center gap-1.5 rounded-lg bg-salsa-border px-3 py-2 text-xs font-bold text-zinc-300 transition-colors hover:bg-salsa-orange hover:text-white"
           >
             <Icon name="Copy" class="size-3.5" />
-            <span>Copiar Código</span>
+            <span>{t('sdk.copy')}</span>
           </button>
         </div>
 

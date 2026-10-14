@@ -7,6 +7,11 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   site: 'https://openchuspa.xyz',
   output: 'static',
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
   adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],

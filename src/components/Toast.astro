@@ -14,6 +14,9 @@ import Icon from './Icon.astro';
 </div>
 
 <script>
+  import { pageLang, ui } from '../i18n/ui';
+
+  const L = ui[pageLang()];
   const toast = document.getElementById('toast');
   const toastMsg = document.getElementById('toast-msg');
   let timer: number | undefined;
@@ -38,7 +41,7 @@ import Icon from './Icon.astro';
       document.execCommand('copy');
       textarea.remove();
     }
-    showToast('Copiado al portapapeles.');
+    showToast(L.copiedToast);
   }
 
   // Cualquier script de la página puede avisar algo: document.dispatchEvent(new CustomEvent('toast', { detail }))
@@ -50,7 +53,7 @@ import Icon from './Icon.astro';
     if (btn.dataset.copied) return;
     const original = text.textContent;
     btn.dataset.copied = 'true';
-    text.textContent = '¡Copiado!';
+    text.textContent = L.copied;
     window.setTimeout(() => {
       text.textContent = original;
       delete btn.dataset.copied;

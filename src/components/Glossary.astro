@@ -1,14 +1,18 @@
 ---
 import SectionHeader from './SectionHeader.astro';
-import { glossary } from '../data/site';
+import { siteData } from '../data/site';
+import { getLang, useT } from '../i18n/ui';
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const { glossary } = siteData(lang);
 ---
 
 <section id="glosario" class="border-y border-salsa-border bg-salsa-card/40 py-16 sm:py-20">
   <div class="container-page">
     <SectionHeader
-      eyebrow="Términos"
-      title="Glosario"
-      description="Los nombres que usa OpenChuspa y su equivalente en AWS S3."
+      eyebrow={t('gl.eyebrow')}
+      title={t('gl.title')}
+      description={t('gl.description')}
     />
 
     <dl class="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">

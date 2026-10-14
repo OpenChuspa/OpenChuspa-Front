@@ -3,26 +3,30 @@ import Layout from './Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Toast from '../components/Toast.astro';
-import { docsNav } from '../data/docs';
+import { docsNav as buildNav } from '../data/docs';
+import { getLang, useT } from '../i18n/ui';
 
 interface Props {
   frontmatter: { title: string; description: string };
 }
 
 const { frontmatter } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const docsNav = buildNav(lang);
 const path = Astro.url.pathname.replace(/\/?$/, '/');
 const current = docsNav.findIndex((d) => d.href === path);
 const prev = current > 0 ? docsNav[current - 1] : undefined;
 const next = current >= 0 && current < docsNav.length - 1 ? docsNav[current + 1] : undefined;
 ---
 
-<Layout title={`${frontmatter.title} | Documentación de OpenChuspa`} description={frontmatter.description}>
+<Layout title={`${frontmatter.title} | ${t('docs.titleSuffix')}`} description={frontmatter.description}>
   <Header />
   <main id="contenido" class="pt-[calc(var(--header-h)+2rem)] pb-16 sm:pb-24">
     <div class="container-page grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
-      <nav aria-label="Documentación" class="min-w-0 lg:col-span-3">
+      <nav aria-label={t('docs.label')} class="min-w-0 lg:col-span-3">
         <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
-          <p class="mb-3 font-mono text-[11px] font-bold tracking-widest text-zinc-400 uppercase">Documentación</p>
+          <p class="mb-3 font-mono text-[11px] font-bold tracking-widest text-zinc-400 uppercase">{t('docs.label')}</p>
           <ul class="flex gap-1 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
             {
               docsNav.map((d) => (
