@@ -1,20 +1,20 @@
 import type { icons } from 'lucide';
-import { DEFAULT_CHUSPA, ENDPOINT, IMAGE, REGION } from './constants';
+import { CLI_VERSION, DEFAULT_CHUSPA, ENDPOINT, IMAGE, REGION } from './constants';
 
 type IconName = keyof typeof icons;
 
 export const navLinks = [
-  { href: '#playground', label: 'Terminal Interactiva', short: 'Terminal' },
-  { href: '#comandos', label: 'Comandos CLI', short: 'CLI' },
-  { href: '#glosario', label: 'Glosario Caleño', short: 'Glosario' },
-  { href: '#generador', label: 'Generador', short: 'Generador' },
-  { href: '#sdks', label: 'SDKs & S3', short: 'SDKs' },
+  { href: '/docs/', label: 'Documentación', short: 'Docs' },
+  { href: '/#playground', label: 'Terminal', short: 'Terminal' },
+  { href: '/#comandos', label: 'Comandos CLI', short: 'CLI' },
+  { href: '/#glosario', label: 'Glosario', short: 'Glosario' },
+  { href: '/#sdks', label: 'SDKs', short: 'SDKs' },
 ];
 
 export const highlights = [
   { label: 'Licencia', value: 'Apache-2.0' },
   { label: 'Standard API', value: 'AWS S3' },
-  { label: 'Garantía Caleña', value: 'Vos Sabés 😉', accent: true },
+  { label: 'Versión', value: CLI_VERSION, accent: true },
 ];
 
 export const quickCommands = [
@@ -80,43 +80,43 @@ export const commands: {
 export const glossary = [
   {
     aws: 'Bucket',
-    term: 'Chuspa 🛍️',
-    description: 'La bolsa de plástico tradicional donde guardás todo lo que no querés que se te pierda.',
+    term: 'Chuspa',
+    description: 'El contenedor donde se guardan los objetos: el equivalente a un bucket.',
   },
   {
     aws: 'Object',
-    term: 'Chuchería 📦',
-    description: 'Cualquier archivo, imagen, vídeo o dato comprimido empacado en tu chuspa.',
+    term: 'Chuchería',
+    description: 'Cualquier archivo guardado en una chuspa, con su key, sus metadatos y su checksum.',
   },
   {
     aws: 'Access Key ID',
-    term: 'Clave del Parchao 🔑',
-    description: 'Tu identificador público para entrar al parche del servidor sin pedir permiso.',
+    term: 'Clave del Parchao',
+    description: 'El identificador público de la credencial (Access Key ID).',
   },
   {
     aws: 'Secret Key',
-    term: 'La Secreta de la Cuadra 🔒',
-    description: 'La contraseña privada. No se la des ni a tu mejor amigo del barrio.',
+    term: 'La Secreta de la Cuadra',
+    description: 'La parte privada de la credencial: mínimo 32 caracteres y nunca en un repositorio.',
   },
   {
     aws: 'Endpoint',
-    term: 'La Esquina 📍',
+    term: 'La Esquina',
     description: `La dirección de tu motor. En local: ${ENDPOINT}.`,
   },
   {
     aws: 'Region',
-    term: 'Sucursal del Cielo ☁️',
+    term: 'Sucursal del Cielo',
     description: `La región que reporta el motor y exige en la firma: ${REGION}.`,
   },
   {
     aws: 'IAM / Policy',
-    term: 'Reglamento del Parche 📜',
-    description: 'Las reglas de quién puede ver o sacar cosas de cada chuspa. Está en el roadmap.',
+    term: 'Reglamento del Parche',
+    description: 'Usuarios y políticas por chuspa. Está en el roadmap; hoy hay una credencial raíz.',
   },
   {
     aws: 'Server',
-    term: 'Motor Caleño 🏎️',
-    description: 'El servidor S3 de un solo nodo, alimentado a jugo de borojó y champús.',
+    term: 'Motor Caleño',
+    description: 'El servidor S3 de un solo nodo: durable ante caídas, verificable y seguro por defecto.',
   },
 ];
 
@@ -147,7 +147,7 @@ s3 = boto3.client(
 
 # Empacar objeto en la Chuspa (ve subi)
 s3.upload_file('./archivo_caleño.png', '${DEFAULT_CHUSPA}', 'test/archivo_caleño.png')
-print("¡Archivo empacado con éxito en la Chuspa! Vos sabés 😉")`,
+print("Archivo guardado en la chuspa.")`,
   },
   {
     key: 'node',
@@ -172,7 +172,7 @@ await s3.send(new PutObjectCommand({
   Key: "test/musica.mp3",
   Body: fileBuffer,
 }));
-console.log("¡Empacado en la chuspa con swing!");`,
+console.log("Archivo guardado en la chuspa.");`,
   },
   {
     key: 'go',
@@ -208,7 +208,7 @@ func main() {
     })
 
     _ = client
-    fmt.Println("Conectado a OpenChuspa en Cali! Vos sabés 😉")
+    fmt.Println("Conectado a OpenChuspa.")
 }`,
   },
   {

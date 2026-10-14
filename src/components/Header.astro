@@ -1,18 +1,19 @@
 ---
 import Icon from './Icon.astro';
 import { navLinks } from '../data/site';
+import { CLI_VERSION } from '../data/constants';
 ---
 
 <header class="site-header inset-x-0 top-0 z-40">
-  <!-- Aviso en construcción + reproductor de salsa -->
+  <!-- Aviso de versión + reproductor de salsa -->
   <div
     class="flex h-(--banner-h) items-center justify-between gap-3 bg-salsa-orange px-3 font-mono text-[11px] font-bold tracking-wide text-black sm:px-4 sm:text-xs"
   >
     <p class="flex min-w-0 items-center gap-2">
-      <Icon name="Construction" class="size-4" />
-      <span class="truncate sm:hidden">Sitio en construcción</span>
-      <span class="hidden truncate sm:inline"
-        >Sitio en construcción — demo visual, aún no funciona de verdad. ¡Pero ya suena salsa, parce!</span
+      <Icon name="Radio" class="size-4" />
+      <a href="/docs/" class="truncate underline-offset-2 hover:underline sm:hidden">Al aire: {CLI_VERSION}</a>
+      <a href="/docs/" class="hidden truncate underline-offset-2 hover:underline sm:inline"
+        >Al aire: OpenChuspa {CLI_VERSION}, motor S3 de un nodo listo para usar. Leé la documentación</a
       >
     </p>
 
@@ -36,7 +37,7 @@ import { navLinks } from '../data/site';
             ))
           }
         </span>
-        <span id="salsa-label" class="whitespace-nowrap">Poné salsa 🎺</span>
+        <span id="salsa-label" class="whitespace-nowrap">Poné salsa</span>
       </button>
       <input
         id="salsa-vol"
@@ -56,7 +57,7 @@ import { navLinks } from '../data/site';
 
   <nav aria-label="Principal" class="border-b border-salsa-border bg-salsa-dark/90 backdrop-blur-xl">
     <div class="container-page flex h-(--nav-h) items-center justify-between gap-3">
-      <a href="#" aria-label="openchuspa.xyz, ir al inicio" class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
+      <a href="/" aria-label="openchuspa.xyz, ir al inicio" class="flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-80 sm:gap-3">
         <span
           class="flex size-9 shrink-0 items-center justify-center rounded-xl border border-salsa-orange/60 bg-salsa-dark lg:size-10"
         >
@@ -77,9 +78,9 @@ import { navLinks } from '../data/site';
       </div>
 
       <div class="flex shrink-0 items-center gap-2">
-        <a href="#playground" class="btn-primary hidden px-4 py-2.5 text-sm sm:inline-flex">
-          <Icon name="Terminal" class="size-4" />
-          <span>Abrir Consola Caleña</span>
+        <a href="/docs/instalacion/" class="btn-primary hidden px-4 py-2.5 text-sm sm:inline-flex">
+          <Icon name="Download" class="size-4" />
+          <span>Instalar</span>
         </a>
         <button
           id="menu-toggle"
@@ -107,9 +108,9 @@ import { navLinks } from '../data/site';
             </a>
           ))
         }
-        <a href="#playground" class="btn-primary mt-2 px-4 py-3 text-sm sm:hidden">
-          <Icon name="Terminal" class="size-4" />
-          <span>Abrir Consola Caleña</span>
+        <a href="/docs/instalacion/" class="btn-primary mt-2 px-4 py-3 text-sm sm:hidden">
+          <Icon name="Download" class="size-4" />
+          <span>Instalar</span>
         </a>
       </div>
     </div>
@@ -139,7 +140,7 @@ import { navLinks } from '../data/site';
   window.matchMedia('(width >= 64rem)').addEventListener('change', () => setMenu(false));
 
   // ====== Sección activa en la navegación ======
-  const spyLinks = [...document.querySelectorAll<HTMLAnchorElement>('.site-header a[href^="#"]:not([href="#"])')];
+  const spyLinks = [...document.querySelectorAll<HTMLAnchorElement>('.site-header a[href^="/#"]')];
   const spy = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -162,7 +163,7 @@ import { navLinks } from '../data/site';
 
   type PlayerState = 'idle' | 'loading' | 'playing' | 'error';
   const PLAYER_UI: Record<PlayerState, { label: string; hint: string }> = {
-    idle: { label: 'Poné salsa 🎺', hint: 'Reproducir salsa en vivo' },
+    idle: { label: 'Poné salsa', hint: 'Reproducir salsa en vivo' },
     loading: { label: 'Cargando…', hint: 'Conectando con la emisora (clic para cancelar)' },
     playing: { label: 'Sonando salsa', hint: 'Pausar la salsa' },
     error: { label: 'Reintentar', hint: 'No se pudo conectar con la emisora. Clic para reintentar' },
@@ -202,7 +203,7 @@ import { navLinks } from '../data/site';
       setState(byUser ? 'error' : 'idle');
       release();
       if (byUser) {
-        document.dispatchEvent(new CustomEvent('toast', { detail: 'No se pudo conectar con la emisora. Probá de nuevo 📻' }));
+        document.dispatchEvent(new CustomEvent('toast', { detail: 'No se pudo conectar con la emisora. Probá de nuevo.' }));
       }
     };
 
