@@ -1,5 +1,8 @@
 ---
 import { DOCKER_RUN } from '../data/site';
+import { getLang, useT } from '../i18n/ui';
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
 ---
 
 <section class="py-16 sm:py-20">
@@ -8,18 +11,14 @@ import { DOCKER_RUN } from '../data/site';
       class="flex flex-col items-stretch justify-between gap-6 rounded-2xl border-2 border-salsa-border bg-linear-to-r from-salsa-orange/20 to-salsa-card p-5 sm:gap-8 sm:rounded-3xl sm:p-8 lg:flex-row lg:items-center lg:p-12"
     >
       <div class="min-w-0">
-        <span class="font-mono text-xs font-bold tracking-widest text-zinc-300 uppercase">Self-Hosted / Open Source</span>
-        <h2 class="mt-1 text-2xl font-black text-balance text-white sm:text-3xl">Desplegá tu propio Motor Caleño</h2>
-        <p class="mt-2 max-w-xl text-sm text-zinc-300">
-          Un solo nodo, seguro por defecto: no arranca sin credenciales, corre sin root y verifica cada firma y cada
-          checksum. La imagen está en Docker Hub, firmada con cosign; la clusterización y el cifrado "Sello Caleño" están en el
-          roadmap.
-        </p>
+        <span class="font-mono text-xs font-bold tracking-widest text-zinc-300 uppercase">{t('sh.eyebrow')}</span>
+        <h2 class="mt-1 text-2xl font-black text-balance text-white sm:text-3xl">{t('sh.title')}</h2>
+        <p class="mt-2 max-w-xl text-sm text-zinc-300">{t('sh.body')}</p>
       </div>
       <div class="min-w-0 shrink-0 rounded-2xl border border-salsa-border bg-salsa-dark p-4 font-mono text-xs lg:max-w-md">
-        <div class="mb-1 text-zinc-400">Así se corre (secreto de 32 caracteres o más):</div>
+        <div class="mb-1 text-zinc-400">{t('sh.run')}</div>
         <code class="code-box mb-3 block bg-salsa-card font-bold text-zinc-200">{DOCKER_RUN}</code>
-        <button type="button" data-copy={DOCKER_RUN} class="btn-primary w-full py-2.5">Copiar Docker Run</button>
+        <button type="button" data-copy={DOCKER_RUN} class="btn-primary w-full py-2.5">{t('sh.copy')}</button>
       </div>
     </div>
   </div>

@@ -1,12 +1,18 @@
+import { localizePath, type Lang } from '../i18n/ui';
+
 // Orden de la documentación: el menú lateral y los enlaces anterior/siguiente.
-export const docsNav = [
-  { href: '/docs/', label: 'Introducción' },
-  { href: '/docs/instalacion/', label: 'Instalación' },
-  { href: '/docs/configuracion/', label: 'Configuración' },
-  { href: '/docs/clientes/', label: 'Clientes y SDK' },
-  { href: '/docs/cli/', label: 'CLI ve' },
-  { href: '/docs/operacion/', label: 'Operación y respaldo' },
-  { href: '/docs/monitoreo/', label: 'Monitoreo' },
-  { href: '/docs/seguridad/', label: 'Seguridad' },
-  { href: '/docs/compatibilidad/', label: 'Compatibilidad con S3' },
+const pages: [slug: string, es: string, en: string][] = [
+  ['', 'Introducción', 'Introduction'],
+  ['instalacion/', 'Instalación', 'Installation'],
+  ['configuracion/', 'Configuración', 'Configuration'],
+  ['clientes/', 'Clientes y SDK', 'Clients and SDKs'],
+  ['cli/', 'CLI ve', 've CLI'],
+  ['operacion/', 'Operación y respaldo', 'Operations and backup'],
+  ['monitoreo/', 'Monitoreo', 'Monitoring'],
+  ['seguridad/', 'Seguridad', 'Security'],
+  ['compatibilidad/', 'Compatibilidad con S3', 'S3 compatibility'],
 ];
+
+export function docsNav(lang: Lang) {
+  return pages.map(([slug, es, en]) => ({ href: localizePath(`/docs/${slug}`, lang), label: lang === 'en' ? en : es }));
+}

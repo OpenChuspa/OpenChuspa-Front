@@ -1,6 +1,10 @@
 ---
 import Icon from './Icon.astro';
-import { navLinks } from '../data/site';
+import { siteData } from '../data/site';
+import { getLang, useT } from '../i18n/ui';
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const { navLinks } = siteData(lang);
 ---
 
 <footer class="border-t border-salsa-border bg-salsa-dark py-10 sm:py-12">
@@ -10,17 +14,17 @@ import { navLinks } from '../data/site';
         <Icon name="ShoppingBag" class="size-4 text-white" />
       </span>
       <span class="text-xl font-black text-white"
-        >open<span class="text-salsa-orange">chuspa</span><span class="text-zinc-400">.xyz</span></span
+        >open<span class="text-salsa-orange">chuspa</span></span
       >
-      <span class="w-full font-mono text-xs text-zinc-500 sm:w-auto">El motor caleño de S3 • 2026</span>
+      <span class="w-full font-mono text-xs text-zinc-500 sm:w-auto">{t('footer.tagline')}</span>
     </div>
 
     <p class="font-mono text-xs text-pretty text-zinc-400">
-      Hecho en Cali, Colombia · Licencia Apache-2.0 ·
+      {t('footer.made')}
       <a href="https://github.com/OpenChuspa" class="text-salsa-orange underline-offset-4 hover:underline">GitHub</a>
     </p>
 
-    <nav aria-label="Pie de página" class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-sm text-zinc-400 lg:shrink-0">
+    <nav aria-label={t('footer.nav')} class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-sm text-zinc-400 lg:shrink-0">
       {navLinks.map((l) => <a href={l.href} class="py-1 underline-offset-4 transition-colors hover:text-salsa-orange hover:underline">{l.short}</a>)}
     </nav>
   </div>

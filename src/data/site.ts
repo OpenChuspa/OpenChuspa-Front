@@ -1,22 +1,10 @@
 import type { icons } from 'lucide';
 import { CLI_VERSION, DEFAULT_CHUSPA, ENDPOINT, IMAGE, REGION } from './constants';
+import { localizePath, type Lang } from '../i18n/ui';
 
 type IconName = keyof typeof icons;
 
-export const navLinks = [
-  { href: '/docs/', label: 'Documentación', short: 'Docs' },
-  { href: '/#playground', label: 'Terminal', short: 'Terminal' },
-  { href: '/#comandos', label: 'Comandos CLI', short: 'CLI' },
-  { href: '/#glosario', label: 'Glosario', short: 'Glosario' },
-  { href: '/#sdks', label: 'SDKs', short: 'SDKs' },
-];
-
-export const highlights = [
-  { label: 'Licencia', value: 'Apache-2.0' },
-  { label: 'Standard API', value: 'AWS S3' },
-  { label: 'Versión', value: CLI_VERSION, accent: true },
-];
-
+// Lo que no depende del idioma.
 export const quickCommands = [
   { label: 've mira chuspa://', cmd: 've mira chuspa://' },
   { label: 've crea chuspa://feria-de-cali', cmd: 've crea chuspa://feria-de-cali' },
@@ -24,162 +12,193 @@ export const quickCommands = [
   { label: 've baja chuspa://...', cmd: `ve baja chuspa://${DEFAULT_CHUSPA}/music/cancion.mp3 .` },
 ];
 
-export const commands: {
-  name: string;
-  badge: string;
-  icon: IconName;
-  description: string;
-  example: string;
-  danger?: boolean;
-}[] = [
-  {
-    name: 've subi',
-    badge: 'PUT / Upload',
-    icon: 'UploadCloud',
-    description: 'Empaca y sube un archivo local directamente a tu chuspa.',
-    example: `ve subi ./file.txt a chuspa://${DEFAULT_CHUSPA}/test/`,
-  },
-  {
-    name: 've baja',
-    badge: 'GET / Download',
-    icon: 'DownloadCloud',
-    description: 'Saca un objeto de la chuspa y lo descarga en tu directorio.',
-    example: `ve baja chuspa://${DEFAULT_CHUSPA}/test/file.txt .`,
-  },
-  {
-    name: 've crea',
-    badge: 'MB / Create Bucket',
-    icon: 'FolderPlus',
-    description: 'Abre una chuspa completamente nueva lista para recibir datos.',
-    example: 've crea chuspa://mi-nueva-chuspa',
-  },
-  {
-    name: 've mira',
-    badge: 'LS / List',
-    icon: 'List',
-    description: 'Listá todas las chuspas disponibles o el contenido dentro de una.',
-    example: `ve mira chuspa://${DEFAULT_CHUSPA}/`,
-  },
-  {
-    name: 've borra',
-    badge: 'RM / Delete',
-    icon: 'Trash2',
-    description: 'Elimina una chuchería o vacía una chuspa que ya no sirva.',
-    example: `ve borra chuspa://${DEFAULT_CHUSPA}/test/file.txt`,
-    danger: true,
-  },
-  {
-    name: 've sincroniza',
-    badge: 'SYNC / Mirror',
-    icon: 'RefreshCw',
-    description: 'Mantiene sincronizada una carpeta entera con tu chuspa remota.',
-    example: 've sincroniza ./mis-fotos chuspa://backup-chuspa/',
-  },
-];
+export const DOCKER_RUN = `docker run -p 127.0.0.1:9000:9000 -e CHUSPA_ROOT_USER=mi-llave -e CHUSPA_ROOT_PASSWORD="$SECRETO" ${IMAGE}`;
 
-export const glossary = [
-  {
-    aws: 'Bucket',
-    term: 'Chuspa',
-    description: 'El contenedor donde se guardan los objetos: el equivalente a un bucket.',
+const text = {
+  es: {
+    nav: [
+      ['/docs/', 'Documentación', 'Docs'],
+      ['/#playground', 'Terminal', 'Terminal'],
+      ['/#comandos', 'Comandos CLI', 'CLI'],
+      ['/#glosario', 'Glosario', 'Glosario'],
+      ['/#sdks', 'SDKs', 'SDKs'],
+    ],
+    commands: [
+      'Sube uno o varios archivos locales a una chuspa.',
+      'Descarga un objeto de una chuspa a tu directorio.',
+      'Crea una chuspa nueva.',
+      'Lista las chuspas o el contenido de una.',
+      'Borra un objeto, un prefijo o una chuspa vacía.',
+      'Sincroniza una carpeta con una chuspa, en cualquier sentido.',
+    ],
+    glossary: [
+      'El contenedor donde se guardan los objetos: el equivalente a un bucket.',
+      'Cualquier archivo guardado en una chuspa, con su key, sus metadatos y su checksum.',
+      'El identificador público de la credencial (Access Key ID).',
+      'La parte privada de la credencial: mínimo 32 caracteres y nunca en un repositorio.',
+      `La dirección de tu motor. En local: ${ENDPOINT}.`,
+      `La región que reporta el motor y exige en la firma: ${REGION}.`,
+      'Usuarios y políticas por chuspa. Está en el roadmap; hoy hay una credencial raíz.',
+      'El servidor S3 de un solo nodo: durable ante caídas, verificable y seguro por defecto.',
+    ],
+    gen: ['Subir', 'Descargar', 'Crear chuspa', 'Listar', 'Borrar'],
+    sdkTitles: [
+      'Python (boto3) configurado para OpenChuspa',
+      'Node.js (@aws-sdk/client-s3) para OpenChuspa',
+      'Go (aws-sdk-go-v2) para OpenChuspa',
+      'Docker Compose de un nodo, endurecido',
+      'Petición REST con curl, firmada con SigV4',
+    ],
+    c: {
+      connect: 'Conexión al motor',
+      upload: 'Subir un archivo a la chuspa',
+      uploaded: 'Archivo guardado en la chuspa.',
+      path: 'el motor direcciona por ruta: /chuspa/key',
+      init: 'Cliente apuntando al endpoint de OpenChuspa',
+      connected: 'Conectado a OpenChuspa.',
+      secret: 'El secreto vive en un archivo, no en este YAML:',
+      signed: 'Toda petición va firmada: el motor rechaza las anónimas.',
+      put: 'Subir (ve subi)',
+      get: 'Descargar (ve baja)',
+      key: 'TU_CLAVE_DEL_PARCHAO',
+      secretVar: 'TU_SECRETA_DE_LA_CUADRA',
+    },
   },
-  {
-    aws: 'Object',
-    term: 'Chuchería',
-    description: 'Cualquier archivo guardado en una chuspa, con su key, sus metadatos y su checksum.',
+  en: {
+    nav: [
+      ['/docs/', 'Documentation', 'Docs'],
+      ['/#playground', 'Terminal', 'Terminal'],
+      ['/#comandos', 'CLI commands', 'CLI'],
+      ['/#glosario', 'Glossary', 'Glossary'],
+      ['/#sdks', 'SDKs', 'SDKs'],
+    ],
+    commands: [
+      'Uploads one or more local files to a chuspa.',
+      'Downloads an object from a chuspa to your directory.',
+      'Creates a new chuspa.',
+      'Lists chuspas or the contents of one.',
+      'Deletes an object, a prefix or an empty chuspa.',
+      'Syncs a folder with a chuspa, in either direction.',
+    ],
+    glossary: [
+      'The container where objects are stored: the equivalent of a bucket.',
+      'Any file stored in a chuspa, with its key, metadata and checksum.',
+      'The public identifier of the credential (Access Key ID).',
+      'The private part of the credential: at least 32 characters and never in a repository.',
+      `The address of your engine. Locally: ${ENDPOINT}.`,
+      `The region the engine reports and requires in the signature: ${REGION}.`,
+      'Users and per-chuspa policies. On the roadmap; today there is one root credential.',
+      'The single-node S3 server: crash-safe, verifiable and secure by default.',
+    ],
+    gen: ['Upload', 'Download', 'Create chuspa', 'List', 'Delete'],
+    sdkTitles: [
+      'Python (boto3) configured for OpenChuspa',
+      'Node.js (@aws-sdk/client-s3) for OpenChuspa',
+      'Go (aws-sdk-go-v2) for OpenChuspa',
+      'Hardened single-node Docker Compose',
+      'REST request with curl, signed with SigV4',
+    ],
+    c: {
+      connect: 'Connect to the engine',
+      upload: 'Upload a file to the chuspa',
+      uploaded: 'File stored in the chuspa.',
+      path: 'the engine uses path-style addressing: /chuspa/key',
+      init: 'Client pointing at the OpenChuspa endpoint',
+      connected: 'Connected to OpenChuspa.',
+      secret: 'The secret lives in a file, not in this YAML:',
+      signed: 'Every request is signed: the engine rejects anonymous ones.',
+      put: 'Upload (ve subi)',
+      get: 'Download (ve baja)',
+      key: 'YOUR_ACCESS_KEY',
+      secretVar: 'YOUR_SECRET_KEY',
+    },
   },
-  {
-    aws: 'Access Key ID',
-    term: 'Clave del Parchao',
-    description: 'El identificador público de la credencial (Access Key ID).',
-  },
-  {
-    aws: 'Secret Key',
-    term: 'La Secreta de la Cuadra',
-    description: 'La parte privada de la credencial: mínimo 32 caracteres y nunca en un repositorio.',
-  },
-  {
-    aws: 'Endpoint',
-    term: 'La Esquina',
-    description: `La dirección de tu motor. En local: ${ENDPOINT}.`,
-  },
-  {
-    aws: 'Region',
-    term: 'Sucursal del Cielo',
-    description: `La región que reporta el motor y exige en la firma: ${REGION}.`,
-  },
-  {
-    aws: 'IAM / Policy',
-    term: 'Reglamento del Parche',
-    description: 'Usuarios y políticas por chuspa. Está en el roadmap; hoy hay una credencial raíz.',
-  },
-  {
-    aws: 'Server',
-    term: 'Motor Caleño',
-    description: 'El servidor S3 de un solo nodo: durable ante caídas, verificable y seguro por defecto.',
-  },
-];
+} as const;
 
-export const generatorActions = [
-  { value: 'subi', label: 've subi (Upload / Put Object)' },
-  { value: 'baja', label: 've baja (Download / Get Object)' },
-  { value: 'crea', label: 've crea (Create Bucket)' },
-  { value: 'mira', label: 've mira (List Objects / Buckets)' },
-  { value: 'borra', label: 've borra (Delete Object)' },
-];
+export function siteData(lang: Lang) {
+  const t = text[lang];
+  const c = t.c;
 
-export const sdkSnippets = [
-  {
-    key: 'python',
-    tab: 'Python (boto3)',
-    title: 'Librería Python (boto3) configurada para OpenChuspa',
-    code: `# Python boto3 S3 Client con OpenChuspa
-import boto3
+  const navLinks = t.nav.map(([href, label, short]) => ({ href: localizePath(href, lang), label, short }));
 
-# Conexión al Motor Caleño de Chuspas
+  const highlights = [
+    { label: 'hl.license', value: 'Apache-2.0', accent: false },
+    { label: 'hl.api', value: 'AWS S3', accent: false },
+    { label: 'hl.version', value: CLI_VERSION, accent: true },
+  ] as const;
+
+  const commandDefs: { name: string; badge: string; icon: IconName; example: string; danger?: boolean }[] = [
+    { name: 've subi', badge: 'PUT / Upload', icon: 'UploadCloud', example: `ve subi ./file.txt a chuspa://${DEFAULT_CHUSPA}/test/` },
+    { name: 've baja', badge: 'GET / Download', icon: 'DownloadCloud', example: `ve baja chuspa://${DEFAULT_CHUSPA}/test/file.txt .` },
+    { name: 've crea', badge: 'MB / Create Bucket', icon: 'FolderPlus', example: 've crea chuspa://mi-nueva-chuspa' },
+    { name: 've mira', badge: 'LS / List', icon: 'List', example: `ve mira chuspa://${DEFAULT_CHUSPA}/` },
+    { name: 've borra', badge: 'RM / Delete', icon: 'Trash2', example: `ve borra chuspa://${DEFAULT_CHUSPA}/test/file.txt`, danger: true },
+    { name: 've sincroniza', badge: 'SYNC / Mirror', icon: 'RefreshCw', example: 've sincroniza ./mis-fotos chuspa://backup-chuspa/' },
+  ];
+  const commands = commandDefs.map((d, i) => ({ ...d, description: t.commands[i] }));
+
+  const glossary = [
+    ['Bucket', 'Chuspa'],
+    ['Object', 'Chuchería'],
+    ['Access Key ID', 'Clave del Parchao'],
+    ['Secret Key', 'La Secreta de la Cuadra'],
+    ['Endpoint', 'La Esquina'],
+    ['Region', 'Sucursal del Cielo'],
+    ['IAM / Policy', 'Reglamento del Parche'],
+    ['Server', 'Motor Caleño'],
+  ].map(([aws, term], i) => ({ aws, term, description: t.glossary[i] }));
+
+  const generatorActions = ['subi', 'baja', 'crea', 'mira', 'borra'].map((value, i) => ({
+    value,
+    label: `ve ${value} (${t.gen[i]})`,
+  }));
+
+  const sdkSnippets = [
+    {
+      key: 'python',
+      tab: 'Python (boto3)',
+      code: `import boto3
+
+# ${c.connect}
 s3 = boto3.client(
     's3',
     endpoint_url='${ENDPOINT}',
-    aws_access_key_id='TU_CLAVE_DEL_PARCHAO',
-    aws_secret_access_key='TU_SECRETA_DE_LA_CUADRA',
+    aws_access_key_id='${c.key}',
+    aws_secret_access_key='${c.secretVar}',
     region_name='${REGION}'
 )
 
-# Empacar objeto en la Chuspa (ve subi)
-s3.upload_file('./archivo_caleño.png', '${DEFAULT_CHUSPA}', 'test/archivo_caleño.png')
-print("Archivo guardado en la chuspa.")`,
-  },
-  {
-    key: 'node',
-    tab: 'Node.js (@aws-sdk)',
-    title: 'Node.js (@aws-sdk/client-s3) para OpenChuspa',
-    code: `// Node.js AWS SDK v3 con OpenChuspa
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+# ${c.upload} (ve subi)
+s3.upload_file('./archivo.png', '${DEFAULT_CHUSPA}', 'test/archivo.png')
+print("${c.uploaded}")`,
+    },
+    {
+      key: 'node',
+      tab: 'Node.js (@aws-sdk)',
+      code: `import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const s3 = new S3Client({
   endpoint: "${ENDPOINT}",
   region: "${REGION}",
-  forcePathStyle: true, // el motor direcciona por ruta: /chuspa/key
+  forcePathStyle: true, // ${c.path}
   credentials: {
-    accessKeyId: "TU_CLAVE_DEL_PARCHAO",
-    secretAccessKey: "TU_SECRETA_DE_LA_CUADRA",
+    accessKeyId: "${c.key}",
+    secretAccessKey: "${c.secretVar}",
   },
 });
 
-// Empacar objeto en la Chuspa
+// ${c.upload}
 await s3.send(new PutObjectCommand({
   Bucket: "${DEFAULT_CHUSPA}",
   Key: "test/musica.mp3",
   Body: fileBuffer,
 }));
-console.log("Archivo guardado en la chuspa.");`,
-  },
-  {
-    key: 'go',
-    tab: 'Go (aws-sdk-go)',
-    title: 'Go (aws-sdk-go-v2) SDK con OpenChuspa',
-    code: `// Go AWS SDK v2 (S3) para OpenChuspa
-package main
+console.log("${c.uploaded}");`,
+    },
+    {
+      key: 'go',
+      tab: 'Go (aws-sdk-go)',
+      code: `package main
 
 import (
     "context"
@@ -196,26 +215,25 @@ func main() {
         config.WithRegion("${REGION}"),
         config.WithCredentialsProvider(
             credentials.NewStaticCredentialsProvider(
-                "TU_CLAVE_DEL_PARCHAO", "TU_SECRETA_DE_LA_CUADRA", "",
+                "${c.key}", "${c.secretVar}", "",
             ),
         ),
     )
 
-    // Inicializar Motor Caleño apuntando al Endpoint de OpenChuspa
+    // ${c.init}
     client := s3.NewFromConfig(cfg, func(o *s3.Options) {
         o.BaseEndpoint = aws.String("${ENDPOINT}")
         o.UsePathStyle = true
     })
 
     _ = client
-    fmt.Println("Conectado a OpenChuspa.")
+    fmt.Println("${c.connected}")
 }`,
-  },
-  {
-    key: 'docker',
-    tab: 'Docker Compose',
-    title: 'Docker Compose de un nodo, endurecido',
-    code: `# El secreto vive en un archivo, no en este YAML:
+    },
+    {
+      key: 'docker',
+      tab: 'Docker Compose',
+      code: `# ${c.secret}
 #   mkdir -p secrets && openssl rand -hex 24 > secrets/chuspa_root_password
 services:
   chuspa:
@@ -223,7 +241,7 @@ services:
     ports:
       - "127.0.0.1:9000:9000"
     environment:
-      CHUSPA_ROOT_USER: "TU_CLAVE_DEL_PARCHAO"
+      CHUSPA_ROOT_USER: "${c.key}"
       CHUSPA_ROOT_PASSWORD_FILE: /run/secrets/chuspa_root_password
       CHUSPA_REGION: "${REGION}"
     secrets:
@@ -240,24 +258,23 @@ secrets:
 
 volumes:
   chuspa_data:`,
-  },
-  {
-    key: 'curl',
-    tab: 'cURL / REST',
-    title: 'Petición REST con cURL, firmada con SigV4',
-    code: `# Toda petición va firmada: el motor rechaza las anónimas.
-# Empacar en la Chuspa (ve subi)
+    },
+    {
+      key: 'curl',
+      tab: 'cURL / REST',
+      code: `# ${c.signed}
+# ${c.put}
 curl -X PUT -T "./archivo.pdf" \\
   --aws-sigv4 "aws:amz:${REGION}:s3" \\
-  --user "$TU_CLAVE_DEL_PARCHAO:$TU_SECRETA_DE_LA_CUADRA" \\
+  --user "$${c.key}:$${c.secretVar}" \\
   "${ENDPOINT}/${DEFAULT_CHUSPA}/test/archivo.pdf"
 
-# Sacar de la Chuspa (ve baja)
+# ${c.get}
 curl -O --aws-sigv4 "aws:amz:${REGION}:s3" \\
-  --user "$TU_CLAVE_DEL_PARCHAO:$TU_SECRETA_DE_LA_CUADRA" \\
+  --user "$${c.key}:$${c.secretVar}" \\
   "${ENDPOINT}/${DEFAULT_CHUSPA}/test/archivo.pdf"`,
-  },
-];
+    },
+  ].map((s, i) => ({ ...s, title: t.sdkTitles[i] }));
 
-// El secreto debe tener 32 caracteres o más.
-export const DOCKER_RUN = `docker run -p 127.0.0.1:9000:9000 -e CHUSPA_ROOT_USER=mi-llave -e CHUSPA_ROOT_PASSWORD="$SECRETO" ${IMAGE}`;
+  return { navLinks, highlights, commands, glossary, generatorActions, sdkSnippets };
+}

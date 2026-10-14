@@ -1,15 +1,19 @@
 ---
 import Icon from './Icon.astro';
 import SectionHeader from './SectionHeader.astro';
-import { commands } from '../data/site';
+import { siteData } from '../data/site';
+import { getLang, useT } from '../i18n/ui';
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const { commands } = siteData(lang);
 ---
 
 <section id="comandos" class="py-16 sm:py-24">
   <div class="container-page">
     <SectionHeader
-      eyebrow="CLI ve"
-      title="Comandos de la CLI"
-      description="Los comandos de siempre de aws s3, con nombres caleños. La CLI ve se prueba contra el motor en cada cambio; el AWS CLI también funciona."
+      eyebrow={t('cmd.eyebrow')}
+      title={t('cmd.title')}
+      description={t('cmd.description')}
     />
 
     <ul class="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -42,13 +46,13 @@ import { commands } from '../data/site';
                 class="js-run-cmd flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-salsa-border px-3 py-2.5 text-zinc-200 transition-colors hover:border-salsa-orange hover:bg-salsa-orange hover:text-white"
               >
                 <Icon name="Terminal" class="size-3.5" />
-                <span>Probar en la terminal</span>
+                <span>{t('cmd.try')}</span>
               </button>
               <button
                 type="button"
                 data-copy={c.example}
-                aria-label={`Copiar el comando ${c.name}`}
-                title="Copiar comando"
+                aria-label={t('cmd.copyNamed', { name: c.name })}
+                title={t('cmd.copy')}
                 class="flex items-center justify-center rounded-lg border border-salsa-border px-3 py-2.5 text-zinc-300 transition-colors hover:border-salsa-orange hover:text-salsa-orange"
               >
                 <Icon name="Copy" class="size-3.5" />

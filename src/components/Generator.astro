@@ -1,7 +1,11 @@
 ---
 import Icon from './Icon.astro';
 import { DEFAULT_CHUSPA } from '../data/constants';
-import { generatorActions } from '../data/site';
+import { siteData } from '../data/site';
+import { getLang, useT } from '../i18n/ui';
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const { generatorActions } = siteData(lang);
 
 const field =
   'w-full rounded-xl border border-salsa-border bg-salsa-dark p-3 text-base text-white transition-colors hover:border-zinc-600 focus:border-salsa-orange focus:outline-none sm:text-sm';
@@ -14,17 +18,15 @@ const field =
         <div class="min-w-0 space-y-6">
           <div>
             <span class="font-mono text-xs font-bold tracking-wider text-salsa-orange uppercase"
-              >Generador de Comandos Caleños</span
+              >{t('gen.eyebrow')}</span
             >
-            <h2 class="mt-1 text-2xl font-black text-balance text-white sm:text-3xl">Armá tu Comando CLI al Instante</h2>
-            <p class="mt-2 text-sm text-zinc-400">
-              Ingresá tus datos locales y mirá cómo se forma el comando caleño equivalente.
-            </p>
+            <h2 class="mt-1 text-2xl font-black text-balance text-white sm:text-3xl">{t('gen.title')}</h2>
+            <p class="mt-2 text-sm text-zinc-400">{t('gen.description')}</p>
           </div>
 
           <div class="space-y-4 font-mono text-xs">
             <div>
-              <label for="gen-action" class="mb-1 block text-zinc-300">Acción deseada:</label>
+              <label for="gen-action" class="mb-1 block text-zinc-300">{t('gen.action')}</label>
               <select id="gen-action" class={field}>
                 {generatorActions.map((a) => <option value={a.value}>{a.label}</option>)}
               </select>
@@ -32,11 +34,11 @@ const field =
 
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
-                <label for="gen-file" class="mb-1 block text-zinc-300">Archivo Local / Subcarpeta:</label>
+                <label for="gen-file" class="mb-1 block text-zinc-300">{t('gen.file')}</label>
                 <input type="text" id="gen-file" value="./documento_impreso.pdf" autocomplete="off" spellcheck="false" class={field} />
               </div>
               <div>
-                <label for="gen-chuspa" class="mb-1 block text-zinc-300">Nombre de la Chuspa Target:</label>
+                <label for="gen-chuspa" class="mb-1 block text-zinc-300">{t('gen.chuspa')}</label>
                 <input type="text" id="gen-chuspa" value={DEFAULT_CHUSPA} autocomplete="off" spellcheck="false" class={field} />
               </div>
             </div>
@@ -45,10 +47,10 @@ const field =
 
         <div class="min-w-0 rounded-2xl border border-salsa-border bg-salsa-dark p-4 font-mono sm:p-6">
           <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
-            <span class="text-xs font-bold text-zinc-300">Comando con ve:</span>
+            <span class="text-xs font-bold text-zinc-300">{t('gen.result')}</span>
             <button type="button" data-copy-target="#gen-output" class="btn-primary rounded-lg px-3 py-2 text-xs">
               <Icon name="Copy" class="size-3.5" />
-              <span>Copiar</span>
+              <span>{t('copy')}</span>
             </button>
           </div>
           <output
@@ -57,7 +59,7 @@ const field =
             class="block rounded-xl border border-salsa-border bg-salsa-card p-4 text-sm leading-relaxed font-bold break-all text-salsa-orange"
           ></output>
           <p class="mt-4 text-[11px] break-all text-zinc-500">
-            Equivalente AWS S3: <span id="gen-aws-equiv" class="text-zinc-400"></span>
+            {t('gen.aws')} <span id="gen-aws-equiv" class="text-zinc-400"></span>
           </p>
         </div>
       </div>
