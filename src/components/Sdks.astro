@@ -33,7 +33,7 @@ const { sdkSnippets } = siteData(lang);
               aria-selected={i === 0 ? 'true' : 'false'}
               tabindex={i === 0 ? 0 : -1}
               data-title={s.title}
-              class="sdk-tab shrink-0 rounded-xl bg-salsa-card px-4 py-2.5 font-mono text-xs font-bold whitespace-nowrap text-zinc-300 transition-colors hover:bg-salsa-border aria-selected:bg-salsa-orange aria-selected:text-white sm:px-5"
+              class="sdk-tab shrink-0 rounded-xl bg-salsa-card px-4 py-2.5 text-xs font-bold whitespace-nowrap text-zinc-300 transition-colors hover:bg-salsa-border aria-selected:bg-salsa-orange aria-selected:text-white sm:px-5"
             >
               {s.tab}
             </button>
@@ -41,7 +41,7 @@ const { sdkSnippets } = siteData(lang);
         }
       </div>
 
-      <div class="bg-salsa-dark p-4 font-mono text-xs sm:p-6 sm:text-sm">
+      <div class="bg-salsa-dark p-4 text-xs sm:p-6 sm:text-sm">
         <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
           <span id="sdk-title" class="min-w-0 font-bold text-zinc-300">{sdkSnippets[0].title}</span>
           <button
@@ -62,7 +62,7 @@ const { sdkSnippets } = siteData(lang);
               aria-labelledby={`tab-${s.key}`}
               tabindex="0"
               hidden={i !== 0}
-              class="overflow-x-auto rounded-xl border border-salsa-border bg-black/50 p-4 leading-relaxed text-zinc-200 sm:rounded-2xl sm:p-5"
+              class="overflow-x-auto rounded-xl border border-salsa-border bg-black/50 p-4 font-mono leading-relaxed text-zinc-200 sm:rounded-2xl sm:p-5"
             ><code>{s.code}</code></pre>
           ))
         }

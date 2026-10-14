@@ -38,7 +38,7 @@ const text = {
       'La parte privada de la credencial: mínimo 32 caracteres y nunca en un repositorio.',
       `La dirección de tu motor. En local: ${ENDPOINT}.`,
       `La región que reporta el motor y exige en la firma: ${REGION}.`,
-      'Usuarios y políticas por chuspa. Está en el roadmap; hoy hay una credencial raíz.',
+      'La CLI de OpenChuspa: comandos cortos sobre direcciones chuspa://.',
       'El servidor S3 de un solo nodo: durable ante caídas, verificable y seguro por defecto.',
     ],
     gen: ['Subir', 'Descargar', 'Crear chuspa', 'Listar', 'Borrar'],
@@ -87,7 +87,7 @@ const text = {
       'The private part of the credential: at least 32 characters and never in a repository.',
       `The address of your engine. Locally: ${ENDPOINT}.`,
       `The region the engine reports and requires in the signature: ${REGION}.`,
-      'Users and per-chuspa policies. On the roadmap; today there is one root credential.',
+      'The OpenChuspa CLI: short commands over chuspa:// addresses.',
       'The single-node S3 server: crash-safe, verifiable and secure by default.',
     ],
     gen: ['Upload', 'Download', 'Create chuspa', 'List', 'Delete'],
@@ -144,7 +144,7 @@ export function siteData(lang: Lang) {
     ['Secret Key', 'La Secreta de la Cuadra'],
     ['Endpoint', 'La Esquina'],
     ['Region', 'Sucursal del Cielo'],
-    ['IAM / Policy', 'Reglamento del Parche'],
+    ['CLI', 've'],
     ['Server', 'Motor Caleño'],
   ].map(([aws, term], i) => ({ aws, term, description: t.glossary[i] }));
 

@@ -93,7 +93,7 @@ export const ui = {
     'sh.eyebrow': 'Self-hosted · Código abierto',
     'sh.title': 'Desplegá tu propio motor',
     'sh.body':
-      'Un solo nodo, seguro por defecto: no arranca sin credenciales, corre sin root y verifica cada firma y cada checksum. La imagen está en Docker Hub, firmada con cosign; el clúster y el cifrado en reposo están en el roadmap.',
+      'Un solo nodo, seguro por defecto: no arranca sin credenciales, corre sin root y verifica cada firma y cada checksum. La imagen está en Docker Hub, firmada con cosign.',
     'sh.run': 'Así se corre (secreto de 32 caracteres o más):',
     'sh.copy': 'Copiar docker run',
     'footer.tagline': 'El motor caleño de S3 · 2026',
@@ -181,7 +181,7 @@ export const ui = {
     'sh.eyebrow': 'Self-hosted · Open source',
     'sh.title': 'Deploy your own engine',
     'sh.body':
-      'Single node, secure by default: it refuses to start without credentials, runs without root and verifies every signature and checksum. The image is on Docker Hub, signed with cosign; clustering and encryption at rest are on the roadmap.',
+      'Single node, secure by default: it refuses to start without credentials, runs without root and verifies every signature and checksum. The image is on Docker Hub, signed with cosign.',
     'sh.run': 'How to run it (secret of 32 characters or more):',
     'sh.copy': 'Copy docker run',
     'footer.tagline': 'The S3 engine from Cali · 2026',

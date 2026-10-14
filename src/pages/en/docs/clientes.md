@@ -92,4 +92,4 @@ If the engine uses a certificate from your own authority, tell the client which 
 | `NoSuchBucket` with the JS or Go SDK | `forcePathStyle` / `UsePathStyle` is missing. |
 | `SlowDown` (503) | The IP accumulated too many failed attempts; wait 5 minutes. |
 | `InsufficientStorage` (507) | The server disk is below the minimum free space. |
-| `NotImplemented` (501) | Operation outside the current scope: see [Compatibility](/en/docs/compatibilidad/). |
+| `NotImplemented` (501) | Unsupported operation: see [Compatibility](/en/docs/compatibilidad/). |

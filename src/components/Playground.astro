@@ -26,12 +26,12 @@ const [introB, introC] = introRest.split('{examples}');
           <span class="size-3 shrink-0 rounded-full bg-red-500/80"></span>
           <span class="size-3 shrink-0 rounded-full bg-yellow-500/80"></span>
           <span class="size-3 shrink-0 rounded-full bg-green-500/80"></span>
-          <span class="ml-2 truncate font-mono text-xs text-zinc-400 sm:ml-4"
+          <span class="ml-2 truncate text-xs text-zinc-400 sm:ml-4"
             >caleño-terminal@openchuspa:~ (ve {CLI_VERSION})</span
           >
         </div>
         <span
-          class="hidden shrink-0 rounded-md border border-salsa-border bg-white/5 px-2.5 py-1 font-mono text-[11px] text-zinc-400 md:block"
+          class="hidden shrink-0 rounded-md border border-salsa-border bg-white/5 px-2.5 py-1 text-[11px] text-zinc-400 md:block"
           >{t('pg.engine')}</span
         >
       </div>
@@ -101,18 +101,18 @@ const [introB, introC] = introRest.split('{examples}');
         <div class="flex min-w-0 flex-col justify-between bg-salsa-dark/50 p-4 sm:p-6 lg:col-span-5">
           <div>
             <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
-              <span class="flex items-center gap-2 font-mono text-xs font-bold tracking-wider text-zinc-300 uppercase">
+              <span class="flex items-center gap-2 text-xs font-bold tracking-wider text-zinc-300 uppercase">
                 <Icon name="FolderTree" class="size-4" />
                 <span>{t('pg.state')}</span>
               </span>
-              <span id="bucket-count" class="rounded bg-salsa-orange/20 px-2 py-0.5 font-mono text-[11px] text-salsa-orange"></span>
+              <span id="bucket-count" class="rounded bg-salsa-orange/20 px-2 py-0.5 text-[11px] text-salsa-orange"></span>
             </div>
             <div id="buckets-tree" class="space-y-3 font-mono text-xs"></div>
           </div>
 
           <div class="mt-6 border-t border-salsa-border pt-4">
-            <span class="mb-1 block font-mono text-[11px] text-zinc-500">{t('pg.region')}</span>
-            <div class="flex items-center gap-2 font-mono text-xs text-zinc-300">
+            <span class="mb-1 block text-[11px] text-zinc-500">{t('pg.region')}</span>
+            <div class="flex items-center gap-2 text-xs text-zinc-300">
               <Icon name="MapPin" class="size-4" />
               <span>{REGION}</span>
             </div>

@@ -195,7 +195,7 @@ body {
 }
 
 @utility eyebrow {
-  @apply inline-block rounded-full border border-salsa-orange/20 bg-salsa-orange/10 px-4 py-1.5 font-mono text-[11px] font-bold tracking-widest text-salsa-orange uppercase sm:text-xs;
+  @apply inline-block rounded-full border border-salsa-orange/20 bg-salsa-orange/10 px-4 py-1.5 text-[11px] font-bold tracking-widest text-salsa-orange uppercase sm:text-xs;
 }
 
 @utility btn-primary {

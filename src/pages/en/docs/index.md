@@ -8,7 +8,7 @@ description: What OpenChuspa is, what it does today and where to start.
 
 OpenChuspa is an open-source (Apache-2.0) object storage server compatible with the AWS S3 API, written in Go. It runs on a single node, stores data on local disk and works with the usual clients: AWS CLI, boto3, `@aws-sdk/client-s3`, `aws-sdk-go-v2` and curl.
 
-The current version is **0.3.0**, the first one that completes the MVP.
+The current version is **1.0.0**, the first stable one: the supported API, the configuration, the commands and the data format stay compatible across the whole 1.x series.
 
 ## What it offers
 
@@ -18,9 +18,9 @@ The current version is **0.3.0**, the first one that completes the MVP.
 - **Operable:** Prometheus metrics, periodic content verification, daily index backup and automatic migration between versions.
 - **Really tested:** every change goes through the official AWS SDKs, 222 `ceph/s3-tests` tests and, every night, an endurance test that kills the engine with `kill -9` while it writes.
 
-## What it does not do yet
+## Scope
 
-One node and one credential. There are no presigned URLs, versioning, ACLs, policies, tags, CORS, lifecycle or encryption at rest: those operations return `501 NotImplemented`, never a fake success. Details in [S3 compatibility](/en/docs/compatibilidad/).
+One node, one root credential and path-style addressing. Supported operations are listed in [S3 compatibility](/en/docs/compatibilidad/); any other returns `501 NotImplemented`, never a fake success.
 
 ## Where to start
 

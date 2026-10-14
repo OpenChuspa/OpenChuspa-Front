@@ -6,7 +6,7 @@ description: How to install OpenChuspa with Docker, Docker Compose or the binary
 
 # Installation
 
-Docker is the recommended way. The image is distroless: no shell, no root, read-only filesystem and signed with cosign. It is published with its exact version on Docker Hub (`openchuspa/chuspa:0.3.0`) and at `ghcr.io/openchuspa/chuspa:0.3.0`. There is no `latest` tag, on purpose.
+Docker is the recommended way. The image is distroless: no shell, no root, read-only filesystem and signed with cosign. It is published with its exact version on Docker Hub (`openchuspa/chuspa:1.0.0`) and at `ghcr.io/openchuspa/chuspa:1.0.0`. There is no `latest` tag, on purpose.
 
 ## Docker Compose (recommended)
 
@@ -23,7 +23,7 @@ chmod 600 secrets/chuspa_root_password
 ```yaml
 services:
   chuspa:
-    image: docker.io/openchuspa/chuspa:0.3.0
+    image: docker.io/openchuspa/chuspa:1.0.0
     ports:
       - "127.0.0.1:9000:9000"
     environment:
@@ -62,7 +62,7 @@ To try it out:
 export SECRET="$(openssl rand -hex 24)"
 docker run -d --name chuspa -p 127.0.0.1:9000:9000 \
   -e CHUSPA_ROOT_USER=my-key -e CHUSPA_ROOT_PASSWORD="$SECRET" \
-  -v chuspa_data:/data openchuspa/chuspa:0.3.0
+  -v chuspa_data:/data openchuspa/chuspa:1.0.0
 ```
 
 ## Binary
@@ -71,10 +71,10 @@ Every release publishes the `chuspa` (engine) and `ve` (CLI) binaries for Linux 
 
 ```bash
 # Linux amd64; change the suffix for another platform
-curl -LO https://github.com/OpenChuspa/OpenChuspa-core/releases/download/v0.3.0/chuspa_0.3.0_linux_amd64
-curl -LO https://github.com/OpenChuspa/OpenChuspa-core/releases/download/v0.3.0/SHA256SUMS
+curl -LO https://github.com/OpenChuspa/OpenChuspa-core/releases/download/v1.0.0/chuspa_1.0.0_linux_amd64
+curl -LO https://github.com/OpenChuspa/OpenChuspa-core/releases/download/v1.0.0/SHA256SUMS
 sha256sum --check --ignore-missing SHA256SUMS
-install -m 0755 chuspa_0.3.0_linux_amd64 /usr/local/bin/chuspa
+install -m 0755 chuspa_1.0.0_linux_amd64 /usr/local/bin/chuspa
 
 export CHUSPA_ROOT_USER=my-key
 export CHUSPA_ROOT_PASSWORD="$(openssl rand -hex 24)"
@@ -113,7 +113,7 @@ aws s3 ls s3://feria-de-cali/test/
 The signature is keyless: it is issued by the GitHub Actions release workflow. It requires cosign 3 or later; version 2 does not find the signature.
 
 ```bash
-cosign verify docker.io/openchuspa/chuspa:0.3.0 \
+cosign verify docker.io/openchuspa/chuspa:1.0.0 \
   --certificate-identity-regexp '^https://github.com/OpenChuspa/OpenChuspa-core/\.github/workflows/release\.yml@refs/tags/v' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```

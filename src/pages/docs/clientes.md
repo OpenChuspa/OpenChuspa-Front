@@ -92,4 +92,4 @@ Si el motor usa un certificado de una autoridad propia, indicale al cliente cuá
 | `NoSuchBucket` con un SDK de JS o Go | Falta `forcePathStyle` / `UsePathStyle`. |
 | `SlowDown` (503) | La IP acumuló demasiados intentos fallidos; espere 5 minutos. |
 | `InsufficientStorage` (507) | El disco del servidor está por debajo del espacio libre mínimo. |
-| `NotImplemented` (501) | Operación fuera del alcance actual: ver [Compatibilidad](/docs/compatibilidad/). |
+| `NotImplemented` (501) | Operación no soportada: ver [Compatibilidad](/docs/compatibilidad/). |

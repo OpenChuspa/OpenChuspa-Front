@@ -17,14 +17,14 @@ const field =
       <div class="grid items-center gap-8 lg:grid-cols-2">
         <div class="min-w-0 space-y-6">
           <div>
-            <span class="font-mono text-xs font-bold tracking-wider text-salsa-orange uppercase"
+            <span class="text-xs font-bold tracking-wider text-salsa-orange uppercase"
               >{t('gen.eyebrow')}</span
             >
             <h2 class="mt-1 text-2xl font-black text-balance text-white sm:text-3xl">{t('gen.title')}</h2>
             <p class="mt-2 text-sm text-zinc-400">{t('gen.description')}</p>
           </div>
 
-          <div class="space-y-4 font-mono text-xs">
+          <div class="space-y-4 text-xs">
             <div>
               <label for="gen-action" class="mb-1 block text-zinc-300">{t('gen.action')}</label>
               <select id="gen-action" class={field}>
@@ -45,7 +45,7 @@ const field =
           </div>
         </div>
 
-        <div class="min-w-0 rounded-2xl border border-salsa-border bg-salsa-dark p-4 font-mono sm:p-6">
+        <div class="min-w-0 rounded-2xl border border-salsa-border bg-salsa-dark p-4 sm:p-6">
           <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
             <span class="text-xs font-bold text-zinc-300">{t('gen.result')}</span>
             <button type="button" data-copy-target="#gen-output" class="btn-primary rounded-lg px-3 py-2 text-xs">
@@ -56,10 +56,10 @@ const field =
           <output
             id="gen-output"
             for="gen-action gen-file gen-chuspa"
-            class="block rounded-xl border border-salsa-border bg-salsa-card p-4 text-sm leading-relaxed font-bold break-all text-salsa-orange"
+            class="block rounded-xl border border-salsa-border bg-salsa-card p-4 font-mono text-sm leading-relaxed font-bold break-all text-salsa-orange"
           ></output>
           <p class="mt-4 text-[11px] break-all text-zinc-500">
-            {t('gen.aws')} <span id="gen-aws-equiv" class="text-zinc-400"></span>
+            {t('gen.aws')} <span id="gen-aws-equiv" class="font-mono text-zinc-400"></span>
           </p>
         </div>
       </div>
