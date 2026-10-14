@@ -27,7 +27,7 @@ const playerText = {
 <header class="site-header inset-x-0 top-0 z-40">
   <!-- Aviso de versión + reproductor de salsa -->
   <div
-    class="flex h-(--banner-h) items-center justify-between gap-3 bg-salsa-orange px-3 text-[11px] font-bold tracking-wide text-black sm:px-4 sm:text-xs"
+    class="top-banner flex h-(--banner-h) items-center justify-between gap-3 px-3 text-[11px] font-bold tracking-wide sm:px-4 sm:text-xs"
   >
     <p class="flex min-w-0 items-center gap-2">
       <Icon name="Radio" class="size-4" />
@@ -44,13 +44,13 @@ const playerText = {
         aria-label={t('player.idleHint')}
         title={t('player.idleHint')}
         aria-pressed="false"
-        class="group flex h-8 items-center gap-1.5 rounded-full bg-black/85 px-3 text-salsa-orange ring-black/25 transition hover:bg-black hover:ring-4 data-[state=loading]:cursor-progress"
+        class="player-pill group flex h-8 items-center gap-1.5 rounded-full px-3 transition hover:ring-4 data-[state=loading]:cursor-progress"
       >
         <Icon name="Play" class="size-3.5 group-data-[state=loading]:hidden group-data-[state=playing]:hidden" />
         <Icon name="LoaderCircle" class="hidden size-3.5 animate-spin group-data-[state=loading]:block" />
         <Icon name="Pause" class="hidden size-3.5 group-data-[state=playing]:block" />
         <span class="hidden h-3 items-end gap-[2px] sm:flex" aria-hidden="true">
-          {[40, 100, 60, 85].map((h, i) => <span class="eq-bar w-[2px] bg-salsa-orange" style={`height:${h}%;--i:${i}`} />)}
+          {[40, 100, 60, 85].map((h, i) => <span class="eq-bar w-[2px] bg-current" style={`height:${h}%;--i:${i}`} />)}
         </span>
         <span id="salsa-label" class="whitespace-nowrap">{t('player.idle')}</span>
       </button>
@@ -62,7 +62,7 @@ const playerText = {
         step="0.01"
         value="0.6"
         aria-label={t('player.volume')}
-        class="hidden w-16 cursor-pointer accent-black md:block"
+        class="player-vol hidden w-16 cursor-pointer md:block"
       />
     </div>
 
