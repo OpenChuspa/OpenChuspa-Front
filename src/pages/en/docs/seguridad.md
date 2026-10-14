@@ -6,7 +6,7 @@ description: OpenChuspa security model, TLS, credential rotation and how to repo
 
 # Security
 
-OpenChuspa stores other people's data, so every default is the secure one. What is not protected yet is documented below, in Known limits.
+OpenChuspa stores other people's data, so every default is the secure one.
 
 ## What it does by default
 
@@ -47,12 +47,11 @@ While a previous secret is configured, the log reminds you at startup.
 - Dependencies go through `govulncheck` and a license review on every change, and CI actions are pinned by SHA.
 - Every night, fuzzing runs against the parsers of untrusted input: signatures, `aws-chunked` bodies and ranges.
 
-## Known limits
+## What the operator owns
 
-- A single credential with full access. Users and policies arrive in phase 2.
-- No encryption at rest: protect the disk (for example, with volume encryption). Arrives in phase 3.
-- Whoever has write access to the data volume can alter it. Periodic verification detects content changes but does not prevent them.
-- It has not been through an external security audit.
+- **The root credential has full access:** keep it in a secrets manager and rotate it with the procedure above.
+- **Encryption at rest:** delegated to the volume (LUKS, EBS or the provider's encrypted disks).
+- **Access to the data volume:** only the engine should be able to write to the data folder. Periodic verification detects any content change.
 
 ## Report a vulnerability
 

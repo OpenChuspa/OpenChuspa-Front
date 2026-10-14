@@ -23,7 +23,7 @@ const { highlights } = siteData(lang);
         class="mb-6 inline-flex max-w-full items-center gap-2 rounded-2xl border border-salsa-orange/40 bg-salsa-card px-4 py-2 text-left sm:rounded-full"
       >
         <span class="size-2.5 shrink-0 animate-ping rounded-full bg-zinc-300"></span>
-        <span class="font-mono text-[11px] font-bold tracking-wider text-salsa-orange uppercase sm:text-xs"
+        <span class="text-[11px] font-bold tracking-wider text-salsa-orange uppercase sm:text-xs"
           >{t('hero.badge', { v: CLI_VERSION })}</span
         >
       </p>
@@ -59,10 +59,10 @@ const { highlights } = siteData(lang);
         {
           highlights.map((h) => (
             <div>
-              <dt class="font-mono text-[11px] text-zinc-400 uppercase">{t(h.label)}</dt>
+              <dt class="text-[11px] text-zinc-400 uppercase">{t(h.label)}</dt>
               <dd
                 class:list={[
-                  'font-mono text-lg font-black whitespace-nowrap sm:text-2xl',
+                  'text-lg font-black whitespace-nowrap sm:text-2xl',
                   h.accent ? 'text-salsa-orange' : 'text-zinc-200',
                 ]}
               >
@@ -90,10 +90,10 @@ const { highlights } = siteData(lang);
             class="sticker-shadow mb-6 h-auto w-full max-w-[320px] animate-float"
           />
           <div class="w-full rounded-2xl border border-salsa-orange/40 bg-salsa-dark p-4 text-center">
-            <span class="font-mono text-[11px] font-bold tracking-widest text-salsa-orange uppercase sm:text-xs"
+            <span class="text-[11px] font-bold tracking-widest text-salsa-orange uppercase sm:text-xs"
               >{t('hero.response')}</span
             >
-            <p class="mt-1 font-mono text-sm font-bold text-zinc-200 sm:text-base">HTTP 200 OK</p>
+            <p class="mt-1 text-sm font-bold text-zinc-200 sm:text-base">HTTP 200 OK</p>
           </div>
         </div>
       </div>

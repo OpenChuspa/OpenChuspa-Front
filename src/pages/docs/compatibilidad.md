@@ -21,10 +21,9 @@ Esta página solo lista lo que se prueba en cada cambio. Lo que no aparece aquí
 | SigV4 por header; cuerpos `aws-chunked` firmados y sin firmar, con trailers | Soportada |
 | Checksums CRC32, CRC32C, CRC64NVME, SHA-1 y SHA-256 | Soportada |
 | ListObjectVersions | Solo la vista de una chuspa sin versionado |
-| GetObjectTagging | Responde vacío: todavía no se pueden poner tags |
-| URLs prefirmadas, versionado, ACL, políticas, tags, CORS, lifecycle, object lock, cifrado | `501 NotImplemented` |
+| GetObjectTagging | Responde siempre una lista vacía |
 
-El direccionamiento es por ruta (`/chuspa/key`). Los nombres de chuspa van de 3 a 63 caracteres entre minúsculas, dígitos y guiones, sin puntos.
+Cualquier operación que no está en la tabla responde `501 NotImplemented`, nunca un éxito falso. El direccionamiento es por ruta (`/chuspa/key`). Los nombres de chuspa van de 3 a 63 caracteres entre minúsculas, dígitos y guiones, sin puntos.
 
 ## Clientes probados
 
@@ -41,16 +40,9 @@ Suite de conformidad [`ceph/s3-tests`](https://github.com/ceph/s3-tests), archiv
 | Ejecutadas | 744 |
 | **Pasan** | **222** |
 
-Las 222 corren en cada cambio y no pueden dejar de pasar. Las que fallan corresponden a funciones fuera del alcance actual: ACL y acceso anónimo, versionado, políticas, cifrado, lifecycle, subidas por formulario, URLs prefirmadas, tags, CORS, object lock, una segunda identidad y comportamientos propios de Ceph.
+Las 222 corren en cada cambio y no pueden dejar de pasar.
 
 Diferencias deliberadas:
 
 - Crear una chuspa que ya existe responde `BucketAlreadyOwnedByYou` (409).
-- Los nombres de chuspa con puntos se rechazan mientras no exista el estilo de host virtual.
-
-## Roadmap
-
-| Fase | Qué trae |
-|---|---|
-| 2 | URLs prefirmadas, host virtual, varios usuarios y políticas, tags |
-| 3 | Versionado, lifecycle, cifrado en reposo, replicación y clúster |
+- Los nombres de chuspa con puntos se rechazan: el direccionamiento es solo por ruta.

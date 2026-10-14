@@ -27,7 +27,7 @@ const playerText = {
 <header class="site-header inset-x-0 top-0 z-40">
   <!-- Aviso de versión + reproductor de salsa -->
   <div
-    class="flex h-(--banner-h) items-center justify-between gap-3 bg-salsa-orange px-3 font-mono text-[11px] font-bold tracking-wide text-black sm:px-4 sm:text-xs"
+    class="flex h-(--banner-h) items-center justify-between gap-3 bg-salsa-orange px-3 text-[11px] font-bold tracking-wide text-black sm:px-4 sm:text-xs"
   >
     <p class="flex min-w-0 items-center gap-2">
       <Icon name="Radio" class="size-4" />
@@ -80,7 +80,7 @@ const playerText = {
           <span class="block truncate text-xl font-black tracking-tight text-white lg:text-2xl"
             >open<span class="text-salsa-orange">chuspa</span></span
           >
-          <span class="-mt-0.5 hidden font-mono text-[10px] tracking-widest text-zinc-400 uppercase min-[360px]:block"
+          <span class="-mt-0.5 hidden text-[10px] tracking-widest text-zinc-400 uppercase min-[360px]:block"
             >S3 Caleño Engine</span
           >
         </span>
@@ -97,7 +97,7 @@ const playerText = {
           lang={other}
           aria-label={`${t('nav.lang')}: ${languages[other]}`}
           title={languages[other]}
-          class="flex h-10 items-center gap-1.5 rounded-xl border border-salsa-border px-2.5 font-mono text-xs font-bold text-zinc-200 transition-colors hover:border-salsa-orange hover:text-salsa-orange"
+          class="flex h-10 items-center gap-1.5 rounded-xl border border-salsa-border px-2.5 text-xs font-bold text-zinc-200 transition-colors hover:border-salsa-orange hover:text-salsa-orange"
         >
           <Icon name="Languages" class="size-4" />
           <span>{other.toUpperCase()}</span>

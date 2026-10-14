@@ -6,7 +6,7 @@ description: Modelo de seguridad de OpenChuspa, TLS, rotación de credenciales y
 
 # Seguridad
 
-OpenChuspa guarda datos de otras personas, así que cada decisión por defecto es la segura. Lo que todavía no se protege está documentado abajo, en Límites conocidos.
+OpenChuspa guarda datos de otras personas, así que cada decisión por defecto es la segura.
 
 ## Lo que hace por defecto
 
@@ -47,12 +47,11 @@ Mientras haya un secreto anterior configurado, el log lo recuerda al arrancar.
 - Las dependencias pasan por `govulncheck` y por una revisión de licencias en cada cambio, y las actions del CI están fijadas por SHA.
 - Cada noche corre fuzzing de los analizadores de entrada no confiable: firmas, cuerpos `aws-chunked` y rangos.
 
-## Límites conocidos
+## Lo que le toca a quien opera
 
-- Una sola credencial con acceso total. Usuarios y políticas llegan en la fase 2.
-- Sin cifrado en reposo: protegé el disco (por ejemplo, con cifrado del volumen). Llega en la fase 3.
-- Quien tenga acceso de escritura al volumen de datos puede alterarlos. La verificación periódica detecta los cambios de contenido, pero no los impide.
-- No ha pasado una auditoría de seguridad externa.
+- **La credencial raíz tiene acceso total:** guardala en un gestor de secretos y rotala con el procedimiento de arriba.
+- **Cifrado en reposo:** se delega al volumen (LUKS, EBS o discos cifrados del proveedor).
+- **Acceso al volumen de datos:** solo el motor debe poder escribir en la carpeta de datos. La verificación periódica detecta cualquier cambio de contenido.
 
 ## Reportar una vulnerabilidad
 

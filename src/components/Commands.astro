@@ -28,7 +28,7 @@ const { commands } = siteData(lang);
             <div class="mb-4 flex items-center justify-between gap-3">
               <span
                 class:list={[
-                  'rounded-lg px-3 py-1 font-mono text-xs font-bold',
+                  'rounded-lg px-3 py-1 text-xs font-bold',
                   c.danger ? 'bg-red-500/10 text-red-400' : 'bg-white/5 text-zinc-300',
                 ]}
               >
@@ -39,7 +39,7 @@ const { commands } = siteData(lang);
             <h3 class="mb-2 text-xl font-black text-white">{c.name}</h3>
             <p class="mb-4 grow text-sm text-zinc-400">{c.description}</p>
             <code class:list={['code-box block', c.danger ? 'text-red-400' : 'text-zinc-200']}>{c.example}</code>
-            <div class="mt-3 flex gap-2 font-mono text-xs font-bold">
+            <div class="mt-3 flex gap-2 text-xs font-bold">
               <button
                 type="button"
                 data-cmd={c.example}
